@@ -1,0 +1,19 @@
+var name = "John";
+
+/*
+var compx = Comp.frame() {
+    var expose methods = @{
+        onClick: {
+            var greet = "hi " + name;
+            print(greet);
+        }
+        onChange: {
+            print("world");
+        }
+    }@;
+};
+*/
+
+//var customFrame = Comp.frame();
+//  customFrame.layout(grid(2, 3));
+// name = nameField.getText();
