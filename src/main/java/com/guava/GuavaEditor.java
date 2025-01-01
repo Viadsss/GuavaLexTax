@@ -15,6 +15,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Element;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -42,6 +44,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -50,6 +53,7 @@ public class GuavaEditor extends JFrame {
     private JTabbedPane bottomPanel;    
     private JTextPane textPane;
     private JTextPane lexerPane;
+    private JTextPane parserPane;
     private JTextPane problemPane;
     
     public GuavaEditor() {
@@ -83,7 +87,7 @@ public class GuavaEditor extends JFrame {
         
         // Set up for code editing
         textPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        textPane.setStyledDocument(new javax.swing.text.DefaultStyledDocument());
+        textPane.setStyledDocument(new DefaultStyledDocument());
         
         textPane.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -108,7 +112,7 @@ public class GuavaEditor extends JFrame {
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
         
-        scrollPane.getViewport().setBackground(new java.awt.Color(255, 255, 255));
+        scrollPane.getViewport().setBackground(new Color(255, 255, 255));
         // Make scrolling smoother
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
@@ -126,6 +130,7 @@ public class GuavaEditor extends JFrame {
         bottomPanel.putClientProperty(FlatClientProperties.STYLE, "" + "tabType:card");
         bottomPanel.add("Terminal", terminalPane());
         bottomPanel.add("Lexer Output", lexerPane());
+        bottomPanel.add("Parser Output", parserPane());
         bottomPanel.add("Problems", problemPane());
         
         // Terminal Tab
@@ -142,7 +147,7 @@ public class GuavaEditor extends JFrame {
         };
         // Set up for code editing
         lexerPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        lexerPane.setStyledDocument(new javax.swing.text.DefaultStyledDocument());
+        lexerPane.setStyledDocument(new DefaultStyledDocument());
         lexerPane.setEditable(false);
         
         
@@ -153,7 +158,7 @@ public class GuavaEditor extends JFrame {
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
         
-        lexerScrollPane.getViewport().setBackground(new java.awt.Color(255, 255, 255));
+        lexerScrollPane.getViewport().setBackground(new Color(255, 255, 255));
         // Make scrolling smoother
         lexerScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         lexerScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
@@ -162,6 +167,37 @@ public class GuavaEditor extends JFrame {
         
         return lexer;
     }
+
+ private JPanel parserPane() {
+        JPanel parser = new JPanel(new MigLayout("fill, wrap", "[grow]", "[grow,fill]"));
+        parserPane = new JTextPane() {
+            @Override
+            public boolean getScrollableTracksViewportWidth() {
+                return false;
+            }
+        };
+        // Set up for code editing
+        parserPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
+        parserPane.setStyledDocument(new DefaultStyledDocument());
+        parserPane.setEditable(false);
+        
+        
+        
+        JScrollPane parserScrollPane = new JScrollPane(
+        parserPane,
+        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+        
+        parserScrollPane.getViewport().setBackground(new Color(255, 255, 255));
+        // Make scrolling smoother
+        parserScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        parserScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        parserPane.putClientProperty(FlatClientProperties.STYLE, "inactiveBackground: #ffffff");
+        parser.add(parserScrollPane, "grow");
+        
+        return parser;
+    }    
     
     private JPanel problemPane() {
         JPanel problem = new JPanel(new MigLayout("fill, wrap", "[grow]", "[grow,fill]"));
@@ -173,7 +209,7 @@ public class GuavaEditor extends JFrame {
         };
         // Set up for code editing
         problemPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        problemPane.setStyledDocument(new javax.swing.text.DefaultStyledDocument());
+        problemPane.setStyledDocument(new DefaultStyledDocument());
         problemPane.setEditable(false);
         
         
@@ -184,7 +220,7 @@ public class GuavaEditor extends JFrame {
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
         
-        probScrollPane.getViewport().setBackground(new java.awt.Color(255, 255, 255));
+        probScrollPane.getViewport().setBackground(new Color(255, 255, 255));
         // Make scrolling smoother
         probScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         probScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
@@ -206,7 +242,7 @@ public class GuavaEditor extends JFrame {
         };
         // Set up for code editing
         terminalPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        terminalPane.setStyledDocument(new javax.swing.text.DefaultStyledDocument());
+        terminalPane.setStyledDocument(new DefaultStyledDocument());
         
         
         
@@ -216,7 +252,7 @@ public class GuavaEditor extends JFrame {
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
         
-        terminalScrollPane.getViewport().setBackground(new java.awt.Color(255, 255, 255));
+        terminalScrollPane.getViewport().setBackground(new Color(255, 255, 255));
         // Make scrolling smoother
         terminalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         terminalScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
@@ -295,11 +331,17 @@ public class GuavaEditor extends JFrame {
     
     private void handleRun() {
         String source = textPane.getText();
+        // new GuavaSyntaxHighlighter(textPane);
+
+        List<Token> tokens = handleLexerOutput(source);
+        handleParserOutput(tokens);
+        updateProblemsTab();
+    }
+
+    private List<Token> handleLexerOutput(String source) {
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
 
-        new GuavaSyntaxHighlighter(textPane);
-        
         StyledDocument doc = lexerPane.getStyledDocument();
         lexerPane.setText(""); // Clear the existing content
         
@@ -335,10 +377,23 @@ public class GuavaEditor extends JFrame {
             e.printStackTrace();
         }
         
-        updateProblemsTab();
+        return tokens;
     }
-    
-    
+
+    private void handleParserOutput(List<Token> tokens) {
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();    
+        
+        AstPrinter printer = new AstPrinter();
+        TreeNode program = printer.program(statements);
+        program.printTree(program, "", true);
+        StringBuilder builder = new StringBuilder();
+        program.buildTreeString(program, "", true, builder);
+        String treeString = builder.toString();
+        
+        parserPane.setText(treeString);
+    }
+
     private void handleUpload() {
         // Create a JFileChooser
         JFileChooser fileChooser = new JFileChooser();
@@ -361,7 +416,7 @@ public class GuavaEditor extends JFrame {
             }
             
             // Read the file content and set it to the textPane
-            try (BufferedReader reader = new BufferedReader(new java.io.FileReader(selectedFile))) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 StringBuilder content = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -369,7 +424,7 @@ public class GuavaEditor extends JFrame {
                 }
                 textPane.setText(content.toString()); // Set the file content to the textPane
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage(), "File Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -381,16 +436,16 @@ public class GuavaEditor extends JFrame {
         StyledDocument doc = problemPane.getStyledDocument();
         
         if (errors == null || errors.isEmpty()) {
-            bottomPanel.setTitleAt(2, "Problems");
+            bottomPanel.setTitleAt(3, "Problems");
             return;
         }
         
-        bottomPanel.setTitleAt(2, "Problems - " + errors.size());
+        bottomPanel.setTitleAt(3, "Problems - " + errors.size());
         
         for (String error : errors) {
             try {
                 Style style = doc.addStyle("ErrorStyle", null);
-                StyleConstants.setForeground(style, java.awt.Color.RED); // Set text color to red
+                StyleConstants.setForeground(style, Color.RED); // Set text color to red
                 doc.insertString(doc.getLength(), error + "\n", style);
             } catch (BadLocationException e) {
                 e.printStackTrace();
@@ -435,7 +490,7 @@ public class GuavaEditor extends JFrame {
         }
         
         private int getLineCount() {
-            javax.swing.text.Element root = textPane.getDocument().getDefaultRootElement();
+            Element root = textPane.getDocument().getDefaultRootElement();
             return root.getElementCount();
         }
         
@@ -468,7 +523,7 @@ public class GuavaEditor extends JFrame {
         
         
         private int getLineNumber(int offset) {
-            javax.swing.text.Element root = textPane.getDocument().getDefaultRootElement();
+            Element root = textPane.getDocument().getDefaultRootElement();
             return root.getElementIndex(offset) + 1;
         }
     }
