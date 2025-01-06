@@ -166,7 +166,9 @@ class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode> {
         
         // Add each statement in the block as a child of the block node
         for (Stmt statement : stmt.statements) {
-            blockNode.addChild(statement.accept(this));  // Visit each statement and add the resulting TreeNode
+            if (statement != null) {
+                blockNode.addChild(statement.accept(this));  // Visit each statement and add the resulting TreeNode
+            }
         }
         
         return blockNode;
@@ -255,10 +257,12 @@ class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode> {
         TreeNode varNode = new TreeNode("varDecl");
         
         // Add modifiers
-        if (!stmt.modifiers.isEmpty()) {
+        if (stmt.modifiers != null && !stmt.modifiers.isEmpty()) {
             TreeNode modifierNode = new TreeNode("modifiers");
             for (Modifier modifier : stmt.modifiers) {
-                modifierNode.addChild(new TreeNode(modifier.toString()));
+                if (modifier != null) {
+                    modifierNode.addChild(new TreeNode(modifier.toString()));
+                }
             }
             varNode.addChild(modifierNode);
         }

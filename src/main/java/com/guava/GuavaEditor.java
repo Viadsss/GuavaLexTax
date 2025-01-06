@@ -243,7 +243,7 @@ public class GuavaEditor extends JFrame {
         // Set up for code editing
         terminalPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
         terminalPane.setStyledDocument(new DefaultStyledDocument());
-        
+        terminalPane.setText("> ");
         
         
         JScrollPane terminalScrollPane = new JScrollPane(
@@ -298,7 +298,7 @@ public class GuavaEditor extends JFrame {
             } else if (command.equalsIgnoreCase("help")){
                 doc.insertString(doc.getLength(), "\nOptions available - [run], [help], [upload], [clear]\n", null);
             } else {
-                doc.insertString(doc.getLength(), "\nUnknown command: " + command + "\n", null);
+                doc.insertString(doc.getLength(), "\nUnknown command: " + command + ", type 'help' to list out commands\n", null);
             }
             
             // Add a new prompt and enable editing for the next input
