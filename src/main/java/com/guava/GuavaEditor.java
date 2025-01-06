@@ -298,7 +298,7 @@ public class GuavaEditor extends JFrame {
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
 
-        new GuavaSyntaxHighlighter(textPane);
+        // new GuavaSyntaxHighlighter(textPane);
         
         StyledDocument doc = lexerPane.getStyledDocument();
         lexerPane.setText(""); // Clear the existing content
