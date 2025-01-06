@@ -5,7 +5,7 @@
                 | <statement>
 
 <funcDecl> ::= "func" <function> 
-<varDecl> ::=  "var" ("expose")? <IDENTIFIER> ( "=" <expression> )? ";"
+<varDecl> ::=  "var" ("expose")? <IDENTIFIER> (":" <data_type>)? ( "=" <expression> )? ";"
 
 <statement> ::= <exprStmt> | <forStmt> | <whileStmt> | <doWhileStmt> | <ifStmt> | <printStmt> | <returnStmt> | <block>	
 
