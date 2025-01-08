@@ -77,6 +77,15 @@ public class Guava {
             System.out.println(token);
         }
         System.out.println("=====================\n");
+
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();        
+
+        System.out.println("======[ PARSER ]======");
+        AstPrinter printer = new AstPrinter();
+        TreeNode program = printer.program(statements);
+        program.printTree(program, "", true);
+        System.out.println("======================\n");        
     }
 
     public static void error(int line, String message) {
