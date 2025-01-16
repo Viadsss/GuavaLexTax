@@ -46,10 +46,6 @@ public class Lexer {
 
         // Component Method Keywords
         keywords.put("add",    ADD);
-        keywords.put("layout", LAYOUT);
-        keywords.put("flex", FLEX);
-        keywords.put("grid", GRID);
-        keywords.put("absolute", ABSOLUTE);
         
         // Component Types Keywords
         keywords.put("frame",  FRAME);
