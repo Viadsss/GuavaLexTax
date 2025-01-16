@@ -11,6 +11,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -28,6 +29,7 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.extras.FlatUIDefaultsInspector;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import net.miginfocom.swing.MigLayout;
@@ -51,16 +53,16 @@ import java.util.List;
 
 public class GuavaEditor extends JFrame {
     private JTabbedPane bottomPanel;    
-    private JTextPane textPane;
-    private JTextPane lexerPane;
-    private JTextPane parserPane;
-    private JTextPane problemPane;
+    private JTextPane textPane, lexerPane, parserPane, problemPane, terminalPane;
+    private JScrollPane textScrollPane, lexerScrollPane, parserScrollPane, probScrollPane, terminalScrollPane;
+    private SyntaxHighlighter highlighter;
     
     public GuavaEditor() {
         setTitle("Guava Code Editor");
         setSize(1366, 768); // 1280 x 720
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        highlighter = new SyntaxHighlighter();
         init();
     }
     
@@ -89,7 +91,7 @@ public class GuavaEditor extends JFrame {
         
         // Set up for code editing
         textPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        textPane.setStyledDocument(new DefaultStyledDocument());
+        textPane.setStyledDocument(highlighter);
         
         textPane.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -108,20 +110,20 @@ public class GuavaEditor extends JFrame {
             }
         });        
         
-        JScrollPane scrollPane = new JScrollPane(
+        textScrollPane = new JScrollPane(
         textPane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
         );
         
-        scrollPane.getViewport().setBackground(new Color(255, 255, 255));
+        textScrollPane.getViewport().setBackground(new Color(255, 255, 255));
         // Make scrolling smoother
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+        textScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        textScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
         
         LineNumberComponent lineNumber = new LineNumberComponent(textPane);
-        scrollPane.setRowHeaderView(lineNumber);                        
-        topPanel.add(scrollPane, "grow");
+        textScrollPane.setRowHeaderView(lineNumber);                        
+        topPanel.add(textScrollPane, "grow");
         return topPanel;
     }
     
@@ -154,7 +156,7 @@ public class GuavaEditor extends JFrame {
         
         
         
-        JScrollPane lexerScrollPane = new JScrollPane(
+        lexerScrollPane = new JScrollPane(
         lexerPane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
@@ -185,7 +187,7 @@ public class GuavaEditor extends JFrame {
         
         
         
-        JScrollPane parserScrollPane = new JScrollPane(
+        parserScrollPane = new JScrollPane(
         parserPane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
@@ -216,7 +218,7 @@ public class GuavaEditor extends JFrame {
         
         
         
-        JScrollPane probScrollPane = new JScrollPane(
+        probScrollPane = new JScrollPane(
         problemPane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
@@ -236,7 +238,7 @@ public class GuavaEditor extends JFrame {
     
     private JPanel terminalPane() {
         JPanel terminal = new JPanel(new MigLayout("fill, wrap", "[grow]", "[grow,fill]"));
-        JTextPane terminalPane = new JTextPane() {
+        terminalPane = new JTextPane() {
             @Override
             public boolean getScrollableTracksViewportWidth() {
                 return false;
@@ -248,7 +250,7 @@ public class GuavaEditor extends JFrame {
         terminalPane.setText("> ");
         
         
-        JScrollPane terminalScrollPane = new JScrollPane(
+        terminalScrollPane = new JScrollPane(
         terminalPane,
         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
         JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
@@ -297,8 +299,26 @@ public class GuavaEditor extends JFrame {
                 handleUpload();
             } else if (command.equalsIgnoreCase("clear")) {
                 terminalPane.setText("");
+            } else if (command.equalsIgnoreCase("dark")) {
+                try {
+                    UIManager.setLookAndFeel(new FlatMacDarkLaf());
+                    SwingUtilities.updateComponentTreeUI(this);
+                    updateThemeColors();
+                    doc.insertString(doc.getLength(), "\nSwitched to Dark Mode\n", null);
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+            } else if (command.equalsIgnoreCase("light")) {
+                try {
+                    UIManager.setLookAndFeel(new FlatMacLightLaf());
+                    SwingUtilities.updateComponentTreeUI(this);
+                    updateThemeColors();
+                    doc.insertString(doc.getLength(), "\nSwitched to Light Mode\n", null);
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
             } else if (command.equalsIgnoreCase("help")){
-                doc.insertString(doc.getLength(), "\nOptions available - [run], [help], [upload], [clear]\n", null);
+                doc.insertString(doc.getLength(), "\nOptions available - [run], [help], [upload], [clear], [light], [dark]\n", null);
             } else {
                 doc.insertString(doc.getLength(), "\nUnknown command: " + command + ", type 'help' to list out commands\n", null);
             }
@@ -359,7 +379,7 @@ public class GuavaEditor extends JFrame {
         Style lineStyle = styleContext.addStyle("LineStyle", null);
         
         // Set colors for each style
-        StyleConstants.setForeground(typeStyle, new Color(30, 102, 245)); // blue
+        StyleConstants.setForeground(typeStyle, new Color(137, 180, 250)); // blue
         StyleConstants.setForeground(lexemeStyle, new Color(234, 118, 203)); // magenta
         StyleConstants.setForeground(literalStyle, new Color(234, 157, 52)); // dawn
         StyleConstants.setForeground(lineStyle, new Color(64, 160, 43)); // green
@@ -558,8 +578,48 @@ public class GuavaEditor extends JFrame {
         FlatMacLightLaf.setup();
         
         FlatJetBrainsMonoFont.install();
-        UIManager.put("defaultFont", new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 13));
+        UIManager.put("defaultFont", new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
         
         SwingUtilities.invokeLater(() -> new GuavaEditor().setVisible(true));
+    }
+    
+    private void updateThemeColors() {
+        String currentLookAndFeel = UIManager.getLookAndFeel().getClass().getName();
+        
+        if (currentLookAndFeel.contains("FlatMacDarkLaf")) {
+            textPane.setBackground(new Color(30, 30, 30)); 
+            textScrollPane.getViewport().setBackground(new Color(30, 30, 30));
+
+            lexerPane.setBackground(new Color(30, 30, 30));
+            lexerScrollPane.getViewport().setBackground(new Color(30, 30, 30));
+
+            parserPane.setBackground(new Color(30, 30, 30));
+            parserScrollPane.getViewport().setBackground(new Color(30, 30, 30));
+            
+            problemPane.setBackground(new Color(30, 30, 30));
+            probScrollPane.getViewport().setBackground(new Color(30, 30, 30));
+
+            terminalPane.setBackground(new Color(30, 30, 30));
+            terminalScrollPane.getViewport().setBackground(new Color(30, 30, 30));
+
+            highlighter.setTheme("dark");
+        } else if (currentLookAndFeel.contains("FlatMacLightLaf")) {
+            textPane.setBackground(new Color(255, 255, 255)); 
+            textScrollPane.getViewport().setBackground(new Color(255, 255, 255));
+
+            lexerPane.setBackground(new Color(255, 255, 255)); 
+            lexerScrollPane.getViewport().setBackground(new Color(255, 255, 255));
+
+            parserPane.setBackground(new Color(255, 255, 255)); 
+            parserScrollPane.getViewport().setBackground(new Color(255, 255, 255));
+            
+            problemPane.setBackground(new Color(255, 255, 255)); 
+            probScrollPane.getViewport().setBackground(new Color(255, 255, 255));
+            
+            terminalPane.setBackground(new Color(255, 255, 255)); 
+            terminalScrollPane.getViewport().setBackground(new Color(255, 255, 255));            
+
+            highlighter.setTheme("light");
+        }
     }
 }
