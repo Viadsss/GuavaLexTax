@@ -121,56 +121,48 @@ public class SyntaxHighlighter extends DefaultStyledDocument {
     }
     
     private void processChangedText() {
-        if (isProcessing) return;
-        
-        SwingUtilities.invokeLater(() -> {
-            try {
-                isProcessing = true;
-                
-                // Get the content
-                String content = getText(0, getLength());
-                
-                // Reset all styling to default
-                setCharacterAttributes(0, content.length(), defaultStyle, true);
-                
-                // Use the Lexer to get tokens
-                Lexer lexer = new Lexer(content);
-                List<Token> tokens = lexer.scanTokens();
-                
-                // Apply styles based on tokens
-                for (Token token : tokens) {
-                    AttributeSet style = tokenStyles.get(token.type);
-                    if (style != null) {
-                        int startOffset = getTokenStartOffset(content, token);
-                        if (startOffset >= 0) {
-                            setCharacterAttributes(startOffset, token.lexeme.length(), style, false);
-                        }
+    if (isProcessing) return;
+    
+    SwingUtilities.invokeLater(() -> {
+        try {
+            isProcessing = true;
+            
+            // Get the content
+            String content = getText(0, getLength());
+            
+            // Reset all styling to default
+            setCharacterAttributes(0, content.length(), defaultStyle, true);
+            
+            // Use the Lexer to get tokens
+            Lexer lexer = new Lexer(content);
+            List<Token> tokens = lexer.scanTokens();
+            
+            int lastIndex = 0; // Track last position
+            for (Token token : tokens) {
+                AttributeSet style = tokenStyles.get(token.type);
+                if (style != null) {
+                    int startOffset = getTokenStartOffset(content, token, lastIndex);
+                    if (startOffset >= 0) {
+                        setCharacterAttributes(startOffset, token.lexeme.length(), style, false);
+                        lastIndex = startOffset + token.lexeme.length(); // Move past last match
                     }
                 }
-                
-            } catch (BadLocationException ex) {
-                ex.printStackTrace();
-            } finally {
-                isProcessing = false;
             }
-        });
-    }
-    
-    private int getTokenStartOffset(String content, Token token) {
-        int lineStart = 0;
-        int currentLine = 1;
-        
-        // Find the start of the target line
-        while (currentLine < token.line && lineStart < content.length()) {
-            if (content.charAt(lineStart) == '\n') {
-                currentLine++;
-            }
-            lineStart++;
+            
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
+        } finally {
+            isProcessing = false;
         }
-        
-        // Find the token within the line
-        return content.indexOf(token.lexeme, lineStart);
-    }
+    });
+}
+
+    
+private int getTokenStartOffset(String content, Token token, int lastIndex) {
+    int index = content.indexOf(token.lexeme, lastIndex);
+    return index >= 0 ? index : -1;
+}
+
     
     public void setTheme(String themeName) {
         // Update the theme in ThemeManager
