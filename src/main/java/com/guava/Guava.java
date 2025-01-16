@@ -80,6 +80,18 @@ public class Guava {
             System.out.println(token);
         }
         System.out.println("=====================\n");
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();
+
+        // Stop if there was a syntax error.        
+        if (hadError) return;
+
+        System.out.println("======[ PARSER3 ]======");
+        AstPrinter printer = new AstPrinter();
+        TreeNode program = printer.program(statements);
+        program.printTree(program, "", true);
+        System.out.println("======================\n");        
+
     }
 
     public enum ErrorType {

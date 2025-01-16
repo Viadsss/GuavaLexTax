@@ -132,7 +132,7 @@ public class GuavaEditor extends JFrame {
         bottomPanel.putClientProperty(FlatClientProperties.STYLE, "" + "tabType:card");
         bottomPanel.add("Terminal", terminalPane());
         bottomPanel.add("Lexer Output", lexerPane());
-        bottomPanel.add("Parser Output (WIP)", parserPane());
+        bottomPanel.add("Parser Output", parserPane());
         bottomPanel.add("Problems", problemPane());
         
         // Terminal Tab
@@ -339,11 +339,17 @@ public class GuavaEditor extends JFrame {
         List<Token> tokens = lexer.scanTokens();
         handleLexerOutput(tokens);
         
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();
         
         List<String> errors = Guava.getErrorList();
         
         updateProblemsTab(errors);
         
+        // No errors, proceed with AST output
+        if (errors.isEmpty()) {
+            handleParserOutput(statements);
+        }
     }
     
     private List<Token> handleLexerOutput(List<Token> tokens) {
@@ -394,6 +400,17 @@ public class GuavaEditor extends JFrame {
         }
         
         return tokens;
+    }
+    
+    private void handleParserOutput(List<Stmt> statements) {
+        AstPrinter printer = new AstPrinter();
+        TreeNode program = printer.program(statements);
+        // program.printTree(program, "", true);
+        StringBuilder builder = new StringBuilder();
+        program.buildTreeString(program, "", true, builder);
+        String treeString = builder.toString();
+        
+        parserPane.setText(treeString);
     }
     
     private void handleUpload() {
