@@ -3,12 +3,16 @@ package com.guava;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -41,6 +45,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
@@ -53,8 +58,8 @@ import java.util.List;
 
 public class GuavaEditor extends JFrame {
     private JTabbedPane bottomPanel;    
-    private JTextPane textPane, lexerPane, parserPane, problemPane, terminalPane;
-    private JScrollPane textScrollPane, lexerScrollPane, parserScrollPane, probScrollPane, terminalScrollPane;
+    private JTextPane textPane, lexerPane, parserPane, problemPane;
+    private JScrollPane textScrollPane, lexerScrollPane, parserScrollPane, probScrollPane;
     private SyntaxHighlighter highlighter;
     
     public GuavaEditor() {
@@ -63,6 +68,8 @@ public class GuavaEditor extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         highlighter = new SyntaxHighlighter();
+        
+        setJMenuBar(createMenuBar());
         init();
     }
     
@@ -127,17 +134,68 @@ public class GuavaEditor extends JFrame {
         return topPanel;
     }
     
+    private JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        
+        // File Menu
+        JMenu fileMenu = new JMenu("File");
+        
+        JMenuItem runItem = new JMenuItem("Run Code");
+        runItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
+        runItem.addActionListener(e -> handleRun());
+        
+        JMenuItem uploadItem = new JMenuItem("Upload");
+        uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
+        uploadItem.addActionListener(e -> handleUpload());
+        
+        fileMenu.add(runItem);
+        fileMenu.add(uploadItem);
+        
+        // View Menu
+        JMenu viewMenu = new JMenu("View");
+        
+        JMenuItem darkModeItem = new JMenuItem("Switch to Dark Mode");
+        darkModeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
+        darkModeItem.addActionListener(e -> switchTheme(true));
+        
+        JMenuItem lightModeItem = new JMenuItem("Switch to Light Mode");
+        lightModeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
+        lightModeItem.addActionListener(e -> switchTheme(false));
+        
+        viewMenu.add(darkModeItem);
+        viewMenu.add(lightModeItem);
+        
+        // Add menus to menu bar
+        menuBar.add(fileMenu);
+        menuBar.add(viewMenu);
+        
+        return menuBar;
+    }
+    
+    
+    private void switchTheme(boolean dark) {
+        try {
+            if (dark) {
+                UIManager.setLookAndFeel(new FlatMacDarkLaf());
+            } else {
+                UIManager.setLookAndFeel(new FlatMacLightLaf());
+            }
+            SwingUtilities.updateComponentTreeUI(this);
+            updateThemeColors();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+    }    
+    
     private JTabbedPane bottomPanel() {
         bottomPanel = new JTabbedPane();
         
         
         bottomPanel.putClientProperty(FlatClientProperties.STYLE, "" + "tabType:card");
-        bottomPanel.add("Terminal", terminalPane());
         bottomPanel.add("Lexer Output", lexerPane());
         bottomPanel.add("Parser Output (WIP)", parserPane());
         bottomPanel.add("Problems", problemPane());
         
-        // Terminal Tab
         return bottomPanel;
     }
     
@@ -235,115 +293,6 @@ public class GuavaEditor extends JFrame {
         
         return problem;
     }    
-    
-    private JPanel terminalPane() {
-        JPanel terminal = new JPanel(new MigLayout("fill, wrap", "[grow]", "[grow,fill]"));
-        terminalPane = new JTextPane() {
-            @Override
-            public boolean getScrollableTracksViewportWidth() {
-                return false;
-            }
-        };
-        // Set up for code editing
-        terminalPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        terminalPane.setStyledDocument(new DefaultStyledDocument());
-        terminalPane.setText("> ");
-        
-        
-        terminalScrollPane = new JScrollPane(
-        terminalPane,
-        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        );
-        
-        terminalScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-        // Make scrolling smoother
-        terminalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        terminalScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
-        terminalPane.putClientProperty(FlatClientProperties.STYLE, "inactiveBackground: #ffffff");
-        
-        
-        terminal.add(terminalScrollPane, "grow");
-        
-        terminalPane.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    e.consume();
-                    handleCommand(terminalPane);
-                }
-            }
-        });
-        
-        return terminal;
-    }
-    
-    private void handleCommand(JTextPane terminalPane) {
-        try {
-            StyledDocument doc = terminalPane.getStyledDocument();
-            int startOffset = findLastPromptOffset(doc);
-            int endOffset = doc.getLength();
-            
-            // Extract the command text
-            String command = doc.getText(startOffset, endOffset - startOffset).trim();
-            
-            // Prevent adding text mid-document
-            terminalPane.setEditable(false);
-            
-            // Execute the command
-            if (command.equalsIgnoreCase("run")) {
-                doc.insertString(doc.getLength(), "\nRunning.\n", null);
-                handleRun();
-            } else if (command.equalsIgnoreCase("upload")) {
-                doc.insertString(doc.getLength(), "\nUploading.\n", null);
-                handleUpload();
-            } else if (command.equalsIgnoreCase("clear")) {
-                terminalPane.setText("");
-            } else if (command.equalsIgnoreCase("dark")) {
-                try {
-                    UIManager.setLookAndFeel(new FlatMacDarkLaf());
-                    SwingUtilities.updateComponentTreeUI(this);
-                    updateThemeColors();
-                    doc.insertString(doc.getLength(), "\nSwitched to Dark Mode\n", null);
-                } catch (UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                }
-            } else if (command.equalsIgnoreCase("light")) {
-                try {
-                    UIManager.setLookAndFeel(new FlatMacLightLaf());
-                    SwingUtilities.updateComponentTreeUI(this);
-                    updateThemeColors();
-                    doc.insertString(doc.getLength(), "\nSwitched to Light Mode\n", null);
-                } catch (UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                }
-            } else if (command.equalsIgnoreCase("help")){
-                doc.insertString(doc.getLength(), "\nOptions available - [run], [help], [upload], [clear], [light], [dark]\n", null);
-            } else {
-                doc.insertString(doc.getLength(), "\nUnknown command: " + command + ", type 'help' to list out commands\n", null);
-            }
-            
-            // Add a new prompt and enable editing for the next input
-            doc.insertString(doc.getLength(), "> ", null);
-            terminalPane.setEditable(true);
-            
-            // Set caret position at the end
-            terminalPane.setCaretPosition(doc.getLength());
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private int findLastPromptOffset(StyledDocument doc) {
-        try {
-            String text = doc.getText(0, doc.getLength());
-            int promptIndex = text.lastIndexOf("> ");
-            return promptIndex == -1 ? 0 : promptIndex + "> ".length();
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
     
     private void handleDocumentChange() {
         SwingUtilities.invokeLater(() -> {
@@ -457,11 +406,11 @@ public class GuavaEditor extends JFrame {
         StyledDocument doc = problemPane.getStyledDocument();
         
         if (errors == null || errors.isEmpty()) {
-            bottomPanel.setTitleAt(3, "Problems");
+            bottomPanel.setTitleAt(2, "Problems");
             return;
         }
         
-        bottomPanel.setTitleAt(3, "Problems - " + errors.size());
+        bottomPanel.setTitleAt(2, "Problems - " + errors.size());
         
         for (String error : errors) {
             try {
@@ -589,36 +538,31 @@ public class GuavaEditor extends JFrame {
         if (currentLookAndFeel.contains("FlatMacDarkLaf")) {
             textPane.setBackground(new Color(30, 30, 30)); 
             textScrollPane.getViewport().setBackground(new Color(30, 30, 30));
-
+            
             lexerPane.setBackground(new Color(30, 30, 30));
             lexerScrollPane.getViewport().setBackground(new Color(30, 30, 30));
-
+            
             parserPane.setBackground(new Color(30, 30, 30));
             parserScrollPane.getViewport().setBackground(new Color(30, 30, 30));
             
             problemPane.setBackground(new Color(30, 30, 30));
             probScrollPane.getViewport().setBackground(new Color(30, 30, 30));
-
-            terminalPane.setBackground(new Color(30, 30, 30));
-            terminalScrollPane.getViewport().setBackground(new Color(30, 30, 30));
-
+            
             highlighter.setTheme("dark");
         } else if (currentLookAndFeel.contains("FlatMacLightLaf")) {
             textPane.setBackground(new Color(255, 255, 255)); 
             textScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-
+            
             lexerPane.setBackground(new Color(255, 255, 255)); 
             lexerScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-
+            
             parserPane.setBackground(new Color(255, 255, 255)); 
             parserScrollPane.getViewport().setBackground(new Color(255, 255, 255));
             
             problemPane.setBackground(new Color(255, 255, 255)); 
             probScrollPane.getViewport().setBackground(new Color(255, 255, 255));
             
-            terminalPane.setBackground(new Color(255, 255, 255)); 
-            terminalScrollPane.getViewport().setBackground(new Color(255, 255, 255));            
-
+            
             highlighter.setTheme("light");
         }
     }
