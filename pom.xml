@@ -14,7 +14,7 @@
     </properties>
 
     <dependencies>
-<!-- FlatLaf -->
+        <!-- FlatLaf -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
@@ -25,18 +25,30 @@
             <artifactId>flatlaf-extras</artifactId>
             <version>3.5.2</version>
         </dependency>
-            <dependency>
+        <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf-fonts-jetbrains-mono</artifactId>
             <version>2.304</version>
-        </dependency>        
+        </dependency>
 
         <!-- Miglayout -->
         <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-swing</artifactId>
             <version>11.4.2</version>
-        </dependency>                
-    </dependencies>    
+        </dependency>
+    </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>com.guava.Guava</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
