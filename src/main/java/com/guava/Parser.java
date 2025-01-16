@@ -14,8 +14,8 @@ public class Parser {
     private int loopDepth = 0;
     private int functionDepth = 0;
     
-    Parser(List<Token> tokens) {
-        this.tokens = tokens;
+    public Parser(List<Token> tokens) {
+        this.tokens = filterTokens(tokens);
     }
     
     List<Stmt> parse() {
@@ -572,36 +572,15 @@ public class Parser {
     }
     
     private Stmt componentBody() {
-        if (match(LAYOUT, ADD)) {
+        if (match(ADD)) {
             Stmt compCall = null;
             Token compMethod = previous();
-            if (compMethod.type == LAYOUT) compCall = parseLayoutMethod();
-            else if (compMethod.type == ADD) compCall = parseAddMethod();
+            if (compMethod.type == ADD) compCall = parseAddMethod();
             consume(SEMICOLON, "Expect ';' after " + compMethod.lexeme + " call."); 
             return compCall;
         }
 
         return declaration();
-    }
-    
-    private Stmt parseLayoutMethod() {
-        consume(LEFT_PAREN, "Expect '(' after layout method.");
-        if (!match(FLEX, GRID, ABSOLUTE)) {
-            throw error(peek(), "Expected layout type [ flex | grid | absolute ].");
-        }
-        
-        Token layoutType = previous();
-        consume(LEFT_PAREN, "Expect '(' after layout type.");
-        
-        List<Expr> layoutTypeArgs = new ArrayList<>();
-        if (!check(RIGHT_PAREN)) {
-            do {
-                layoutTypeArgs.add(expression());
-            } while (match(COMMA));
-        }
-        consume(RIGHT_PAREN, "Expect ')' after layout type arguments.");
-        consume(RIGHT_PAREN, "Expect ')' after layout method");
-        return new Stmt.Layout(layoutType, layoutTypeArgs);
     }
     
     private Stmt parseAddMethod() {
@@ -619,13 +598,10 @@ public class Parser {
         if (check(DOT)) {
             List<Stmt> compMethods = new ArrayList<>();
             TokenType nextToken = peekNextType();
-            if (nextToken == LAYOUT || nextToken == ADD) {
+            if (nextToken == ADD) {
                 while (match(DOT)) {
                     nextToken = peek().type;
-                    if (nextToken == LAYOUT) {
-                        advance();
-                        compMethods.add(parseLayoutMethod());
-                    } else if (nextToken == ADD) {
+                    if (nextToken == ADD) {
                         advance();
                         compMethods.add(parseAddMethod());
                     } else {
@@ -792,5 +768,15 @@ public class Parser {
             
             advance();
         }
+    }
+    
+    private List<Token> filterTokens(List<Token> tokens) {
+        List<Token> filteredTokens = new ArrayList<>();
+        for (Token token : tokens) {
+            if (token.type != BLOCK_COMMENT && token.type != INLINE_COMMENT) {
+                filteredTokens.add(token);
+            }
+        }
+        return filteredTokens;
     }    
 }    

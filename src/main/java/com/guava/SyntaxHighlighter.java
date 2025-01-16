@@ -8,6 +8,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+
+import static com.guava.TokenType.BLOCK_COMMENT;
+import static com.guava.TokenType.INLINE_COMMENT;
+
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;

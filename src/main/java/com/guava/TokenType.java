@@ -22,7 +22,7 @@ public enum TokenType {
 
     INCREMENT, DECREMENT,
 
-    INLINE_COMMENT, BLOCK_COMMENT,    
+    INLINE_COMMENT, BLOCK_COMMENT,
 
     // Literals
     IDENTIFIER, 
