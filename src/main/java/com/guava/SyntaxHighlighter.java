@@ -70,8 +70,7 @@ public class SyntaxHighlighter extends DefaultStyledDocument {
         addStyles(theme.get("component"), 
         TokenType.FRAME, TokenType.PANEL, TokenType.LABEL, 
         TokenType.BUTTON, TokenType.FIELD, TokenType.DIALOG, 
-        TokenType.ADD, TokenType.LAYOUT, TokenType.FLEX, 
-        TokenType.GRID, TokenType.ABSOLUTE);
+        TokenType.ADD);
         
         // String literals
         addStyles(theme.get("string"), 

@@ -42,8 +42,7 @@ public enum TokenType {
     COMP, STYLE, EVENT,
 
     // Component Method Keywords
-    ADD, LAYOUT,
-    FLEX, GRID, ABSOLUTE,
+    ADD,
 
     // Component Types Keywords
     FRAME, PANEL, LABEL, BUTTON, FIELD, DIALOG,  
