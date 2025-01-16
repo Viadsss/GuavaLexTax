@@ -106,8 +106,8 @@ public class SyntaxHighlighter extends DefaultStyledDocument {
         TokenType.MODULO_EQUAL, TokenType.INCREMENT, 
         TokenType.DECREMENT);
         
-        // TODO: Comments (when implemented)
-        // addStyles(theme.get("comment"), TokenType.COMMENT);
+        addStyles(theme.get("comment"),
+        TokenType.INLINE_COMMENT, TokenType.BLOCK_COMMENT);
     }
     
     private void addStyles(Color color, TokenType... tokenTypes) {

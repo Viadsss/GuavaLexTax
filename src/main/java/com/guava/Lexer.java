@@ -121,6 +121,7 @@ public class Lexer {
             else if (match('/')) {
                 // Single-line comment
                 while (peek() != '\n' && !isAtEnd()) advance();
+                addToken(INLINE_COMMENT);
             } else if (match('*')) {
                 blockComment();
             } else {
@@ -167,6 +168,7 @@ public class Lexer {
         }
 
         advance();
+        addToken(BLOCK_COMMENT);
     }
 
     private void identifier() {
@@ -344,4 +346,3 @@ public class Lexer {
         tokens.add(new Token(type, text, literal, line));
     }
 }
-

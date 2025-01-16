@@ -22,6 +22,8 @@ public enum TokenType {
 
     INCREMENT, DECREMENT,
 
+    INLINE_COMMENT, BLOCK_COMMENT,    
+
     // Literals
     IDENTIFIER, 
     STRING_LITERAL,   // for string literals like "foo\n bar" 
