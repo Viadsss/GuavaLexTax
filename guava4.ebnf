@@ -1,0 +1,86 @@
+<program> ::= <declaration>* "EOF"
+
+<declaration> ::= <mainDecl>
+                | <funcDecl>
+                | <varDecl>
+                | <statement>
+
+<compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
+<compCall> ::= layoutMethod> | <addMethod>
+
+
+<mainDecl> ::= "void" "main" "(" <parameter> ")" <block>
+<funcDecl> ::= <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
+<varDecl> ::= <varType> ("expose")? <IDENTIFIER> ( "=" <expression> )? ";"
+<statement> ::= <exprStmt> | <forStmt> | <whileStmt> | <doWhileStmt> | <ifStmt> | <printStmt> | <returnStmt> | <breakStmt> | <block>    
+
+<exprStmt> ::= <expression> ";"
+<forStmt> ::= "for" "(" ( <varDecl> | <exprStmt> | ";" )
+                        <expression>? ";"
+                        <expression>? ")" <statement>
+<whileStmt> ::= "while" "(" <expression> ")" <statement>
+<doWhileStmt> ::= "do" <statement> "while" "(" <expression> ")" ";"
+<ifStmt> ::= "if" "(" <expression> ")" <statement> ( "else" <statement> )?
+<printStmt> ::= "print" <expression> ";"
+<returnStmt> ::= "return" <expression>? ";"
+<breakStmt> ::= "break" ";" 
+<block> ::= "{" <declaration>* "}"
+
+<expression> ::= <assignment>
+<assignment> ::= ( <call> "." )? <IDENTIFIER> <assignment_op> <assignment> | <logic_or>
+<assignment_op> ::= "=" | "+=" | "-=" | "*=" | "/="
+<logic_or> ::= <logic_and> ( "||" <logic_and> )*
+<logic_and> ::= <equality> ( "&&" <equality> )*
+<equality> ::= <comparison> (( "!=" | "==" ) <comparison> )*
+<comparison> ::= <term> ( ( ">" | ">=" | "<" | "<=" ) <term> )*
+<term> ::= <factor> ( ("-" | "+" ) <factor> )*
+<factor> ::= <unary> ( ( "/" | "*" | "%" ) <unary> )*
+
+<unary> ::= ( "!" | "-" | "++" | "--" ) <unary> | <postfix>
+<postfix> ::= <call> ( "++" | "--" )?
+<call> ::= <primary> ( "(" <arguments>? ")" | "." <IDENTIFIER> )*
+<primary> ::= "true" | "false" | "null" | <INTEGER> | <DOUBLE> | <CHAR> | <STRING>
+            | <IDENTIFIER> | "(" <expression> ")" | "read" "()" | <nativeClass>
+
+<nativeClass> ::= <Comp> | <Style> | <Event>
+<Comp> ::= "Comp" "." <compType> "(" <arguments>? ")" <compBlock>?
+<Style> ::= "Style" "(" <styleArguments>? ")"
+<Event> ::= "Event" "(" <eventArguments>? ")"
+
+<styleArguments> ::= "{" <STRING> ( "," <STRING> )* "}"
+<eventArguments> ::= "{" <eventAction> ( "," <eventAction> )* "}"
+<eventAction> ::= <STRING> ":" <block>
+<compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
+<layoutMethod> ::= "layout" "(" <layoutType> ("(" <arguments>? ")")? ")"
+<addMethod> ::= "add" "(" <expression> ")"
+<layoutType> ::= "flex" | "grid" | "absolute"
+
+
+<parameters> ::= <parameter> ( "," <parameter> )*
+<parameter> ::= <varType> <IDENTIFIER>
+<arguments> ::= <expression> ( "," <expression> )*
+
+<returnType> ::= <varType> | "void"
+<varType> ::= <dataType> | <nativeClassType>
+<dataType> ::= "char" | "string" | "int" | "float" | "double" | "bool"
+<nativeClassType> ::= "Comp" | "Style" | "Event"
+
+
+<IDENTIFIER> ::= <ALPHA> ( <ALPHA> | <DIGIT> )*
+
+<STRING> ::= "\"" ( <CHAR_CONTENT> )* "\""
+<CHAR> ::= "'" <CHAR_CONTENT> "'"
+<INTEGER> ::= <DIGIT>+
+<DOUBLE> ::= <DIGIT>+ "." <DIGIT>+
+
+<CHAR_CONTENT> ::= <REGULAR_CHAR> | <ESCAPE_SEQUENCE>
+
+<REGULAR_CHAR> ::= <LETTER> | <DIGIT> | <SYMBOL>
+<SYMBOL> ::= "+" | "-" | "*" | "/" | "%" | "=" | "<" | ">" | "!" | "(" | ")" | "{" | "}" | "[" | "]" | ";" | ":" | "," |
+             "." | "@" | "_" | "^" | "~" | "`" | "$" | "#" | " " | "|" | "&" | "?"
+
+<ESCAPE_SEQUENCE> ::= "\\" ( "\"" | "'" | "\\" | "n" | "t" | "r" | "b" | "f" )
+
+<ALPHA> ::= <LETTER> | "_"
+<DIGIT> ::= [0-9]
+<LETTER> ::= [a-z] | [A-Z]
