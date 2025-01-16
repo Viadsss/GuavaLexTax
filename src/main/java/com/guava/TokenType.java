@@ -39,7 +39,7 @@ public enum TokenType {
     STRING, CHAR, BOOL,    
 
     // Native Class Type Keywords
-    COMP, STYLE, EVENT, CREATE,
+    COMP, STYLE, EVENT,
 
     // Component Method Keywords
     ADD, LAYOUT,

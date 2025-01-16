@@ -44,8 +44,6 @@ public class Lexer {
         keywords.put("Style",  STYLE);
         keywords.put("Event",  EVENT);
 
-        keywords.put("create", CREATE);
-
         // Component Method Keywords
         keywords.put("add",    ADD);
         keywords.put("layout", LAYOUT);
