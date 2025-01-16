@@ -1,6 +1,6 @@
 
 
-Style btnStyle({
+Style btnStyle -> Style({
     "background-gradient-black-violet-r",
     "size-40px-60px"
 })
