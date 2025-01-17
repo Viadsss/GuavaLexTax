@@ -1,6 +1,5 @@
 package com.guava;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
