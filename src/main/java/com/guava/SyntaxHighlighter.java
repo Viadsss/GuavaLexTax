@@ -18,6 +18,7 @@ public class SyntaxHighlighter extends DefaultStyledDocument {
     private final Map<TokenType, AttributeSet> tokenStyles;
     private AttributeSet defaultStyle;
     private boolean isProcessing = false;
+    private List<Token> tokens;
     
     public SyntaxHighlighter() {
         // Initialize styles for different token types
@@ -121,7 +122,7 @@ public class SyntaxHighlighter extends DefaultStyledDocument {
     }
     
     private void processChangedText() {
-    if (isProcessing) return;
+    if (isProcessing || tokens == null) return;
     
     SwingUtilities.invokeLater(() -> {
         try {
@@ -132,10 +133,6 @@ public class SyntaxHighlighter extends DefaultStyledDocument {
             
             // Reset all styling to default
             setCharacterAttributes(0, content.length(), defaultStyle, true);
-            
-            // Use the Lexer to get tokens
-            Lexer lexer = new Lexer(content);
-            List<Token> tokens = lexer.scanTokens();
             
             int lastIndex = 0; // Track last position
             for (Token token : tokens) {
@@ -173,6 +170,10 @@ private int getTokenStartOffset(String content, Token token, int lastIndex) {
         
         // Re-process the text to update the syntax highlighting
         processChangedText();
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
     
 }

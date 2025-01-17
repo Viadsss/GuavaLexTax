@@ -100,22 +100,22 @@ public class GuavaEditor extends JFrame {
         textPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
         textPane.setStyledDocument(highlighter);
         
-        textPane.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleDocumentChange();
-            }
+        // textPane.getDocument().addDocumentListener(new DocumentListener() {
+        //     @Override
+        //     public void insertUpdate(DocumentEvent e) {
+        //         handleDocumentChange();
+        //     }
             
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleDocumentChange();
-            }
+        //     @Override
+        //     public void removeUpdate(DocumentEvent e) {
+        //         handleDocumentChange();
+        //     }
             
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleDocumentChange();
-            }
-        });        
+        //     @Override
+        //     public void changedUpdate(DocumentEvent e) {
+        //         handleDocumentChange();
+        //     }
+        // });        
         
         textScrollPane = new JScrollPane(
         textPane,
@@ -294,11 +294,11 @@ public class GuavaEditor extends JFrame {
         return problem;
     }    
     
-    private void handleDocumentChange() {
-        SwingUtilities.invokeLater(() -> {
-            handleRun(); // Re-run the lexer
-        });
-    }
+    // private void handleDocumentChange() {
+    //     SwingUtilities.invokeLater(() -> {
+    //         handleRun(); // Re-run the lexer
+    //     });
+    // }
     
     private void handleRun() {
         String source = textPane.getText();
@@ -306,6 +306,7 @@ public class GuavaEditor extends JFrame {
         
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
+        highlighter.setTokens(tokens);
         handleLexerOutput(tokens);
         
         
