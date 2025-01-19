@@ -1,28 +1,31 @@
 package com.guava;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Element;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.Utilities;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
@@ -35,15 +38,9 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -53,16 +50,17 @@ import java.util.List;
 
 public class GuavaEditor extends JFrame {
     private JTabbedPane bottomPanel;    
-    private JTextPane textPane, lexerPane, parserPane, problemPane, terminalPane;
-    private JScrollPane textScrollPane, lexerScrollPane, parserScrollPane, probScrollPane, terminalScrollPane;
-    private SyntaxHighlighter highlighter;
+    private JTextPane lexerPane, parserPane, problemPane;
+    private JScrollPane lexerScrollPane, parserScrollPane, probScrollPane;
+    RSyntaxTextArea textArea;
     
     public GuavaEditor() {
         setTitle("Guava Code Editor");
         setSize(1366, 768); // 1280 x 720
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        highlighter = new SyntaxHighlighter();
+        
+        setJMenuBar(createMenuBar());
         init();
     }
     
@@ -70,74 +68,88 @@ public class GuavaEditor extends JFrame {
     private void init() {
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel(), bottomPanel());     
         
-        // splitPane.setOneTouchExpandable(true);
         splitPane.setResizeWeight(0.75);
         splitPane.setDividerSize(13);
-        
-        addTabKeyBehavior(textPane);
         
         this.add(splitPane);
     }
     
     private JPanel topPanel() {
         JPanel topPanel = new JPanel(new MigLayout("fill, wrap", "[grow]", "[grow,fill]"));
-        textPane = new JTextPane() {
-            @Override
-            public boolean getScrollableTracksViewportWidth() {
-                return false;
-            }
-        };
-        
-        
-        // Set up for code editing
-        textPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        textPane.setStyledDocument(highlighter);
-        
-        textPane.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                handleDocumentChange();
-            }
-            
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                handleDocumentChange();
-            }
-            
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                handleDocumentChange();
-            }
-        });        
-        
-        textScrollPane = new JScrollPane(
-        textPane,
-        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        );
-        
-        textScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-        // Make scrolling smoother
-        textScrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        textScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
-        
-        LineNumberComponent lineNumber = new LineNumberComponent(textPane);
-        textScrollPane.setRowHeaderView(lineNumber);                        
-        topPanel.add(textScrollPane, "grow");
+
+        textArea = new RSyntaxTextArea(20, 60);
+        textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        textArea.setCodeFoldingEnabled(true);
+        textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
+
+        RTextScrollPane sp = new RTextScrollPane(textArea);
+                       
+        topPanel.add(sp, "grow");
         return topPanel;
     }
+    
+    private JMenuBar createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        
+        // File Menu
+        JMenu fileMenu = new JMenu("File");
+        
+        JMenuItem runItem = new JMenuItem("Run Code");
+        runItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
+        runItem.addActionListener(e -> handleRun());
+        
+        JMenuItem uploadItem = new JMenuItem("Upload");
+        uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
+        uploadItem.addActionListener(e -> handleUpload());
+        
+        fileMenu.add(runItem);
+        fileMenu.add(uploadItem);
+        
+        // View Menu
+        JMenu viewMenu = new JMenu("View");
+        
+        JMenuItem darkModeItem = new JMenuItem("Switch to Dark Mode");
+        darkModeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.ALT_DOWN_MASK));
+        darkModeItem.addActionListener(e -> switchTheme(true));
+        
+        JMenuItem lightModeItem = new JMenuItem("Switch to Light Mode");
+        lightModeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.ALT_DOWN_MASK));
+        lightModeItem.addActionListener(e -> switchTheme(false));
+        
+        viewMenu.add(darkModeItem);
+        viewMenu.add(lightModeItem);
+        
+        // Add menus to menu bar
+        menuBar.add(fileMenu);
+        menuBar.add(viewMenu);
+        
+        return menuBar;
+    }
+    
+    
+    private void switchTheme(boolean dark) {
+        try {
+            if (dark) {
+                UIManager.setLookAndFeel(new FlatMacDarkLaf());
+            } else {
+                UIManager.setLookAndFeel(new FlatMacLightLaf());
+            }
+            SwingUtilities.updateComponentTreeUI(this);
+            updateThemeColors();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    
     
     private JTabbedPane bottomPanel() {
         bottomPanel = new JTabbedPane();
         
         
         bottomPanel.putClientProperty(FlatClientProperties.STYLE, "" + "tabType:card");
-        bottomPanel.add("Terminal", terminalPane());
         bottomPanel.add("Lexer Output", lexerPane());
         bottomPanel.add("Parser Output", parserPane());
         bottomPanel.add("Problems", problemPane());
         
-        // Terminal Tab
         return bottomPanel;
     }
     
@@ -236,124 +248,8 @@ public class GuavaEditor extends JFrame {
         return problem;
     }    
     
-    private JPanel terminalPane() {
-        JPanel terminal = new JPanel(new MigLayout("fill, wrap", "[grow]", "[grow,fill]"));
-        terminalPane = new JTextPane() {
-            @Override
-            public boolean getScrollableTracksViewportWidth() {
-                return false;
-            }
-        };
-        // Set up for code editing
-        terminalPane.putClientProperty(JTextPane.HONOR_DISPLAY_PROPERTIES, true);
-        terminalPane.setStyledDocument(new DefaultStyledDocument());
-        terminalPane.setText("> ");
-        
-        
-        terminalScrollPane = new JScrollPane(
-        terminalPane,
-        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
-        );
-        
-        terminalScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-        // Make scrolling smoother
-        terminalScrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        terminalScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
-        terminalPane.putClientProperty(FlatClientProperties.STYLE, "inactiveBackground: #ffffff");
-        
-        
-        terminal.add(terminalScrollPane, "grow");
-        
-        terminalPane.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    e.consume();
-                    handleCommand(terminalPane);
-                }
-            }
-        });
-        
-        return terminal;
-    }
-    
-    private void handleCommand(JTextPane terminalPane) {
-        try {
-            StyledDocument doc = terminalPane.getStyledDocument();
-            int startOffset = findLastPromptOffset(doc);
-            int endOffset = doc.getLength();
-            
-            // Extract the command text
-            String command = doc.getText(startOffset, endOffset - startOffset).trim();
-            
-            // Prevent adding text mid-document
-            terminalPane.setEditable(false);
-            
-            // Execute the command
-            if (command.equalsIgnoreCase("run")) {
-                doc.insertString(doc.getLength(), "\nRunning.\n", null);
-                handleRun();
-            } else if (command.equalsIgnoreCase("upload")) {
-                doc.insertString(doc.getLength(), "\nUploading.\n", null);
-                handleUpload();
-            } else if (command.equalsIgnoreCase("clear")) {
-                terminalPane.setText("");
-            } else if (command.equalsIgnoreCase("dark")) {
-                try {
-                    UIManager.setLookAndFeel(new FlatMacDarkLaf());
-                    SwingUtilities.updateComponentTreeUI(this);
-                    updateThemeColors();
-                    doc.insertString(doc.getLength(), "\nSwitched to Dark Mode\n", null);
-                } catch (UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                }
-            } else if (command.equalsIgnoreCase("light")) {
-                try {
-                    UIManager.setLookAndFeel(new FlatMacLightLaf());
-                    SwingUtilities.updateComponentTreeUI(this);
-                    updateThemeColors();
-                    doc.insertString(doc.getLength(), "\nSwitched to Light Mode\n", null);
-                } catch (UnsupportedLookAndFeelException e) {
-                    e.printStackTrace();
-                }
-            } else if (command.equalsIgnoreCase("help")){
-                doc.insertString(doc.getLength(), "\nOptions available - [run], [help], [upload], [clear], [light], [dark]\n", null);
-            } else {
-                doc.insertString(doc.getLength(), "\nUnknown command: " + command + ", type 'help' to list out commands\n", null);
-            }
-            
-            // Add a new prompt and enable editing for the next input
-            doc.insertString(doc.getLength(), "> ", null);
-            terminalPane.setEditable(true);
-            
-            // Set caret position at the end
-            terminalPane.setCaretPosition(doc.getLength());
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private int findLastPromptOffset(StyledDocument doc) {
-        try {
-            String text = doc.getText(0, doc.getLength());
-            int promptIndex = text.lastIndexOf("> ");
-            return promptIndex == -1 ? 0 : promptIndex + "> ".length();
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
-    
-    private void handleDocumentChange() {
-        SwingUtilities.invokeLater(() -> {
-            handleRun(); // Re-run the lexer
-        });
-    }
-    
     private void handleRun() {
-        String source = textPane.getText();
-        // new GuavaSyntaxHighlighter(textPane);
+        String source = textArea.getText();
         
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
@@ -461,7 +357,7 @@ public class GuavaEditor extends JFrame {
                 while ((line = reader.readLine()) != null) {
                     content.append(line).append("\n");
                 }
-                textPane.setText(content.toString()); // Set the file content to the textPane
+                textArea.setText(content.toString()); // Set the file content to the textPane
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -474,11 +370,11 @@ public class GuavaEditor extends JFrame {
         StyledDocument doc = problemPane.getStyledDocument();
         
         if (errors == null || errors.isEmpty()) {
-            bottomPanel.setTitleAt(3, "Problems");
+            bottomPanel.setTitleAt(2, "Problems");
             return;
         }
         
-        bottomPanel.setTitleAt(3, "Problems - " + errors.size());
+        bottomPanel.setTitleAt(2, "Problems - " + errors.size());
         
         for (String error : errors) {
             try {
@@ -493,100 +389,6 @@ public class GuavaEditor extends JFrame {
         Guava.cleanErrorList();
     }
     
-    public class LineNumberComponent extends JComponent {
-        private final JTextPane textPane;
-        private final FontMetrics fontMetrics;
-        private final int fontAscent;
-        
-        public LineNumberComponent(JTextPane textPane) {
-            this.textPane = textPane;
-            Font font = textPane.getFont();
-            fontMetrics = getFontMetrics(font);
-            fontAscent = fontMetrics.getAscent();
-            
-            textPane.getDocument().addDocumentListener(new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) {
-                    repaint();
-                }
-                public void removeUpdate(DocumentEvent e) {
-                    repaint();
-                }
-                public void changedUpdate(DocumentEvent e) {
-                    repaint();
-                }
-            });
-            
-            textPane.addCaretListener(e -> repaint());
-        }
-        
-        @Override
-        public Dimension getPreferredSize() {
-            int lineCount = getLineCount();
-            int maxDigits = String.valueOf(lineCount).length();
-            int width = fontMetrics.charWidth('0') * maxDigits + 20;
-            return new Dimension(width, textPane.getHeight());
-        }
-        
-        private int getLineCount() {
-            Element root = textPane.getDocument().getDefaultRootElement();
-            return root.getElementCount();
-        }
-        
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Rectangle clip = g.getClipBounds();
-            int startOffset = textPane.viewToModel2D(new Point(0, clip.y));
-            int endOffset = textPane.viewToModel2D(new Point(0, clip.y + clip.height));
-            
-            int componentWidth = getWidth();
-            
-            while (startOffset <= endOffset) {
-                try {
-                    Rectangle2D rect = textPane.modelToView2D(startOffset);
-                    int lineNumber = getLineNumber(startOffset);
-                    if (rect != null) {
-                        int y = (int) (rect.getY() + rect.getHeight() / 2 + fontAscent / 2 - 2); // Center vertically
-                        String lineNumberStr = String.valueOf(lineNumber);
-                        int stringWidth = fontMetrics.stringWidth(lineNumberStr);
-                        int x = componentWidth - stringWidth - 5; // Align to the right with padding
-                        g.drawString(lineNumberStr, x, y);
-                    }
-                    startOffset = Utilities.getRowEnd(textPane, startOffset) + 1;
-                } catch (BadLocationException e) {
-                    break;
-                }
-            }
-        }
-        
-        
-        private int getLineNumber(int offset) {
-            Element root = textPane.getDocument().getDefaultRootElement();
-            return root.getElementIndex(offset) + 1;
-        }
-    }
-    
-    private void addTabKeyBehavior(JTextPane textPane) {
-        textPane.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_TAB) {
-                    e.consume(); // Prevent the default tab behavior
-                    try {
-                        // Insert four spaces at the caret position
-                        StyledDocument doc = textPane.getStyledDocument();
-                        int caretPosition = textPane.getCaretPosition();
-                        doc.insertString(caretPosition, "    ", null); // Four spaces
-                    } catch (BadLocationException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
-    
-    
-    
     public static void run() {
         FlatInspector.install("ctrl shift alt T");
         FlatUIDefaultsInspector.install("ctrl shift alt Y");
@@ -600,43 +402,48 @@ public class GuavaEditor extends JFrame {
         SwingUtilities.invokeLater(() -> new GuavaEditor().setVisible(true));
     }
     
-    private void updateThemeColors() {
+    private void updateThemeColors() throws Exception {
         String currentLookAndFeel = UIManager.getLookAndFeel().getClass().getName();
+        Theme theme;
         
         if (currentLookAndFeel.contains("FlatMacDarkLaf")) {
-            textPane.setBackground(new Color(30, 30, 30)); 
-            textScrollPane.getViewport().setBackground(new Color(30, 30, 30));
+            theme = Theme.load(getClass().getResourceAsStream(
+                    "/org/fife/ui/rsyntaxtextarea/themes/dark.xml"
+                ));
+            theme.apply(textArea);
 
+            textArea.setBackground(new Color(30, 30, 30)); 
+            
             lexerPane.setBackground(new Color(30, 30, 30));
             lexerScrollPane.getViewport().setBackground(new Color(30, 30, 30));
-
+            
             parserPane.setBackground(new Color(30, 30, 30));
             parserScrollPane.getViewport().setBackground(new Color(30, 30, 30));
             
             problemPane.setBackground(new Color(30, 30, 30));
             probScrollPane.getViewport().setBackground(new Color(30, 30, 30));
 
-            terminalPane.setBackground(new Color(30, 30, 30));
-            terminalScrollPane.getViewport().setBackground(new Color(30, 30, 30));
 
-            highlighter.setTheme("dark");
+
+            
         } else if (currentLookAndFeel.contains("FlatMacLightLaf")) {
-            textPane.setBackground(new Color(255, 255, 255)); 
-            textScrollPane.getViewport().setBackground(new Color(255, 255, 255));
+            theme = Theme.load(getClass().getResourceAsStream(
+                    "/org/fife/ui/rsyntaxtextarea/themes/default.xml"
+                ));            
+            theme.apply(textArea);
 
+            textArea.setBackground(new Color(255, 255, 255)); 
+            
             lexerPane.setBackground(new Color(255, 255, 255)); 
             lexerScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-
+            
             parserPane.setBackground(new Color(255, 255, 255)); 
             parserScrollPane.getViewport().setBackground(new Color(255, 255, 255));
             
             problemPane.setBackground(new Color(255, 255, 255)); 
             probScrollPane.getViewport().setBackground(new Color(255, 255, 255));
-            
-            terminalPane.setBackground(new Color(255, 255, 255)); 
-            terminalScrollPane.getViewport().setBackground(new Color(255, 255, 255));            
-
-            highlighter.setTheme("light");
         }
+
+        textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
     }
 }
