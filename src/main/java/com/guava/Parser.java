@@ -29,32 +29,46 @@ public class Parser {
     
     //>> --------- --------- DECLARATIONS --------- --------- <<//    
     
-    // <declaration> ::= <mainDecl> | <funcDecl> | <varDecl> | <statement>
+    // <declaration> ::= <mainDecl> | <funcDecl> | <nativeDecl> | <varDecl> | <statement>
     private Stmt declaration() {
         try {
-            // Handle the case where there's a return type
-            if (isReturnType()) {
-                Token varType = previous();
-                
-                if (varType.type == VOID) {
-                    if (match(MAIN)) {
-                        return mainDeclaration();
-                    } else {
-                        Token modifier = getModifierIfExists();
-                        return functionDeclaration(varType, modifier, null);
-                    }
+            Token modifier = getModifierIfExists();
+
+            if (match(VOID)) {
+                if (match(MAIN)) {
+                    if (modifier == null) error(previous(), "Main declaration must precede expose modifier before void type");
+                    else return mainDeclaration(modifier);
+                } else {
+                    Token name = consume(IDENTIFIER, "Expect function name.");
+                    return functionDeclaration(modifier, previous(), name);
                 }
-                
-                
-                // Handle variable type declarations
-                Token modifier = getModifierIfExists();
-                Token identifier = consume(IDENTIFIER, "Expect identifier after type.");
-                
-                if (check(LEFT_PAREN)) return functionDeclaration(varType, modifier, identifier);
-                else                   return varDeclaration(varType, modifier, identifier);
             }
-            
-            // If not a return type, it must be a statement
+
+            if (isVarType()) {
+                Token varType = previous();
+                // Error: Using "main" with a non-void type
+                if (check(MAIN)) {
+                    error(varType, "'main' must have a return type of 'void'.");
+                }
+
+                Token name = consume(IDENTIFIER, "Expect identifier name after type.");
+
+                if (check(LEFT_PAREN)) {
+                    return functionDeclaration(modifier, varType, name);
+                } else {
+                    if (isNativeClassType(varType.type)) {
+                        return nativeDeclaration(modifier, varType, name);
+                    }
+                    return varDeclaration(modifier, varType, name);
+                }
+            }
+
+            // If there's a modifier but no valid declaration, throw an error
+            if (modifier != null) {
+                error(modifier, "Modifier '" + modifier.lexeme + "' must precede a valid declaration.");
+            }            
+
+            // if doesn't have type, it must be a statement
             return statement();
         } catch (ParseError error) {
             synchronize();
@@ -62,7 +76,7 @@ public class Parser {
         }
     }
     
-    private Stmt mainDeclaration() {
+    private Stmt mainDeclaration(Token modifier) {
         consume(LEFT_PAREN, "Expect '(' after main declaration.");
         
         Token paramVarType = null;
@@ -82,37 +96,28 @@ public class Parser {
             functionDepth++;
             List<Stmt> body = block();
             
-            return new Stmt.Main(paramVarType, paramName, body);
+            return new Stmt.Main(modifier, paramVarType, paramName, body);
         } finally {
             functionDepth--;
         }        
         
-    }
+    }  
     
-    private Stmt functionDeclaration(Token returnType, Token modifier, Token name) {
-        Token functionName;
-        if (name == null) {
-            functionName = consume(IDENTIFIER, "Expect function name.");
-        } else {
-            functionName = name;
-        }
-        
+    private Stmt functionDeclaration(Token modifier, Token returnType, Token name) {
         consume(LEFT_PAREN, "Expect '(' after function name.");
         
         List<Token> varTypes = new ArrayList<>();
         List<Token> parameters = new ArrayList<>();
+        // Parse optional parameters
         if (!check(RIGHT_PAREN)) {
             do {
-                // if (parameters.size() >= 255) error(peek(), "Can't have more than 255 parameters.");
-                Token paramVarType;
-                if (isVarType()) paramVarType = previous();
-                else throw error(peek(), "Expect a valid parameter type after '('.");
-                
-                Token paramName = consume(IDENTIFIER, "Expect parameter name.");
-                
-                varTypes.add(paramVarType);
-                parameters.add(paramName);
-            } while (match(COMMA));        
+                if (isVarType()) {
+                    varTypes.add(previous());
+                    parameters.add(consume(IDENTIFIER, "Expect parameter name."));
+                } else {
+                    throw error(peek(), "Expect a valid parameter type.");
+                }
+            } while (match(COMMA));
         }
         
         consume(RIGHT_PAREN, "Expect ')' after parameters.");
@@ -122,27 +127,37 @@ public class Parser {
             functionDepth++;
             List<Stmt> body = block();
             
-            return new Stmt.Function(returnType, modifier, functionName, varTypes, parameters, body);
+            return new Stmt.Function(modifier, returnType, name, varTypes, parameters, body);
         } finally {
             functionDepth--;
         }        
     }
     
-    private Stmt varDeclaration(Token varType, Token modifier, Token identifier) {
-        if (!check(EQUAL) && !check(SEMICOLON)) {
-            Token invalid = peek();
-            throw error(invalid, "Unexpected token '" + invalid.lexeme + "' in variable declaration");
-        }
-        
-        
+    private Stmt nativeDeclaration(Token modifier, Token varType, Token name) {
         Expr initializer = null;
+
+        if (match(RIGHT_ARROW)) {
+            initializer = expression();
+        } else if (check(EQUAL)) {
+             error(peek(), "Must use '->' for native assignment.");
+        }
+
+        consume(SEMICOLON, "Expect ';' after native declaration.", true);
+        return new Stmt.Native(modifier, varType, name, initializer);        
+    }
+    
+    private Stmt varDeclaration(Token modifier, Token varType, Token name) {
+        Expr initializer = null;
+
         if (match(EQUAL)) {
             initializer = expression();
+        } else if (check(RIGHT_ARROW)) {
+            error(peek(), "Must use '=' for variable assignment.");
         }
         
         consume(SEMICOLON, "Expect ';' after variable declaration.", true);
-        return new Stmt.Var(varType, modifier, identifier, initializer);
-    }    
+        return new Stmt.Var(modifier, varType, name, initializer);
+    }   
     
     
     
@@ -572,7 +587,7 @@ public class Parser {
     }
     
     private Stmt componentBody() {
-        if (match(ADD)) {
+        if (isComponentMethod()) {
             Stmt compCall = null;
             Token compMethod = previous();
             if (compMethod.type == ADD) compCall = parseAddMethod();
@@ -666,20 +681,28 @@ public class Parser {
     }
     
     private boolean isVarType() {
-        return isDataType() || isBuiltInClass();
+        return isDataType() || isNativeClassType();
     }
     
     private boolean isDataType() {
         return match(CHAR, STRING, INT, FLOAT, DOUBLE, BOOL);
     }
     
-    private boolean isBuiltInClass() {
+    private boolean isNativeClassType() {
         return match(COMP, STYLE, EVENT);
     }
+
+    private boolean isNativeClassType(TokenType type) {
+        return type == COMP || type == STYLE || type == EVENT;
+    } 
     
     private boolean isComponentType() {
         return match(FRAME, PANEL, LABEL, BUTTON, FIELD, DIALOG);
     }
+
+    private boolean isComponentMethod() {
+        return match(ADD);
+    }    
 
     //>> --------- --------- PARSER HELPER METHPODS --------- --------- <<//    
     
