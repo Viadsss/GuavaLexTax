@@ -10,9 +10,10 @@ public class AstGenerator {
         String outputDir = "src/main/java/com/guava";
         
         defineAst(outputDir, "Stmt", Arrays.asList(
-            "Main       : Token varType, Token paramName, List<Stmt> body",
-            "Function   : Token returnType, Token modifier, Token name, List<Token> varTypes, List<Token> params, List<Stmt> body",            
-            "Var          : Token varType, Token modifier, Token name, Expr initializer",
+            "Main       : Token modifier, Token varType, Token paramName, List<Stmt> body",
+            "Function   : Token modifier, Token returnType, Token name, List<Token> varTypes, List<Token> params, List<Stmt> body",            
+            "Native: Token modifier, Token varType, Token name, Expr initializer",
+            "Var          : Token modifier, Token varType, Token name, Expr initializer",
             "Expression : Expr expression",
         "While        : Expr condition, Stmt body",
         "DoWhile    : Stmt body, Expr condition",
