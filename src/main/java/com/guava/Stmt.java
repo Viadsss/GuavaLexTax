@@ -6,6 +6,7 @@ abstract class Stmt {
  interface Visitor<T> {
     T visitMainStmt(Main stmt);
     T visitFunctionStmt(Function stmt);
+    T visitNativeStmt(Native stmt);
     T visitVarStmt(Var stmt);
     T visitExpressionStmt(Expression stmt);
     T visitWhileStmt(While stmt);
@@ -20,7 +21,8 @@ abstract class Stmt {
     T visitAddStmt(Add stmt);
   }
   static class Main extends Stmt {
-    Main(Token varType, Token paramName, List<Stmt> body) {
+    Main(Token modifier, Token varType, Token paramName, List<Stmt> body) {
+      this.modifier = modifier;
       this.varType = varType;
       this.paramName = paramName;
       this.body = body;
@@ -31,19 +33,20 @@ abstract class Stmt {
       return visitor.visitMainStmt(this);
     }
 
+    final Token modifier;
     final Token varType;
     final Token paramName;
     final List<Stmt> body;
   }
   static class Function extends Stmt {
-    Function(Token returnType,
-          Token modifier,
+    Function(Token modifier,
+          Token returnType,
           Token name,
           List<Token> varTypes,
           List<Token> params,
           List<Stmt> body) {
-      this.returnType = returnType;
       this.modifier = modifier;
+      this.returnType = returnType;
       this.name = name;
       this.varTypes = varTypes;
       this.params = params;
@@ -55,17 +58,35 @@ abstract class Stmt {
       return visitor.visitFunctionStmt(this);
     }
 
-    final Token returnType;
     final Token modifier;
+    final Token returnType;
     final Token name;
     final List<Token> varTypes;
     final List<Token> params;
     final List<Stmt> body;
   }
-  static class Var extends Stmt {
-    Var(Token varType, Token modifier, Token name, Expr initializer) {
-      this.varType = varType;
+  static class Native extends Stmt {
+    Native(Token modifier, Token varType, Token name, Expr initializer) {
       this.modifier = modifier;
+      this.varType = varType;
+      this.name = name;
+      this.initializer = initializer;
+    }
+
+    @Override
+    <T> T accept(Visitor<T> visitor) {
+      return visitor.visitNativeStmt(this);
+    }
+
+    final Token modifier;
+    final Token varType;
+    final Token name;
+    final Expr initializer;
+  }
+  static class Var extends Stmt {
+    Var(Token modifier, Token varType, Token name, Expr initializer) {
+      this.modifier = modifier;
+      this.varType = varType;
       this.name = name;
       this.initializer = initializer;
     }
@@ -75,8 +96,8 @@ abstract class Stmt {
       return visitor.visitVarStmt(this);
     }
 
-    final Token varType;
     final Token modifier;
+    final Token varType;
     final Token name;
     final Expr initializer;
   }
