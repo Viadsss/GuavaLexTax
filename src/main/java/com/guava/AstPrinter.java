@@ -23,6 +23,10 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
     public TreeNode visitMainStmt(Stmt.Main stmt) {
         TreeNode mainNode = new TreeNode("MainDeclaration");
 
+        if (stmt.modifier != null) {
+            mainNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
+        }
+
         if (stmt.varType != null) {
                 String paramText = "Name: " + stmt.paramName.lexeme;
                 paramText += " (" + stmt.varType.lexeme + ")";
@@ -43,12 +47,12 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
     @Override
     public TreeNode visitFunctionStmt(Stmt.Function stmt) {
         TreeNode functionNode = new TreeNode("FunctionDeclaration");
-
-        functionNode.addChild(new TreeNode("Return Type: " + stmt.returnType.lexeme));
-
+        
         if (stmt.modifier != null) {
             functionNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
         }
+
+        functionNode.addChild(new TreeNode("Return Type: " + stmt.returnType.lexeme));
         
         functionNode.addChild(new TreeNode("Name: " + stmt.name.lexeme));
 
@@ -79,15 +83,35 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
     }
 
     @Override
-    public TreeNode visitVarStmt(Stmt.Var stmt) {
-        TreeNode varNode = new TreeNode("VariableDeclaration");
-        
-        varNode.addChild(new TreeNode("Type: " + stmt.varType.lexeme));
+    public TreeNode visitNativeStmt(Stmt.Native stmt) {
+        TreeNode varNode = new TreeNode("NativeClassDeclaration");
         
         if (stmt.modifier != null) {
             varNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
         }
 
+        varNode.addChild(new TreeNode("Type: " + stmt.varType.lexeme));
+        
+        varNode.addChild(new TreeNode("Name: " + stmt.name.lexeme));
+        
+        if (stmt.initializer != null) {
+            varNode.addChild(new TreeNode("->"));
+            varNode.addChild(stmt.initializer.accept(this));
+        }
+
+        return varNode;
+    }    
+
+    @Override
+    public TreeNode visitVarStmt(Stmt.Var stmt) {
+        TreeNode varNode = new TreeNode("VariableDeclaration");
+        
+        if (stmt.modifier != null) {
+            varNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
+        }
+
+        varNode.addChild(new TreeNode("Type: " + stmt.varType.lexeme));
+        
         varNode.addChild(new TreeNode("Name: " + stmt.name.lexeme));
         
         if (stmt.initializer != null) {
