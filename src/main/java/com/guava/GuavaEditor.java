@@ -1,5 +1,7 @@
 package com.guava;
 
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -14,6 +16,8 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -22,6 +26,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.BasicCompletion;
+import org.fife.ui.autocomplete.CompletionProvider;
+import org.fife.ui.autocomplete.DefaultCompletionProvider;
+import org.fife.ui.autocomplete.ShorthandCompletion;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -52,14 +61,17 @@ public class GuavaEditor extends JFrame {
     private JTabbedPane bottomPanel;    
     private JTextPane lexerPane, parserPane, problemPane;
     private JScrollPane lexerScrollPane, parserScrollPane, probScrollPane;
-    RSyntaxTextArea textArea;
+    private RSyntaxTextArea textArea;
+    
+    private boolean errorHighlightingEnabled = true;
     
     public GuavaEditor() {
         setTitle("Guava Code Editor");
         setSize(1366, 768); // 1280 x 720
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setIconImage(new ImageIcon(getClass().getResource("/guava.png")).getImage());
+
         setJMenuBar(createMenuBar());
         init();
     }
@@ -83,6 +95,28 @@ public class GuavaEditor extends JFrame {
         textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
 
         RTextScrollPane sp = new RTextScrollPane(textArea);
+        CompletionProvider acProvider = createCompletionProvider();
+        AutoCompletion ac = new AutoCompletion(acProvider);
+        ac.install(textArea);
+
+        // Add Document Listener to remove errors when typing
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textArea.removeAllLineHighlights();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textArea.removeAllLineHighlights();
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Not needed for plain text components
+            }
+        });        
                        
         topPanel.add(sp, "grow");
         return topPanel;
@@ -100,7 +134,7 @@ public class GuavaEditor extends JFrame {
         
         JMenuItem uploadItem = new JMenuItem("Upload");
         uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
-        uploadItem.addActionListener(e -> handleUpload());
+        uploadItem.addActionListener(e -> handleUpload());       
         
         fileMenu.add(runItem);
         fileMenu.add(uploadItem);
@@ -118,10 +152,18 @@ public class GuavaEditor extends JFrame {
         
         viewMenu.add(darkModeItem);
         viewMenu.add(lightModeItem);
+
+        JMenu optionsMenu = new JMenu("Options");
+        JCheckBoxMenuItem toggleErrorHighlight = new JCheckBoxMenuItem("Enable Error Highlighting", true);
+        toggleErrorHighlight.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
+        toggleErrorHighlight.addActionListener(e -> toggleErrorHighlighting(toggleErrorHighlight.isSelected()));
+
+        optionsMenu.add(toggleErrorHighlight);         
         
         // Add menus to menu bar
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
+        menuBar.add(optionsMenu);
         
         return menuBar;
     }
@@ -258,14 +300,18 @@ public class GuavaEditor extends JFrame {
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
         
-        List<String> errors = Guava.getErrorList();
+        List<com.guava.Guava.Error> errors = Guava.getErrorList();
         
         updateProblemsTab(errors);
         
         // No errors, proceed with AST output
         if (errors.isEmpty()) {
             handleParserOutput(statements);
+        } else {
+            parserPane.setText(">> AST can't be shown. Fix errors first. <<");
         }
+
+        Guava.cleanErrorList();
     }
     
     private List<Token> handleLexerOutput(List<Token> tokens) {
@@ -364,29 +410,38 @@ public class GuavaEditor extends JFrame {
         }
     }
     
-    public void updateProblemsTab(List<String> errors) {
+    public void updateProblemsTab(List<com.guava.Guava.Error> errors) {
         problemPane.setText("");
         
         StyledDocument doc = problemPane.getStyledDocument();
         
         if (errors == null || errors.isEmpty()) {
             bottomPanel.setTitleAt(2, "Problems");
+            textArea.removeAllLineHighlights();
             return;
-        }
+        }    
         
         bottomPanel.setTitleAt(2, "Problems - " + errors.size());
+        if (errorHighlightingEnabled) {
+            textArea.setHighlightCurrentLine(false);
+        }
         
-        for (String error : errors) {
+        for (com.guava.Guava.Error error : errors) {
             try {
+                if (errorHighlightingEnabled) {
+                    textArea.addLineHighlight(error.getLine() - 1, new java.awt.Color(235, 111, 146));
+                }
                 Style style = doc.addStyle("ErrorStyle", null);
                 StyleConstants.setForeground(style, Color.RED); // Set text color to red
-                doc.insertString(doc.getLength(), error + "\n", style);
+                doc.insertString(doc.getLength(), error.toString() + "\n", style);
+
+                
+
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }
         }
         
-        Guava.cleanErrorList();
     }
     
     public static void run() {
@@ -408,7 +463,7 @@ public class GuavaEditor extends JFrame {
         
         if (currentLookAndFeel.contains("FlatMacDarkLaf")) {
             theme = Theme.load(getClass().getResourceAsStream(
-                    "/org/fife/ui/rsyntaxtextarea/themes/dark.xml"
+                    "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml"
                 ));
             theme.apply(textArea);
 
@@ -446,4 +501,40 @@ public class GuavaEditor extends JFrame {
 
         textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
     }
+
+    private CompletionProvider createCompletionProvider() {
+        DefaultCompletionProvider provider = new DefaultCompletionProvider();
+
+        // provider.addCompletion(new BasicCompletion(provider, "abstract"));
+        // provider.addCompletion(new BasicCompletion(provider, "assert"));
+        // provider.addCompletion(new BasicCompletion(provider, "break"));
+        // provider.addCompletion(new BasicCompletion(provider, "case"));
+        // // ... etc ...
+        // provider.addCompletion(new BasicCompletion(provider, "transient"));
+        // provider.addCompletion(new BasicCompletion(provider, "try"));
+        // provider.addCompletion(new BasicCompletion(provider, "void"));
+        // provider.addCompletion(new BasicCompletion(provider, "volatile"));
+        provider.addCompletion(new BasicCompletion(provider, "while"));
+
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "cframe",
+                "Comp.frame();", "Creates a frame"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "cbframe",
+                "Comp.frame() {\n\n};", "Creates a frame with body"));                
+       
+        return provider;
+    }
+
+    private void toggleErrorHighlighting(boolean enabled) {
+        this.errorHighlightingEnabled = enabled;
+        
+        if (!enabled) {
+            textArea.removeAllLineHighlights();
+        } else {
+            // Reapply highlights if errors exist
+            List<com.guava.Guava.Error> errors = Guava.getErrorList();
+            updateProblemsTab(errors);
+        }
+    }    
 }
