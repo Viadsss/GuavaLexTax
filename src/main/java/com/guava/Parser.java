@@ -355,7 +355,7 @@ public class Parser {
     private Expr assignment() {
         Expr expr = or();
         
-        if (match(EQUAL, PLUS_EQUAL, MINUS_EQUAL, STAR_EQUAL, SLASH_EQUAL, MODULO_EQUAL)) {
+        if (match(RIGHT_ARROW, EQUAL, PLUS_EQUAL, MINUS_EQUAL, STAR_EQUAL, SLASH_EQUAL, MODULO_EQUAL)) {
             Token assignOp = previous();
             Expr value = assignment();
             
