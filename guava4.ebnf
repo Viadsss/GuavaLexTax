@@ -3,16 +3,14 @@
 <declaration> ::= <mainDecl>
                 | <funcDecl>
                 | <varDecl>
+                | <nativeDecl>
                 | <statement>
 
-<compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
-<compCall> ::= layoutMethod> | <addMethod>
-
-
-<mainDecl> ::= "void" "main" "(" <parameter> ")" <block>
-<funcDecl> ::= <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
-<varDecl> ::= <varType> ("expose")? <IDENTIFIER> ( "=" <expression> )? ";"
-<statement> ::= <exprStmt> | <forStmt> | <whileStmt> | <doWhileStmt> | <ifStmt> | <printStmt> | <returnStmt> | <breakStmt> | <block>    
+<mainDecl> ::= "expose" "void" "main" "(" <parameter> ")" <block>
+<funcDecl> ::= ("expose")? <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
+<varDecl> ::= ("expose")? <dataType>  <IDENTIFIER> ( "=" <expression> )? ";"
+<nativeDecl> ::= ("expose")? <nativeClassType> <IDENTIFIER> ( "->" <expression> )? ";"
+<statement> ::= <exprStmt> | <forStmt> | <whileStmt> | <doWhileStmt> | <ifStmt> | <printStmt> | <returnStmt> | <breakStmt> | <block>
 
 <exprStmt> ::= <expression> ";"
 <forStmt> ::= "for" "(" ( <varDecl> | <exprStmt> | ";" )
@@ -28,7 +26,7 @@
 
 <expression> ::= <assignment>
 <assignment> ::= ( <call> "." )? <IDENTIFIER> <assignment_op> <assignment> | <logic_or>
-<assignment_op> ::= "=" | "+=" | "-=" | "*=" | "/="
+<assignment_op> ::= "->" | "=" | "+=" | "-=" | "*=" | "/="
 <logic_or> ::= <logic_and> ( "||" <logic_and> )*
 <logic_and> ::= <equality> ( "&&" <equality> )*
 <equality> ::= <comparison> (( "!=" | "==" ) <comparison> )*
@@ -47,14 +45,14 @@
 <Style> ::= "Style" "(" <styleArguments>? ")"
 <Event> ::= "Event" "(" <eventArguments>? ")"
 
+<compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
+<compCall> ::= <addMethod>
+
 <styleArguments> ::= "{" <STRING> ( "," <STRING> )* "}"
 <eventArguments> ::= "{" <eventAction> ( "," <eventAction> )* "}"
 <eventAction> ::= <STRING> ":" <block>
 <compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
-<layoutMethod> ::= "layout" "(" <layoutType> ("(" <arguments>? ")")? ")"
 <addMethod> ::= "add" "(" <expression> ")"
-<layoutType> ::= "flex" | "grid" | "absolute"
-
 
 <parameters> ::= <parameter> ( "," <parameter> )*
 <parameter> ::= <varType> <IDENTIFIER>
