@@ -149,9 +149,20 @@ public class GuavaEditor extends JFrame {
         JMenuItem lightModeItem = new JMenuItem("Switch to Light Mode");
         lightModeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.ALT_DOWN_MASK));
         lightModeItem.addActionListener(e -> switchTheme(false));
+
+        JMenuItem increaseFontItem = new JMenuItem("Increase Font Size");
+        increaseFontItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, InputEvent.ALT_DOWN_MASK));
+        increaseFontItem.addActionListener(e -> incrementFontSize());
+
+        JMenuItem decreaseFontItem = new JMenuItem("Decrease Font Size");
+        decreaseFontItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.ALT_DOWN_MASK));
+        decreaseFontItem.addActionListener(e -> decrementFontSize());
         
         viewMenu.add(darkModeItem);
         viewMenu.add(lightModeItem);
+        
+        viewMenu.add(increaseFontItem);
+        viewMenu.add(decreaseFontItem);        
 
         JMenu optionsMenu = new JMenu("Options");
         JCheckBoxMenuItem toggleErrorHighlight = new JCheckBoxMenuItem("Enable Error Highlighting", true);
@@ -443,20 +454,7 @@ public class GuavaEditor extends JFrame {
         }
         
     }
-    
-    public static void run() {
-        FlatInspector.install("ctrl shift alt T");
-        FlatUIDefaultsInspector.install("ctrl shift alt Y");
-        
-        FlatLaf.registerCustomDefaultsSource("themes");
-        FlatMacLightLaf.setup();
-        
-        FlatJetBrainsMonoFont.install();
-        UIManager.put("defaultFont", new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
-        
-        SwingUtilities.invokeLater(() -> new GuavaEditor().setVisible(true));
-    }
-    
+      
     private void updateThemeColors() throws Exception {
         String currentLookAndFeel = UIManager.getLookAndFeel().getClass().getName();
         Theme theme;
@@ -499,7 +497,8 @@ public class GuavaEditor extends JFrame {
             probScrollPane.getViewport().setBackground(new Color(255, 255, 255));
         }
 
-        textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
+        Font currentFont = UIManager.getFont("defaultFont");
+        textArea.setFont(currentFont);
     }
 
     private CompletionProvider createCompletionProvider() {
@@ -536,5 +535,46 @@ public class GuavaEditor extends JFrame {
             List<com.guava.Guava.Error> errors = Guava.getErrorList();
             updateProblemsTab(errors);
         }
+    }
+
+    private void incrementFontSize() {
+        Font currentFont = UIManager.getFont("defaultFont");
+        if (currentFont != null) {
+            // Increment the font size by 2 points, esnure it doesn't go above 48
+            int newFontSize = Math.min(currentFont.getSize() + 2, 48);
+            setFontSizeForUIManager(newFontSize);  // Apply the new font size globally
+        }
+    }
+
+    private void decrementFontSize() {
+        // Get the current font size
+        Font currentFont = UIManager.getFont("defaultFont");
+        if (currentFont != null) {
+            // Decrement the font size by 2 points, ensure it doesn't go below 8
+            int newFontSize = Math.max(currentFont.getSize() - 2, 8);
+            setFontSizeForUIManager(newFontSize);  
+        }
+    }
+    
+    
+    private void setFontSizeForUIManager(int fontSize) {
+        Font newFont = new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, fontSize);
+        UIManager.put("defaultFont", newFont); 
+        SwingUtilities.updateComponentTreeUI(this);  
+
+        textArea.setFont(newFont);
+    }    
+    
+    public static void run() {
+        FlatInspector.install("ctrl shift alt T");
+        FlatUIDefaultsInspector.install("ctrl shift alt Y");
+        
+        FlatLaf.registerCustomDefaultsSource("themes");
+        FlatMacLightLaf.setup();
+        
+        FlatJetBrainsMonoFont.install();
+        UIManager.put("defaultFont", new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
+        
+        SwingUtilities.invokeLater(() -> new GuavaEditor().setVisible(true));
     }    
 }
