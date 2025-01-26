@@ -698,10 +698,6 @@ private Expr unary() {
         return match(EXPOSE);
     }
     
-    private boolean isReturnType() {
-        return isVarType() || match(VOID);
-    }
-    
     private boolean isVarType() {
         return isDataType() || isNativeClassType();
     }
