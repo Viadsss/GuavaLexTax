@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode> {
     private TreeNode programNode;
-
+    
     TreeNode program(List<Stmt> statements) {
         programNode = new TreeNode("Program");
         
@@ -16,25 +16,25 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return programNode;
     }    
-
-
-//>> --------- --------- STATEMENTS --------- --------- <<//
+    
+    
+    //>> --------- --------- STATEMENTS --------- --------- <<//
     @Override
     public TreeNode visitMainStmt(Stmt.Main stmt) {
         TreeNode mainNode = new TreeNode("MainDeclaration");
-
+        
         if (stmt.modifier != null) {
             mainNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
         }
-
+        
         if (stmt.varType != null) {
-                String paramText = "Name: " + stmt.paramName.lexeme;
-                paramText += " (" + stmt.varType.lexeme + ")";
-
-                TreeNode paramNode = new TreeNode(paramText);
-                mainNode.addChild(paramNode);
+            String paramText = "Name: " + stmt.paramName.lexeme;
+            paramText += " (" + stmt.varType.lexeme + ")";
+            
+            TreeNode paramNode = new TreeNode(paramText);
+            mainNode.addChild(paramNode);
         }
-
+        
         TreeNode blockNode = new TreeNode("block");
         for (Stmt bodyStmt : stmt.body) {
             if (bodyStmt != null) blockNode.addChild(bodyStmt.accept(this));
@@ -43,7 +43,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return mainNode;
     }
-
+    
     @Override
     public TreeNode visitFunctionStmt(Stmt.Function stmt) {
         TreeNode functionNode = new TreeNode("FunctionDeclaration");
@@ -51,11 +51,11 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         if (stmt.modifier != null) {
             functionNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
         }
-
+        
         functionNode.addChild(new TreeNode("Return Type: " + stmt.returnType.lexeme));
         
         functionNode.addChild(new TreeNode("Name: " + stmt.name.lexeme));
-
+        
         if (!stmt.params.isEmpty()) {
             TreeNode parametersNode = new TreeNode("Parameters");
             for (int i = 0; i < stmt.params.size(); i++) {
@@ -63,7 +63,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
                 Token paramType = stmt.varTypes.get(i);
                 String paramText = "Name: " + param.lexeme;
                 paramText += " (" + paramType.lexeme + ")";
-
+                
                 TreeNode paramNode = new TreeNode(paramText);
                 parametersNode.addChild(paramNode);
             }
@@ -78,10 +78,10 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             } 
         }
         functionNode.addChild(blockNode);        
-
+        
         return functionNode;
     }
-
+    
     @Override
     public TreeNode visitNativeStmt(Stmt.Native stmt) {
         TreeNode varNode = new TreeNode("NativeClassDeclaration");
@@ -89,7 +89,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         if (stmt.modifier != null) {
             varNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
         }
-
+        
         varNode.addChild(new TreeNode("Type: " + stmt.varType.lexeme));
         
         varNode.addChild(new TreeNode("Name: " + stmt.name.lexeme));
@@ -98,10 +98,10 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             varNode.addChild(new TreeNode("->"));
             varNode.addChild(stmt.initializer.accept(this));
         }
-
+        
         return varNode;
     }    
-
+    
     @Override
     public TreeNode visitVarStmt(Stmt.Var stmt) {
         TreeNode varNode = new TreeNode("VariableDeclaration");
@@ -109,7 +109,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         if (stmt.modifier != null) {
             varNode.addChild(new TreeNode("Modifier: " + stmt.modifier.lexeme));
         }
-
+        
         varNode.addChild(new TreeNode("Type: " + stmt.varType.lexeme));
         
         varNode.addChild(new TreeNode("Name: " + stmt.name.lexeme));
@@ -118,17 +118,17 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             varNode.addChild(new TreeNode("="));
             varNode.addChild(stmt.initializer.accept(this));
         }
-
+        
         return varNode;
     }
-
+    
     @Override
     public TreeNode visitExpressionStmt(Stmt.Expression stmt) {
         TreeNode expressionNode = new TreeNode("expression");
         expressionNode.addChild(stmt.expression.accept(this));
         return expressionNode;
     }    
-
+    
     @Override
     public TreeNode visitWhileStmt(Stmt.While stmt) {
         TreeNode whileNode = new TreeNode("while");
@@ -142,7 +142,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return whileNode;
     }
-
+    
     @Override
     public TreeNode visitDoWhileStmt(Stmt.DoWhile stmt) {
         TreeNode doWhileNode = new TreeNode("doWhile");
@@ -178,13 +178,13 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return ifNode;
     }    
-
-
+    
+    
     @Override
     public TreeNode visitPrintStmt(Stmt.Print stmt) {
         TreeNode printNode = new TreeNode("Print");
-
-       if (!stmt.arguments.isEmpty()) {
+        
+        if (!stmt.arguments.isEmpty()) {
             TreeNode argumentsNode = new TreeNode("arguments");
             for (Expr arg : stmt.arguments) {
                 TreeNode argNode = arg.accept(this);
@@ -199,7 +199,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
     @Override
     public TreeNode visitReturnStmt(Stmt.Return stmt) {
         TreeNode returnNode = new TreeNode("return");
-
+        
         if (stmt.value != null) {
             TreeNode valueNode = stmt.value.accept(this); 
             returnNode.addChild(valueNode);
@@ -208,18 +208,18 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         return returnNode;
     }
     
-   @Override
+    @Override
     public TreeNode visitBreakStmt(Stmt.Break expr) {
         TreeNode breakNode = new TreeNode("break");
         return breakNode;
     }
     
-   @Override
+    @Override
     public TreeNode visitContinueStmt(Stmt.Continue expr) {
         TreeNode breakNode = new TreeNode("continue");
         return breakNode;
     }     
-
+    
     @Override
     public TreeNode visitBlockStmt(Stmt.Block stmt) {
         TreeNode blockNode = new TreeNode("block");
@@ -232,13 +232,13 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return blockNode;
     }
-
+    
     @Override
     public TreeNode visitLayoutStmt(Stmt.Layout stmt) {
         TreeNode layoutNode = new TreeNode("Layout");
-
+        
         layoutNode.addChild(new TreeNode("Type: " + stmt.type.lexeme));
-
+        
         if (!stmt.arguments.isEmpty()) {
             TreeNode argumentsNode = new TreeNode("Arguments");
             for (Expr argument : stmt.arguments) {
@@ -246,21 +246,21 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             }
             layoutNode.addChild(argumentsNode);
         }
-
+        
         return layoutNode;
     }
-
+    
     @Override
     public TreeNode visitAddStmt(Stmt.Add stmt) {
         TreeNode addNode = new TreeNode("Add");
-
+        
         TreeNode nameNode = stmt.name.accept(this);
         addNode.addChild(nameNode);
-
+        
         return addNode;
     }    
-
-//>> --------- --------- EXPRESSIONS --------- --------- <<//
+    
+    //>> --------- --------- EXPRESSIONS --------- --------- <<//
     @Override
     public TreeNode visitAssignExpr(Expr.Assign expr) {
         TreeNode assignNode = new TreeNode("Assign");
@@ -279,7 +279,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return assignNode;
     }        
-
+    
     @Override
     public TreeNode visitBinaryExpr(Expr.Binary expr) {
         TreeNode operatorNode = new TreeNode(expr.operator.lexeme);
@@ -290,10 +290,10 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         TreeNode rightNode = expr.right.accept(this);
         operatorNode.addChild(rightNode);
-
+        
         return operatorNode;
     }        
-
+    
     @Override
     public TreeNode visitCallExpr(Expr.Call expr) {
         // Create the root node for the call expression
@@ -315,7 +315,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return callNode;
     }        
-
+    
     @Override
     public TreeNode visitGetExpr(Expr.Get expr) {
         TreeNode getNode = new TreeNode("Get");
@@ -330,7 +330,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return getNode;
     }        
-
+    
     @Override
     public TreeNode visitSetExpr(Expr.Set expr) {
         TreeNode setNode = new TreeNode("Set");
@@ -348,7 +348,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return setNode;
     }        
-
+    
     @Override
     public TreeNode visitGroupingExpr(Expr.Grouping expr) {
         TreeNode groupingNode = new TreeNode("Group");
@@ -357,17 +357,17 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         groupingNode.addChild(innerExpressionNode);
         
         return groupingNode;
-        }        
-
+    }        
+    
     @Override
     public TreeNode visitLiteralExpr(Expr.Literal expr) {
         String type = expr.type == null ? "" : expr.type.toLowerCase().replace("_literal", "");
         TreeNode literalNode = new TreeNode("Literal: " + (expr.value == null ? "null" : expr.value.toString()) + (type.isEmpty() ? "" : " (" + type + ")"));
         return literalNode;
     }        
-
-        @Override
-        public TreeNode visitLogicalExpr(Expr.Logical expr) {
+    
+    @Override
+    public TreeNode visitLogicalExpr(Expr.Logical expr) {
         TreeNode logicalNode = new TreeNode(expr.operator.lexeme);
         
         TreeNode leftNode = expr.left.accept(this);  
@@ -378,7 +378,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return logicalNode;
     }        
-
+    
     @Override
     public TreeNode visitUnaryExpr(Expr.Unary expr) {
         TreeNode unaryNode = new TreeNode("unary");
@@ -390,7 +390,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         unaryNode.addChild(rightNode);
         return unaryNode;
     }        
-
+    
     public TreeNode visitPostfixExpr(Expr.Postfix expr) {
         TreeNode postfixNode = new TreeNode("postfix");
         
@@ -403,24 +403,24 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         
         return postfixNode;
     }        
-
+    
     @Override
     public TreeNode visitVariableExpr(Expr.Variable expr) {
         TreeNode variableNode = new TreeNode("Identifier: " + expr.name.lexeme);
         return variableNode;
     }        
-        
-        
-   @Override
+    
+    
+    @Override
     public TreeNode visitReadExpr(Expr.Read expr) {
         TreeNode readNode = new TreeNode("Read");
         return readNode;
     }
-
+    
     @Override
     public TreeNode visitCompExpr(Expr.Comp expr) {
         TreeNode compNode = new TreeNode("Comp: " + (expr.name != null ? expr.name.lexeme : expr.type.lexeme));
-
+        
         if (expr.arguments != null && !expr.arguments.isEmpty()) {
             TreeNode argumentsNode = new TreeNode("Arguments");
             for (Expr argument : expr.arguments) {
@@ -428,7 +428,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             }
             compNode.addChild(argumentsNode);
         }
-
+        
         if (expr.methods != null && !expr.methods.isEmpty()) {
             TreeNode methodsNode = new TreeNode("methods");
             for (Stmt method : expr.methods) {
@@ -437,7 +437,7 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             }
             compNode.addChild(methodsNode);
         }        
-
+        
         if (expr.body != null && !expr.body.isEmpty()) {
             TreeNode bodyNode = new TreeNode("Comp body");
             for (Stmt bodyStmt : expr.body) {
@@ -445,34 +445,34 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
             }
             compNode.addChild(bodyNode);
         }
-
+        
         return compNode;
     }    
-
+    
     @Override
     public TreeNode visitStyleExpr(Expr.Style expr) {
         TreeNode styleNode = new TreeNode("Style");
-
+        
         for (Token styleArgument : expr.arguments) {
             styleNode.addChild(new TreeNode("Argument: " + styleArgument.lexeme));
         }        
-
+        
         return styleNode;
     }
-
+    
     @Override
     public TreeNode visitEventExpr(Expr.Event expr) {
         TreeNode eventNode = new TreeNode("Event");
-
+        
         for (EventAction action : expr.actions) {
             TreeNode actionNode = new TreeNode("Action");
             actionNode.addChild(new TreeNode("Name: " + action.name.lexeme));
             actionNode.addChild(action.block.accept(this));
             eventNode.addChild(actionNode);
         }
-
+        
         return eventNode;
     }
-
+    
 }
 
