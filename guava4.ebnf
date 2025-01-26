@@ -34,7 +34,8 @@
 <term> ::= <factor> ( ("-" | "+" ) <factor> )*
 <factor> ::= <unary> ( ( "/" | "*" | "%" ) <unary> )*
 
-<unary> ::= ( "!" | "-" | "++" | "--" ) <unary> | <postfix>
+# <unary> ::= ( "!" | "-" | "++" | "--" ) <unary> | <postfix>
+<unary> ::= "!" <unary> | ( "-" | "++" | "--"  ) <postfix> | <postfix>
 <postfix> ::= <call> ( "++" | "--" )?
 <call> ::= <primary> ( "(" <arguments>? ")" | "." <IDENTIFIER> )*
 <primary> ::= "true" | "false" | "null" | <INTEGER> | <DOUBLE> | <CHAR> | <STRING>

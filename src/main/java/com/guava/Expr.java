@@ -111,8 +111,9 @@ abstract class Expr {
     final Expr expression;
   }
   static class Literal extends Expr {
-    Literal(Object value) {
+    Literal(Object value, String type) {
       this.value = value;
+      this.type = type;
     }
 
     @Override
@@ -121,6 +122,7 @@ abstract class Expr {
     }
 
     final Object value;
+    final String type;
   }
   static class Logical extends Expr {
     Logical(Expr left, Token operator, Expr right) {

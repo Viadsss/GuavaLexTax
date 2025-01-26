@@ -36,7 +36,7 @@ public class AstGenerator {
         "Get      : Expr object, Token name",
         "Set      : Expr object, Token name, Expr value",
         "Grouping : Expr expression",
-        "Literal : Object value",
+        "Literal : Object value, String type",
         "Logical : Expr left, Token operator, Expr right",
         "Unary : Token operator, Expr right",
         "Postfix : Expr left, Token operator",

@@ -357,16 +357,17 @@ public class AstPrinter implements Expr.Visitor<TreeNode>, Stmt.Visitor<TreeNode
         groupingNode.addChild(innerExpressionNode);
         
         return groupingNode;
-    }        
+        }        
 
     @Override
     public TreeNode visitLiteralExpr(Expr.Literal expr) {
-        TreeNode literalNode = new TreeNode("Literal: " + (expr.value == null ? "null" : expr.value.toString()));
+        String type = expr.type == null ? "" : expr.type.toLowerCase().replace("_literal", "");
+        TreeNode literalNode = new TreeNode("Literal: " + (expr.value == null ? "null" : expr.value.toString()) + (type.isEmpty() ? "" : " (" + type + ")"));
         return literalNode;
     }        
 
-    @Override
-    public TreeNode visitLogicalExpr(Expr.Logical expr) {
+        @Override
+        public TreeNode visitLogicalExpr(Expr.Logical expr) {
         TreeNode logicalNode = new TreeNode(expr.operator.lexeme);
         
         TreeNode leftNode = expr.left.accept(this);  

@@ -225,7 +225,7 @@ public class Parser {
                 new Stmt.Expression(increment)));
             }
             
-            if (condition == null) condition = new Expr.Literal(true);
+            if (condition == null) condition = new Expr.Literal(true, "BOOL");
             body = new Stmt.While(condition, body);
             
             if (initializer != null) {
@@ -454,15 +454,31 @@ public class Parser {
     }
     
     // <unary> ::= ( "!" | "-" | "++" | "--" ) <unary> | <postfix>
-    private Expr unary() {
-        if (match(BANG, MINUS, INCREMENT, DECREMENT)) {
-            Token operator = previous();
-            Expr right = unary();
-            return new Expr.Unary(operator, right);
-        }
-        
-        return postfix();
+private Expr unary() {
+    // Handle the recursive "!" operator
+    if (match(BANG)) {
+        Token operator = previous();
+        Expr right = unary(); // Recursively parse the next `unary`
+        return new Expr.Unary(operator, right);
     }
+
+    // Handle single-use "-", "++", or "--" operators
+    if (match(MINUS, INCREMENT, DECREMENT)) {
+        Token operator = previous();
+        
+        // Disallow consecutive "-", "++", or "--" operators immediately following
+        if (match(MINUS, INCREMENT, DECREMENT)) {
+            throw error(previous(), "Invalid use as consecutive unary operator.");
+        }
+
+        Expr right = postfix();
+        return new Expr.Unary(operator, right);
+    }
+
+    // Fallback to postfix if no unary operators match
+    return postfix();
+}
+
     
     // <postfix> ::= <call> ( "++" | "--" )?    
     private Expr postfix() {
@@ -470,6 +486,12 @@ public class Parser {
         
         if(match(INCREMENT, DECREMENT)) {
             Token operator = previous();
+
+        // Disallow consecutive postfix operators
+        if (match(INCREMENT, DECREMENT)) {
+            error(previous(), "Cannot have consecutive postfix operator.");
+        }            
+
             return new Expr.Postfix(left, operator);
         }
         
@@ -511,12 +533,12 @@ public class Parser {
     // <primary> ::= "true" | "false" | "null" | <NUMBER> | <STRING> 
     // 			| <IDENTIFIER> | (" <expression> ")" | "scan" "()"
     private Expr primary() {
-        if (match(TRUE)) return new Expr.Literal(true);
-        if (match(FALSE)) return new Expr.Literal(true);
-        if (match(NULL)) return new Expr.Literal(null);
+        if (match(TRUE)) return new Expr.Literal(true, "BOOL");
+        if (match(FALSE)) return new Expr.Literal(true, "BOOL");
+        if (match(NULL)) return new Expr.Literal(null, null);
         
         if (match(INTEGER_LITERAL, FLOAT_LITERAL, DOUBLE_LITERAL, CHAR_LITERAL, STRING_LITERAL)) {
-            return new Expr.Literal(previous().lexeme);
+            return new Expr.Literal(previous().lexeme, previous().type.toString());
         }
         
         if (match(IDENTIFIER)) return parseIdentifier();
