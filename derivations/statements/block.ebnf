@@ -1,0 +1,55 @@
+# Example: { print("x") }
+
+# LEFTMOST DERIVATION
+<block> ::= { <declaration>* }
+::= { <statement> <declaration>* }
+::= { <printStmt> <declaration>* }
+::= { print ([<arguments>] ) ; <declaration>* }
+::= { print (<expression> ( , <expression> )* ) ; <declaration>* }
+::= { print (<assignment> ( , <expression> )* ) ; <declaration>* }
+::= { print (<logic_or> ( , <expression> )* ) ; <declaration>* }
+::= { print (<logic_and> ( , <expression> )* ) ; <declaration>* }
+::= { print (<equality> ( , <expression> )* ) ; <declaration>* }
+::= { print (<comparison> ( , <expression> )* ) ; <declaration>* }
+::= { print (<term> ( , <expression> )* ) ; <declaration>* }
+::= { print (<factor> ( , <expression> )* ) ; <declaration>* }
+::= { print (<unary> ( , <expression> )* ) ; <declaration>* }
+::= { print (<postfix> ( , <expression> )* ) ; <declaration>* }
+::= { print (<call> ( , <expression> )* ) ; <declaration>* }
+::= { print (<primary> ( , <expression> )* ) ; <declaration>* }
+::= { print (<STRING> ( , <expression> )* ) ; <declaration>* }
+::= { print ("<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= { print ("<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= { print ("<LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= { print ("<LOWER_LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= { print ("x <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= { print ("x" ( , <expression> )* ) ; <declaration>* }
+::= { print ("x"); <declaration>* }
+::= { print ("x"); }
+
+# RIGHTMOST DERIVATION
+<block> ::= { <declaration>* }
+::= { <statement> <declaration>* }
+::= { <statement> }
+::= { <printStmt> }
+::= { print ([<arguments>] ) ; }
+::= { print (<expression> ( , <expression> )* ) ; }
+::= { print (<expression>) ; }
+::= { print (<assignment>) ; }
+::= { print (<logic_or>) ; }
+::= { print (<logic_and>) ; }
+::= { print (<equality>) ; }
+::= { print (<comparison>) ; }
+::= { print (<term>) ; }
+::= { print (<factor>) ; }
+::= { print (<unary>) ; }
+::= { print (<postfix>) ; }
+::= { print (<call>) ; }
+::= { print (<primary>) ; }
+::= { print (<STRING>) ; }
+::= { print ("<CHAR_CONTENT>* ") ; }
+::= { print ("<REGULAR_CHAR> <CHAR_CONTENT>* ") ; }
+::= { print ("<REGULAR_CHAR>") ;
+::= { print ("<LETTER>") ;
+::= { print ("<LOWER_LETTER>") ;
+::= { print ("x");
