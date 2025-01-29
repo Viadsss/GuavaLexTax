@@ -8,6 +8,7 @@
 ::= expose void main () { <printStmt> <declaration>* }
 ::= expose void main () { print ([<arguments>] ) ; <declaration>* }
 ::= expose void main () { print (<expression> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<assignment> ( , <expression> )* ) ; <declaration>* }
 ::= expose void main () { print (<logic_or> ( , <expression> )* ) ; <declaration>* }
 ::= expose void main () { print (<logic_and> ( , <expression> )* ) ; <declaration>* }
 ::= expose void main () { print (<equality> ( , <expression> )* ) ; <declaration>* }
