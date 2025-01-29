@@ -1,0 +1,106 @@
+/*  
+ * Function: switchScreen  
+ * ----------------------  
+ * Handles screen transitions between login and register pages.  
+ *  
+ * Parameters:  
+ * - screen (string): The target screen to switch to.  
+ *  
+ * Behavior:  
+ * - If "login" is passed, the login screen is made visible.  
+ * - If "register" is passed, the register screen is made visible.  
+ * - If an unknown screen is requested, an error message is printed.  
+ */  
+void switchScreen(string screen) {  
+	if (screen == "login") {  
+		loginFrame.setVisible(true);  
+		registerFrame.setVisible(false);  // Ensure only one screen is visible  
+	} else if (screen == "register") {  
+		loginFrame.setVisible(false);  
+		registerFrame.setVisible(true);  
+	} else {  
+		print("Error: 404, Frame/Page Not Available for now.");  
+	}  
+}
+
+// Login Frame
+Comp loginFrame -> Comp.frame("Facebook - Login") {
+	Comp usernameLbl -> Comp.label("Username: ");
+	Comp passwordLabel -> Comp.label("Password: ");
+	
+	Comp usernameField -> Comp.field();
+	Comp passwordField -> Comp.field("password");
+
+	Comp loginBtn -> Comp.button("Log in");
+	Comp registerBtn -> Comp.button("Register now");
+
+	add(usernameLbl);
+	add(usernameField);
+	
+	add(passwordLabel);
+	add(passwordField);
+
+	add(loginBtn);
+	add(registerBtn);
+
+	loginBtn.add(Event({
+			"onClick": { switchScreen("newsFeed"); }
+		}));
+
+	registerBtn.add(Event({
+			"onClick": { switchScreen("register"); }
+		}));
+		
+};
+
+// Register Frame
+Comp registerFrame -> Comp.frame("Facebook - Register") {
+    Comp usernameLbl -> Comp.label("Username: ");
+    Comp usernameField -> Comp.field();
+
+    Comp passwordLbl -> Comp.label("Password: ");
+    Comp passwordField -> Comp.field("password");
+
+    Comp confirmLbl -> Comp.label("Confirm Password: ");
+    Comp confirmPasswordField -> Comp.field("password");
+
+    Comp signUpBtn -> Comp.button("Sign Up");
+    Comp backBtn -> Comp.button("Back to Login");
+
+    add(usernameLbl);
+    add(usernameField);
+    
+    add(passwordLbl);
+    add(passwordField);
+
+    add(confirmLbl);
+    add(confirmPasswordField);
+
+    add(signUpBtn);
+    add(backBtn);
+
+    signUpBtn.add(Event({
+        "onClick": { register(usernameField.getText(), passwordField.getText(), confirmPasswordField.getText() );
+        			}
+    }));
+
+    backBtn.add(Event({
+        "onClick": { switchScreen("login"); }
+    }));
+};
+
+// Registration Logic
+void register(string username, string password, string confirmPassword) {
+    if (password != confirmPassword) {
+        print("Error: Passwords do not match!");
+        return;
+    }
+    print("Registration successful! Please login.");
+    switchScreen("login");
+}
+
+
+
+expose void main() {
+	switchScreen("login");
+}
