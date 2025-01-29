@@ -29,7 +29,11 @@ public class Parser {
     
     //>> --------- --------- DECLARATIONS --------- --------- <<//    
     
-    // <declaration> ::= <mainDecl> | <funcDecl> | <nativeDecl> | <varDecl> | <statement>
+    // <declaration> ::= <mainDecl>
+    //             | <funcDecl>
+    //             | <varDecl>
+    //             | <nativeDecl>
+    //             | <statement> 
     private Stmt declaration() {
         try {
             Token modifier = getModifierIfExists();
@@ -76,6 +80,7 @@ public class Parser {
         }
     }
     
+    // <mainDecl> ::= expose void main ( <parameter> ) <block>    
     private Stmt mainDeclaration(Token modifier) {
         consume(LEFT_PAREN, "Expect '(' after main declaration.");
         
@@ -103,6 +108,7 @@ public class Parser {
         
     }  
     
+    // <funcDecl> ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) <block>
     private Stmt functionDeclaration(Token modifier, Token returnType, Token name) {
         consume(LEFT_PAREN, "Expect '(' after function name.");
         
@@ -133,6 +139,7 @@ public class Parser {
         }        
     }
     
+   // <nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
     private Stmt nativeDeclaration(Token modifier, Token varType, Token name) {
         Expr initializer = null;
 
@@ -146,6 +153,7 @@ public class Parser {
         return new Stmt.Native(modifier, varType, name, initializer);        
     }
     
+    //  <varDecl> ::= [<modifier>] <dataType> <IDENTIFIER> [= <expression>] ;
     private Stmt varDeclaration(Token modifier, Token varType, Token name) {
         Expr initializer = null;
 
@@ -163,8 +171,15 @@ public class Parser {
     
     //>> --------- --------- STATEMENTS --------- --------- <<//
     
-    // <statement> ::= <exprStmt> | <forStmt> | <whileStmt> | <doWhileStmt>
-    //              | <ifStmt> | <printStmt> | <returnStmt> | <breakStmt> | <block>    
+    // <statement> ::= <exprStmt>
+    //             | <forStmt>
+    //             | <whileStmt>
+    //             | <doWhileStmt>
+    //             | <ifStmt>
+    //             | <printStmt>
+    //             | <returnStmt>
+    //             | <breakStmt>
+    //             | <block> 
     private Stmt statement() {
         if (match(FOR)) return forStatement();
         if (match(WHILE)) return whileStatement();
@@ -179,13 +194,17 @@ public class Parser {
         return expressionStatement();
     }
     
-    
+    // <exprStmt> ::= <expression> ;
     private Stmt expressionStatement() {
         Expr expr = expression();
         consume(SEMICOLON, "Expect ';' after expression.");
         return new Stmt.Expression(expr);
     }
     
+
+    // <forStmt> ::= for ( ( <varDecl> | <exprStmt> | ; )
+                        // [<expression>] ;
+                        // [<expression>] ) <statement>
     private Stmt forStatement() {
         consume(LEFT_PAREN, "Expect '(' after 'for'.");
         
@@ -238,6 +257,7 @@ public class Parser {
         }
     }
     
+    // <whileStmt> ::= while ( <expression> ) <statement>
     private Stmt whileStatement() {
         consume(LEFT_PAREN, "Expect '(' after 'while'.");
         Expr condition = expression();
@@ -253,6 +273,7 @@ public class Parser {
         }
     }
     
+    // <doWhileStmt> ::= do <statement> while ( <expression> ) ;
     private Stmt doWhileStatement() {
         try {
             loopDepth++;
@@ -271,6 +292,7 @@ public class Parser {
         }   
     }
     
+    // <ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
     private Stmt ifStatement() {
         consume(LEFT_PAREN, "Expect '(' after 'if'.");
         Expr condition = expression();
@@ -285,6 +307,7 @@ public class Parser {
         return new Stmt.If(condition, thenBranch, elseBranch);
     }
     
+    // <printStmt> ::= print ( [<arguments>] ) ;
     private Stmt printStatement() {
         consume(LEFT_PAREN, "Expect '(' after 'print'.");
         
@@ -301,6 +324,7 @@ public class Parser {
         return new Stmt.Print(arguments);
     }    
     
+    // <returnStmt> ::= return [<expression>] ;
     private Stmt returnStatement() {
         if (functionDepth == 0) {
             error(previous(), "Must be inside a function to use 'return'.");
@@ -316,6 +340,8 @@ public class Parser {
         return new Stmt.Return(keyword, value);
     }
     
+
+    // <breakStmt> ::= break ; 
     private Stmt breakStatement() {
         if (loopDepth == 0) {
             error(previous(), "Must be inside a loop to use 'break'.");
@@ -332,6 +358,7 @@ public class Parser {
         return new Stmt.Continue();
     }    
     
+    // <block> ::= { <declaration>* }    
     private List<Stmt> block() {
         List<Stmt> statements = new ArrayList<>();
         
