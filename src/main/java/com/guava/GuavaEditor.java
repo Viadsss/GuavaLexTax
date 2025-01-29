@@ -1,5 +1,15 @@
 package com.guava;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -37,23 +47,13 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.extras.FlatUIDefaultsInspector;
+import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
 
 
 public class GuavaEditor extends JFrame {
@@ -512,7 +512,10 @@ public class GuavaEditor extends JFrame {
                 "Comp.frame();", "Creates a frame"));
 
         provider.addCompletion(new ShorthandCompletion(provider, "cbframe",
-                "Comp.frame() {\n\n};", "Creates a frame with body"));                
+                "Comp.frame() {};", "Creates a frame with body"));     
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "style",
+                "Style({})", "Creates a Style with body"));   
        
         return provider;
     }
