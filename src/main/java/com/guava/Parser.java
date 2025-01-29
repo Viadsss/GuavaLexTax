@@ -43,8 +43,9 @@ public class Parser {
                     if (modifier == null) error(previous(), "Main declaration must precede expose modifier before void type");
                     else return mainDeclaration(modifier);
                 } else {
+                    Token returnType = previous();
                     Token name = consume(IDENTIFIER, "Expect function name.");
-                    return functionDeclaration(modifier, previous(), name);
+                    return functionDeclaration(modifier, returnType, name);
                 }
             }
 
