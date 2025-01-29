@@ -39,4 +39,7 @@ Comp btn -> Comp.button("button1"){
 ::= Comp btn -> <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
 ::= Comp btn -> <nativeClass> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
 ::= Comp btn -> <Comp> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <Comp> ;
+::= Comp btn ->  Comp . <compType> ( [<arguments>] ) [<compBlock>] ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+::= Comp btn ->  Comp . button ( [<arguments>] ) [<compBlock>] ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+whattt, need ko isa-isahin yung ( at ) dito sa Symbol? ang haba nito HAHAHAHAHAHAH
