@@ -8,38 +8,73 @@ Comp btn -> Comp.button("button1"){
 
 # Leftmost Derivation:
 
-<nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
-::= Comp <IDENTIFIER> [-> <expression>] ;
-::= Comp <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp <LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp b ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp b <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp b  <LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>]  ;
-::= Comp b  <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp bt ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp bt <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp bt  <LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>]  ;
-::= Comp bt  <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>]  ;
-::= Comp btn ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
-::= Comp btn [-> <expression>] ;
-::= Comp btn -> <expression> ;
-::= Comp btn -> <assignment> ;
-::= Comp btn -> <logic_or> ;
-::= Comp btn -> <logic_and> ( || <logic_and> )* ;
-::= Comp btn -> <equality> ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <comparison> (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <term> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-
-::= Comp btn -> <factor> ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <unary> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <postfix> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <call> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <nativeClass> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn -> <Comp> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn ->  Comp . <compType> ( [<arguments>] ) [<compBlock>] ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-::= Comp btn ->  Comp . button ( [<arguments>] ) [<compBlock>] ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
-
-whattt, need ko isa-isahin yung ( at ) dito sa Symbol? ang haba nito HAHAHAHAHAHAH
+<nativeDecl>
+::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>]
+::= Comp <IDENTIFIER> [-> <expression>]
+::= Comp <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp <LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp b ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp b <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp b t ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp b t n ( <ALPHA> | <DIGIT> )* [-> <expression>]
+::= Comp btn [-> <expression>]
+::= Comp btn -> <expression>
+::= Comp btn -> <assignment>
+::= Comp btn -> <logic_or>
+::= Comp btn -> <logic_and> ( || <logic_and> )*
+::= Comp btn -> <equality> ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <comparison> (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <term> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <factor> ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <unary> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <postfix> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <call> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <nativeClass> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> <Comp> ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> Comp . <compType> ( [<arguments>] ) [<compBlock>] ( ( [<arguments>] ) | . <IDENTIFIER> )* ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )*
+::= Comp btn -> Comp . button ( [<arguments>] ) [<compBlock>]
+::= Comp btn -> Comp . button ( " <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "b <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "bu <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "but <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "butt <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "butto <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "button <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "button1 <CHAR_CONTENT>* " ) [<compBlock>]
+::= Comp btn -> Comp . button ( "button1" ) [<compBlock>]
+::= Comp btn -> Comp . button ( "button1" ) { ( <declaration> | <compCall> )* }
+::= Comp btn -> Comp . button ( "button1" ) { <compCall> <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { <addMethod> <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <expression> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <assignment> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <logic_or> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <logic_and> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <equality> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <comparison> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <term> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <factor> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <unary> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <postfix> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <call> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <primary> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( <IDENTIFIER> ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; <compCall> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; <addMethod> }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <expression> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <assignment> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <logic_or> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <logic_and> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <equality> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <comparison> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <term> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <factor> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <unary> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <postfix> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <call> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <primary> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( <IDENTIFIER> ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( btnEvent ) }
+::= Comp btn -> Comp . button ( "button1" ) { add ( btnStyle ) ; add ( btnEvent ) ; }
