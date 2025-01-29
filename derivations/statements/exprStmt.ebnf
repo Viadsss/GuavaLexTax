@@ -119,7 +119,7 @@
 ::= [<call> .] x = 2 + 3;
 ::= x = 2 + 3;
 
-# Example 3: x = rint();
+# Example 3: x = read();
 
 # LEFTMOST DERIVATION
 <exprStmt> ::= <expression> ;
@@ -141,27 +141,9 @@
 ::= x = <unary> ;
 ::= x = <postfix> ;
 ::= x = <call> ;
-::= x = <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = <IDENTIFIER> ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = <LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = r ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = r <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = r <LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = r <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = ri ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = ri <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = ri <LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = ri <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rin ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rin <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rin <LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rin <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rint ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rint ( [<arguments>] ) ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= x = rint ( [<arguments>] ) ;
-::= x = rint() ;
+::= x = <primary> ;
+::= x = read();
+
 
 # RIGHTMOST DERIVATION
 <exprStmt> ::= <expression> ;
@@ -176,35 +158,16 @@
 ::= [<call> .] <IDENTIFIER> <assignment_op> <unary> ;
 ::= [<call> .] <IDENTIFIER> <assignment_op> <postfix> ;
 ::= [<call> .] <IDENTIFIER> <assignment_op> <call> ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ( [<arguments>] ) ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ( [<arguments>] ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <IDENTIFIER> ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> ( <ALPHA> | <DIGIT> )* ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> ( <ALPHA> | <DIGIT> )* ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <ALPHA> ( <ALPHA> | <DIGIT> )* ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <ALPHA> <ALPHA> ( <ALPHA> | <DIGIT> )* ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <ALPHA> <ALPHA> ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <ALPHA> <LETTER> ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <ALPHA> <LOWER_LETTER> ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <ALPHA> t ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <LETTER> t ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> <LOWER_LETTER> t ( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <ALPHA> nt( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <LETTER> nt( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> <LOWER_LETTER> nt( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <ALPHA> rnt( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <LETTER> rnt( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> <LOWER_LETTER> rnt( ) ;
-::= [<call> .] <IDENTIFIER> <assignment_op> rint( ) ;
-::= [<call> .] <IDENTIFIER> = rint( ) ;
-::= [<call> .] <ALPHA> ( <ALPHA> | <DIGIT> )* = rint( ) ;
-::= [<call> .] <ALPHA> = rint( ) ;
-::= [<call> .] <LETTER> = rint( ) ;
-::= [<call> .] <LOWER_LETTER> = rint( ) ;
-::= [<call> .] x = rint( ) ;
-::= x = rint();
+::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> read() ;
+::= [<call> .] <IDENTIFIER> = read();
+::= [<call> .] <ALPHA> ( <ALPHA> | <DIGIT> )* = read();
+::= [<call> .] <ALPHA> = read();
+::= [<call> .] <LETTER> = read();
+::= [<call> .] <LOWER_LETTER> = read();
+::= [<call> .] x = read();
+::= x = read();
+
 
 
 
