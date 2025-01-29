@@ -45,7 +45,7 @@
 <unary> ::= ! <unary> | ( - | ++ | --  ) <postfix> | <postfix>
 <postfix> ::= <call> [++ | -- ]
 <call> ::= <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )*
-<primary> ::= true | false | null | <INTEGER> | <DOUBLE> | <CHAR> | <STRING>
+<primary> ::= true | false | null | <INTEGER> | <DOUBLE> | <CHAR> | <STRING> | <FLOAT>
             | <IDENTIFIER> | ( <expression> ) | read () | <nativeClass>
 
 <nativeClass> ::= <Comp> | <Style> | <Event>
@@ -77,6 +77,7 @@
 <STRING> ::= " <CHAR_CONTENT>* "
 <CHAR> ::= ' <CHAR_CONTENT> '
 <INTEGER> ::= <DIGIT>+
+<FLOAT> ::= <DIGIT>+ . <DIGIT>+ (f | F)
 <DOUBLE> ::= <DIGIT>+ . <DIGIT>+
 
 <CHAR_CONTENT> ::= <REGULAR_CHAR> | <ESCAPE_SEQUENCE>
