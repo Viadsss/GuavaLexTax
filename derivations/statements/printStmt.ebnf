@@ -55,6 +55,7 @@
 ::= print(<STRING>) ;
 ::= print("<CHAR_CONTENT>* ") ;
 ::= print("<REGULAR_CHAR> <CHAR_CONTENT>* ") ;
+::= print("<REGULAR_CHAR>") ;
 ::= print("<LETTER>") ;
 ::= print("<LOWER_LETTER>") ;
 ::= print("a");
