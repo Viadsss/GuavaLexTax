@@ -32,32 +32,24 @@
 ::= void greet () { print (<expression> ( , <expression> )* ); <declaration>* }
 ::= void greet () { print (<assignment> ( , <expression> )* ); <declaration>* }
 ::= void greet () { print (<logic_or> ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<logic_and> ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<equality> ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<comparison> (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<term> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<factor> ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<unary> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<postfix> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<call> [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print (<STRING> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("<REGULAR_CHAR> <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("<LETTER> <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("<LOWER_LETTER> <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("h <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("h <REGULAT_CHAR> <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("h <LETTER> <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("h <LOWER_LETTER> <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi <CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" ( && <equality> )* ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
-::= void greet () { print ("hi" ( || <logic_and> )* ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<logic_and> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<equality> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<comparison> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<term> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<factor> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<unary> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<postfix> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<primary> ( , <expression> )* ); <declaration>* }
+::= void greet () { print (<STRING> ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("<CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("<LETTER> <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("<LOWER_LETTER> <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("h <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("h <REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("h <LETTER> <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("h <LOWER_LETTER> <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
+::= void greet () { print ("hi <CHAR_CONTENT>*" ( , <expression> )* ); <declaration>* }
 ::= void greet () { print ("hi" ( , <expression> )* ); <declaration>* }
 ::= void greet () { print ("hi"); <declaration>* }
 ::= void greet () { print ("hi"); }
@@ -72,33 +64,21 @@
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <expression> ( , <expression> )* ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <expression> ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <assignment> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <logic_and> ( || <logic_and> )* ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <logic_and> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <equality> ( && <equality> )* ); }
+::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <logic_or> ); }
+::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <logic_and> ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <equality> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <comparison> (( != | == ) <comparison> )* ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <comparison> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <term> ( ( > | >= | < | <= ) <term> )* ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <term> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <factor> ( (- | + ) <factor> )* ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <factor> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <unary> ( ( / | * | % ) <unary> )* ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <unary> ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <postfix> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <call> [++ | -- ] ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <call> ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <primary> ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( <STRING> ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<CHAR_CONTENT>*" ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>*" ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> <REGULAR_CHAR>" ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> <LETTER>" ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> <LOWER_LETTER>" ); }
+::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>*" ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<REGULAR_CHAR> i" ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<LETTER> i" ); }
-::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "<LOWER_LETTER> i" ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) { print ( "hi" ); }
 ::= [<modifier>] <returnType> <IDENTIFIER> () { print ( "hi" ); }
 ::= [<modifier>] <returnType> <ALPHA> (<ALPHA> | <DIGIT>)* () { print ( "hi" ); }
