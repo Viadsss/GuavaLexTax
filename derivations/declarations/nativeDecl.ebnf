@@ -203,9 +203,7 @@
 ::= [<modifier>] Comp btn -> Comp . button( "button1" ) { ( btnEStyle ) add ( btnEvent ) ; } ;
 ::= Comp btn -> Comp . button( "button1" ) { ( btnEStyle ) add ( btnEvent ) ; } ;
 
-
-
-
+#--------------------------------------------------------------------------------------------------------------#
 
 # Example Code: 
 # Style x -> Style({
@@ -300,6 +298,7 @@
 ::= [<modifier>] Style x -> Style ( { " p-5px " } ) ;
 ::= Style x -> Style ( { " p-5px " } ) ;
 
+#--------------------------------------------------------------------------------------------------------------#
 
 # Example Code: 
 # Event y -> Event({
@@ -406,3 +405,58 @@
 ::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <eventAction> } ) ;
 ::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : <block> } ) ;
 ::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { <declaration>* } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { <statement> } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { <printStmt> } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( [<arguments>] ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <expression> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <assignment> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <logic_or> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <logic_and> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <equality> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <comparison> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <term> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <factor> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <unary> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <postfix> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <call> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <primary> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( <STRING> ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( " <CHAR_CONTENT>* " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( " <REGULAR_CHAR> " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( " <DIGIT> " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LOWER_LETTER> " : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> k" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> k" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LOWER_LETTER> k" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> ck" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> ck" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LOWER_LETTER> ck" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> ick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> ick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LOWER_LETTER> ick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> lick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> lick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> <CAPITAL_LETTER> lick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <REGULAR_CHAR> Click" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <LETTER> Click" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> <LOWER_LETTER> Click" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <REGULAR_CHAR> nClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <LETTER> nClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " <LOWER_LETTER> nClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <ALPHA> -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <LETTER> -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> <LOWER_LETTER> -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] <nativeClassType> y -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= [<modifier>] Event y -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= Event y -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
