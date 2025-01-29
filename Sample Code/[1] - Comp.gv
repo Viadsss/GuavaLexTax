@@ -1,0 +1,4 @@
+Comp btn -> Comp.button("button1"){
+   add(btnStyle);
+   add(btnEvent);
+};

@@ -72,4 +72,26 @@
 ::= int i = 3;
 
 
+# Sample Code:
+# expose int i;
+
+# Leftmost Derivation
+<varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
+::= expose <dataType> <IDENTIFIER> [= <expression>] ;
+::= expose int <IDENTIFIER> [= <expression>] ;
+::= expose int <ALPHA> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::= expose int <LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::= expose int <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::= expose int i [= <expression>] ;
+::= expose int i;
+
+# Rightmost Derivation
+<varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
+::= [<modifier>] <dataType>  <ALPHA> ( <ALPHA> | <DIGIT> )* ;
+::= [<modifier>] <dataType>  <LETTER> ;
+::= [<modifier>] <dataType>  <LOWER_LETTER> ;
+::= [<modifier>] <dataType>  i;
+::= [<modifier>] int  i;
+::= expose int  i;
+
 

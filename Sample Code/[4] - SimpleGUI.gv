@@ -1,0 +1,56 @@
+Style btnStyle -> Style({
+    "background-gradient-black-violet-r",
+    "size-40px-60px"
+});
+
+Event btnEvent -> Event({
+    "onHover":{
+        btnEvent.add(Style({
+            "background-black"
+        }));
+
+    }
+});
+
+Comp msg1Btn -> Comp.button("button", "Message #1!"){
+    add(btnStyle);
+    add(btnEvent);
+    add(Event({
+        "onClick":{
+		textLabel.setText("You pressed Message #1!");
+        }
+    }));
+};
+
+Comp msg2Btn -> Comp.button("button", "Message #2"){
+    add(btnStyle);
+    add(btnEvent);
+    add(Event({
+        "onClick":{
+            textLabel.setText("You pressed Message #2!");
+        }
+    }));
+};
+
+Comp textLabel -> Comp.label("What message do you want to display?"){
+    add(Style({
+        "text-center",
+        "text-calibri-18px"
+    }));
+};
+
+Comp mainFrame -> Comp.frame("Simple GUI!"){
+    add(Style({
+        "background-white",
+        "size-300px-200px",
+        "layout-GridLayout-3-1"
+    }));
+    
+    add(textLabel);
+    add(msg1Btn);
+    add(msg2Btn);
+};
+
+expose void main(){
+    mainFrame.show();
+}
