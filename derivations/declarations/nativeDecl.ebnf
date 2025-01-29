@@ -1,10 +1,8 @@
-/* Comp:
-Example Code: 
-Comp btn -> Comp.button("button1"){
-   add(btnStyle);
-   add(btnEvent);
-};
-*/
+# Example Code: 
+# Comp btn -> Comp.button("button1"){
+#    add(btnStyle);
+#    add(btnEvent);
+# };
 
 # Leftmost Derivation:
 
@@ -204,3 +202,207 @@ Comp btn -> Comp.button("button1"){
 
 ::= [<modifier>] Comp btn -> Comp . button( "button1" ) { ( btnEStyle ) add ( btnEvent ) ; } ;
 ::= Comp btn -> Comp . button( "button1" ) { ( btnEStyle ) add ( btnEvent ) ; } ;
+
+
+
+
+
+# Example Code: 
+# Style x -> Style({
+#    "p-5px",
+# });
+
+# Leftmost Derivation:
+<nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
+::= Style <IDENTIFIER> [-> <expression>] ;
+::= Style <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
+::= Style <LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
+::= Style <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
+::= Style x [-> <expression>] ;
+::= Style x -> <expression> ;
+::= Style x -> <assignment> ;
+::= Style x -> <logic_or> ;
+::= Style x -> <logic_and> ;
+::= Style x -> <equality> ;
+::= Style x -> <comparison> ;
+::= Style x -> <term> ;
+::= Style x -> <factor> ;
+::= Style x -> <unary> ;
+::= Style x -> <postfix> ;
+::= Style x -> <call> ;
+::= Style x -> <primary> ;
+::= Style x -> <nativeClass> ;
+::= Style x -> <Style> ;
+::= Style x -> Style ( [<styleArguments>] ) ;
+::= Style x -> Style ( { <STRING> ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { "<REGULAR_CHAR> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " <LETTER> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " <LOWER_LETTER> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p <REGULAR_CHAR> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p <SYMBOL> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p- <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p- <REGULAR_CHAR> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p- <DIGIT> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5 <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5 <REGULAR_CHAR> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5 <LETTER> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5 <LOWER_LETTER> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5p <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5p <REGULAR_CHAR> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5p <LETTER> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5p <LOWER_LETTER> <CHAR_CONTENT>* " ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5px" ( , <STRING> )* } ) ;
+::= Style x -> Style ( { " p-5px" } ) ;
+
+# Rightmost Derivation:
+<nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <expression> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <assignment> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <logic_or> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <logic_and> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <equality> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <comparison> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <term> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <factor> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <unary> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <postfix> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <call> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <primary> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <nativeClass> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <Style> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( [<styleArguments>] ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { <STRING> ( , <STRING> )* } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <CHAR_CONTENT>* " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <CHAR_CONTENT>* " ( , <STRING> ) } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " ( , } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " (  } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>* " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LOWER_LETTER> " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> x " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LETTER> x " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> <LOWER_LETTER> x " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <REGULAR_CHAR> px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> <DIGIT> px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <REGULAR_CHAR> 5px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> <SYMBOL> 5px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <REGULAR_CHAR> -5px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <LETTER> -5px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " <LOWER_LETTER> -5px " } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Style ( { " p-5px " } ) ;
+::= [<modifier>] <nativeClassType> <ALPHA> ( <ALPHA> | <DIGIT> )* -> Style ( { " p-5px " } ) ;
+::= [<modifier>] <nativeClassType> <LETTER> ( <ALPHA> | <DIGIT> )* -> Style ( { " p-5px " } ) ;
+::= [<modifier>] <nativeClassType> <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* -> Style ( { " p-5px " } ) ;
+::= [<modifier>] <nativeClassType> x -> Style ( { " p-5px " } ) ;
+::= [<modifier>] Style x -> Style ( { " p-5px " } ) ;
+::= Style x -> Style ( { " p-5px " } ) ;
+
+
+# Example Code: 
+# Event y -> Event({
+#    "OnClick":{
+#        print("1");
+#    }
+# });
+
+# Leftmost Derivation:
+<nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
+::= Event <IDENTIFIER> [-> <expression>] ;
+::= Event <ALPHA> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
+::= Event <LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
+::= Event <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [-> <expression>] ;
+::= Event y [-> <expression>] ;
+::= Event y -> <expression> ;
+::= Event y-> <assignment> ;
+::= Event y -> <logic_or> ;
+::= Event y -> <logic_and> ;
+::= Event y -> <equality> ;
+::= Event y -> <comparison> ;
+::= Event y -> <term> ;
+::= Event y -> <factor> ;
+::= Event y -> <unary> ;
+::= Event y -> <postfix> ;
+::= Event y -> <call> ;
+::= Event y -> <primary> ;
+::= Event y -> <nativeClass> ;
+::= Event y -> <Event> ;
+::= Event y -> Event ( [<eventArguments>] ) ;
+::= Event y -> Event ( { <eventAction> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { <STRING> : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " <LOWER_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " o <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " o <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " o <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " o <LOWER_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " on <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " on <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " on <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " on <CAPITAL_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onC <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onC <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onC <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onC <LOWER_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCl <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCl <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCl <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCl <LOWER_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCli <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCli <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCli <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onCli <LOWER_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClic <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClic <REGULAR_CHAR> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClic <LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClic <LOWER_LETTER> <CHAR_CONTENT>* " : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : <block> ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { <declaration>* } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { <statement> } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { <printStmt> } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( [<arguments>] ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <expression> ( , <expression> )* ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <assignment> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <logic_or> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <logic_and> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <equality> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <comparison> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <term> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <factor> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <unary> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <postfix> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <call> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <primary> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( <STRING> ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( " <CHAR_CONTENT>* " ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( " <REGULAR_CHAR> <CHAR_CONTENT>* " ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( " <DIGIT> <CHAR_CONTENT>* " ) ; } ( , <eventAction> )* } ) ;
+::= Event y -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+::= Event y -> Event ( { " onClick" : { print ( " 1 " ) ; } } ) ;
+
+
+# Rightmost Derivation:
+<nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <expression> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <assignment> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <logic_or> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <logic_and> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <equality> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <comparison> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <term> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <factor> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <unary> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <postfix> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <call> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <primary> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <nativeClass> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> <Event> ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <eventAction> ( , <eventAction> )* } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <eventAction> } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : <block> } ) ;
+::= [<modifier>] <nativeClassType> <IDENTIFIER> -> Event ( { <STRING> : { <declaration>* } } ) ;
