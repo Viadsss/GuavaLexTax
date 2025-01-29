@@ -389,6 +389,11 @@ public class GuavaEditor extends JFrame {
         // Create a JFileChooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select a Guava (.gv) File");
+
+        // Set default directory to Downloads folder
+        String userHome = System.getProperty("user.home");
+        File downloadsDir = new File(userHome, "Downloads");
+        fileChooser.setCurrentDirectory(downloadsDir);
         
         // Add a file filter for .gv files
         fileChooser.setFileFilter(new FileNameExtensionFilter("Guava Files (*.gv)", "gv"));
