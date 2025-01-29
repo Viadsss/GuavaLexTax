@@ -1,15 +1,15 @@
-<program> ::= <declaration>* "EOF" # EOF can be removed 
+<program> ::= <declaration>*
 
 <declaration> ::= <mainDecl>
                 | <funcDecl>
                 | <varDecl>
                 | <nativeDecl>
-                | <statement>
+                | <statement>                
 
 <mainDecl> ::= "expose" "void" "main" "(" <parameter> ")" <block>
-<funcDecl> ::= ("expose")? <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
-<varDecl> ::= ("expose")? <dataType>  <IDENTIFIER> ( "=" <expression> )? ";"
-<nativeDecl> ::= ("expose")? <nativeClassType> <IDENTIFIER> ( "->" <expression> )? ";"
+<funcDecl> ::= <modifier>? <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
+<varDecl> ::= <modifier>? <dataType>  <IDENTIFIER> ( "=" <expression> )? ";"
+<nativeDecl> ::= <modifier>? <nativeClassType> <IDENTIFIER> ( "->" <expression> )? ";"
 <statement> ::= <exprStmt>
             | <forStmt>
             | <whileStmt>
@@ -61,16 +61,16 @@
 <eventAction> ::= <STRING> ":" <block>
 <compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
 <addMethod> ::= "add" "(" <expression> ")"
-
 <parameters> ::= <parameter> ( "," <parameter> )*
 <parameter> ::= <varType> <IDENTIFIER>
 <arguments> ::= <expression> ( "," <expression> )*
+<modifier> ::= "expose"
 
 <returnType> ::= <varType> | "void"
 <varType> ::= <dataType> | <nativeClassType>
 <dataType> ::= "char" | "string" | "int" | "float" | "double" | "bool"
 <nativeClassType> ::= "Comp" | "Style" | "Event"
-
+<compType> ::= "frame" | "panel" | "label" | "button" | "field" | "dialog"
 
 <IDENTIFIER> ::= <ALPHA> ( <ALPHA> | <DIGIT> )*
 
@@ -90,3 +90,5 @@
 <ALPHA> ::= <LETTER> | "_"
 <DIGIT> ::= [0-9]
 <LETTER> ::= [a-z] | [A-Z]
+
+
