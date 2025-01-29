@@ -504,18 +504,6 @@ public class GuavaEditor extends JFrame {
     private CompletionProvider createCompletionProvider() {
         DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
-        // provider.addCompletion(new BasicCompletion(provider, "abstract"));
-        // provider.addCompletion(new BasicCompletion(provider, "assert"));
-        // provider.addCompletion(new BasicCompletion(provider, "break"));
-        // provider.addCompletion(new BasicCompletion(provider, "case"));
-        // // ... etc ...
-        // provider.addCompletion(new BasicCompletion(provider, "transient"));
-        // provider.addCompletion(new BasicCompletion(provider, "try"));
-        // provider.addCompletion(new BasicCompletion(provider, "void"));
-        // provider.addCompletion(new BasicCompletion(provider, "volatile"));
-        provider.addCompletion(new BasicCompletion(provider, "while"));
-
-        
         provider.addCompletion(new ShorthandCompletion(provider, "cframe",
                 "Comp.frame();", "Creates a frame"));
 
