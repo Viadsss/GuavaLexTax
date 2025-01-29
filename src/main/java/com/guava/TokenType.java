@@ -49,5 +49,6 @@ public enum TokenType {
     // Component Types Keywords
     FRAME, PANEL, LABEL, BUTTON, FIELD, DIALOG,  
 
+    INVALID,
     EOF
 }
