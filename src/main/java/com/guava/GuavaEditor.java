@@ -515,7 +515,10 @@ public class GuavaEditor extends JFrame {
                 "Comp.frame() {};", "Creates a frame with body"));     
         
         provider.addCompletion(new ShorthandCompletion(provider, "style",
-                "Style({})", "Creates a Style with body"));   
+                "Style({});", "Creates a style with body")); 
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "decStyle",
+                "Style x -> Style({});", "Creates a style declaration with body"));   
        
         return provider;
     }
