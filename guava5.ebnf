@@ -6,7 +6,7 @@
                 | <nativeDecl>
                 | <statement>                
 
-<mainDecl> ::= expose void main ( <parameter> ) <block>
+<mainDecl> ::= expose void main ( [<parameter>] ) <block>
 <funcDecl> ::= [<modifier>] <returnType> <IDENTIFIER> ( [<parameters>] ) <block>
 <varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
 <nativeDecl> ::= [<modifier>] <nativeClassType> <IDENTIFIER> [-> <expression>] ;
