@@ -1,0 +1,136 @@
+//Left Most Derivation
+
+<whileStmt> ::= while ( <expression> ) <statement>
+::= while ( <assignment> ) <statement>
+ ::= while ( <logic_or> ) <statement>
+ ::= while ( <logic_and> ) <statement>
+ ::= while ( <equality> ) <statement>
+ ::= while ( <comparison> ) <statement>
+ ::= while ( <term> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <factor> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <unary> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <postfix> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <call> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <primary> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <IDENTIFIER> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <ALPHA> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <LETTER> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( <LOWER_LETTER> ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( i ( ( > | >= | < | <= ) <term> )* ) <statement>
+ ::= while ( i < <term>) <statement>
+ ::= while ( i < <factor>) <statement>
+ ::= while ( i < <unary>) <statement>
+ ::= while ( i < <postfix>) <statement>
+ ::= while ( i < <call>) <statement>
+ ::= while ( i < <primary>) <statement>
+ ::= while ( i < <INTEGER>) <statement>
+ ::= while ( i < 3) <statement>
+::= while ( i < 3) <block>
+::= while ( i < 3) <declaration>*
+::= while ( i < 3) <statement> <declaration>*
+::= while ( i < 3) <printStmt> <declaration>*
+::= while ( i < 3)  print ( [<arguments>] ) ; <declaration>*
+::= while ( i < 3)  print ( <assignment> ) ; <declaration>*
+::= while ( i < 3)  print ( <logic_or> ) ; <declaration>*
+::= while ( i < 3)  print ( <logic_and> ) ; <declaration>*
+::= while ( i < 3)  print ( <equality> ) ; <declaration>*
+::= while ( i < 3)  print ( <comparison> ) ; <declaration>*
+::= while ( i < 3)  print ( <term> ) ; <declaration>*
+::= while ( i < 3)  print ( <factor> ) ; <declaration>*
+::= while ( i < 3)  print ( <unary> ) ; <declaration>*
+::= while ( i < 3)  print ( <postfix> ) ; <declaration>*
+::= while ( i < 3)  print ( <call> ) ; <declaration>*
+::= while ( i < 3)  print ( <primary> ) ; <declaration>*
+::= while ( i < 3)  print ( <IDENTIFIER> ) ; <declaration>*
+::= while ( i < 3)  print ( <LETTER> ) ; <declaration>*
+::= while ( i < 3)  print ( <LOW_LETTER> ) ; <declaration>*
+::= while ( i < 3)  print ( i ) ; <declaration>*
+::= while ( i < 3)  print ( i ) ; <statement>
+::= while ( i < 3)  print ( i ) ; <exprStmt>
+::= while ( i < 3)  print ( i ) ; <expression>;
+::= while ( i < 3)  print ( i ) ; <assignment>;
+::= while ( i < 3)  print ( i ) ; <logic_or>;
+::= while ( i < 3)  print ( i ) ; <logic_and>;
+::= while ( i < 3)  print ( i ) ; <equality>;
+::= while ( i < 3)  print ( i ) ; <comparison>;
+::= while ( i < 3)  print ( i ) ; <term>;
+::= while ( i < 3)  print ( i ) ; <factor>;
+::= while ( i < 3)  print ( i ) ; <unary>;
+::= while ( i < 3)  print ( i ) ; <postfix>;
+::= while ( i < 3)  print ( i ) ; <call> [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; <primary> [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; <IDENTIFIER> [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; <ALPHA> [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; <LETTER> [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; <LOWER_LETTER> [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; i [ ++ | - - ];
+::= while ( i < 3)  print ( i ) ; i++;
+
+
+//Right Most Derivation
+
+<whileStmt> ::= while ( <expression> ) <statement>
+::= while ( <expression> ) <block>
+::= while ( <expression> ) <declaration>*
+::= while ( <expression> ) <statement> <declaration>*
+::= while ( <expression> ) <statement> <statement>
+::= while ( <expression> ) <statement> <exprStmt>
+::= while ( <expression> ) <statement> <expression>;
+::= while ( <expression> ) <statement> <assignment>;
+::= while ( <expression> ) <statement> <logic_or>;
+::= while ( <expression> ) <statement> <logic_and>;
+::= while ( <expression> ) <statement> <equality>;
+::= while ( <expression> ) <statement> <comparison>;
+::= while ( <expression> ) <statement> <term>;
+::= while ( <expression> ) <statement> <factor>;
+::= while ( <expression> ) <statement> <unary>;
+::= while ( <expression> ) <statement> <postfix>;
+::= while ( <expression> ) <statement> <call>[ ++ | -- ];
+::= while ( <expression> ) <statement> <primary> ++;
+::= while ( <expression> ) <statement> <IDENTIFIER> ++;
+::= while ( <expression> ) <statement> <ALPHA> ++;
+::= while ( <expression> ) <statement> <LETTER> ++;
+::= while ( <expression> ) <statement> <LOW_LETTER> ++;
+::= while ( <expression> ) <statement> i ++;
+::= while ( <expression> ) <printStmt> i ++;
+::= while ( <expression> ) print ( [<arguements>] ); i ++;
+::= while ( <expression> ) print ( <assignment> ); i ++;
+::= while ( <expression> ) print ( <logic_or> ); i ++;
+::= while ( <expression> ) print ( <logic_and> ); i ++;
+::= while ( <expression> ) print ( <equality> ); i ++;
+::= while ( <expression> ) print ( <comparison> ); i ++;
+::= while ( <expression> ) print ( <term> ); i ++;
+::= while ( <expression> ) print ( <factor> ); i ++;
+::= while ( <expression> ) print ( <unary> ); i ++;
+::= while ( <expression> ) print ( <postfix> ); i ++;
+::= while ( <expression> ) print ( <call> ); i ++;
+::= while ( <expression> ) print ( <primary> ); i ++;
+::= while ( <expression> ) print ( <IDENTIFIER> ); i ++;
+::= while ( <expression> ) print ( <ALPHA> ); i ++;
+::= while ( <expression> ) print ( <LETTER> ); i ++;
+::= while ( <expression> ) print ( <LOW_LETTER> ); i ++;
+::= while ( <expression> ) print ( i ); i ++;
+::= while ( <assignment> ) print ( i ); i ++;
+::= while ( <logic_or> ) print ( i ); i ++;
+::= while ( <logic_and> ) print ( i ); i ++;
+::= while ( <equality> ) print ( i ); i ++;
+::= while ( <comparison> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <term> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <factor> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <unary> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <postfix> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <call> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <primary> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) <INTEGER> ) print ( i ); i ++;
+::= while ( <term> ( ( > | >= | < | <= ) 3 ) print ( i ); i ++;
+::= while ( <term> < 3 ) print ( i ); i ++;
+::= while ( <factor> < 3 ) print ( i ); i ++;
+::= while ( <unary> < 3 ) print ( i ); i ++;
+::= while ( <postfix> < 3 ) print ( i ); i ++;
+::= while ( <call> < 3 ) print ( i ); i ++;
+::= while ( <primary> < 3 ) print ( i ); i ++;
+::= while ( <IDENTIFIER> < 3 ) print ( i ); i ++;
+::= while ( <ALPHA> < 3 ) print ( i ); i ++;
+::= while ( <LETTER> < 3 ) print ( i ); i ++;
+::= while ( <LOW_LETTER> < 3 ) print ( i ); i ++;
+::= while ( i < 3 ) print ( i ); i ++;
