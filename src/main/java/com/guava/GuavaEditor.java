@@ -526,6 +526,21 @@ public class GuavaEditor extends JFrame {
         provider.addCompletion(new ShorthandCompletion(provider, "declEvent",
                 "Event x -> Event({});", "Creates an event declaration with body"));
 
+        provider.addCompletion(new ShorthandCompletion(provider, "if",
+                "if(){\n\n}\nelse{\n\n}", "Creates an if-else statement"));        
+       
+        provider.addCompletion(new ShorthandCompletion(provider, "for",
+                "for(int i = 0; i < 5; i++){\n\n}", "Creates a for loop statement"));
+                
+        provider.addCompletion(new ShorthandCompletion(provider, "while",
+                "while(i = 0){\n\n}", "Creates a while loop statement"));
+                
+        provider.addCompletion(new ShorthandCompletion(provider, "do-while",
+                "do{\n\n}\nwhile(i = 0);", "Creates a do-while loop statement"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "print",
+                "print(\"\");", "Creates a print statement"));
+        
         return provider;
     }
 
