@@ -1,4 +1,4 @@
-// Left Most Derivation
+# Left Most Derivation
 
 ::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) <statement>
 ::= for ( <varDecl> [<expression>] ; [<expression>] ) <statement>
@@ -81,7 +81,7 @@
 ::= for (  int i = 2; i <  5; i++) print ( <LOWER_LETTER> );
 ::= for (  int i = 2; i <  5; i++) print ( i );
 
-//Right Most Derivation
+# Right Most Derivation
 ::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) <statement>
 ::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) <printStmt>
 ::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( [<arguments>] );

@@ -1,4 +1,4 @@
-//Left Most Derivation
+# Left Most Derivation
 
 <whileStmt> ::= while ( <expression> ) <statement>
 ::= while ( <assignment> ) <statement>
@@ -67,7 +67,7 @@
 ::= while ( i < 3)  print ( i ) ; i++;
 
 
-//Right Most Derivation
+# Right Most Derivation
 
 <whileStmt> ::= while ( <expression> ) <statement>
 ::= while ( <expression> ) <block>

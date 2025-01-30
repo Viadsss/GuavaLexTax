@@ -1,4 +1,4 @@
-//Left Most Derivation
+# Left Most Derivation
 
 <doWhileStmt> ::= do <statement> while ( <expression> ) ;
 ::= do <block> while ( <expression> ) ;
@@ -69,7 +69,7 @@
 ::= do print ( i ); i ++ while ( i  <= 5 ) ;
 
 
-//Right Most Derivation
+# Right Most Derivation
 
 <doWhileStmt> ::= do <statement> while ( <expression> ) ;
 <doWhileStmt> ::= do <statement> while ( <assignment> ) ;
