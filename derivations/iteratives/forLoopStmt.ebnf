@@ -1,0 +1,165 @@
+# Left Most Derivation
+
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) <statement>
+::= for ( <varDecl> [<expression>] ; [<expression>] ) <statement>
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ; [<expression>] ; [<expression>] ) <statement>
+::= for ( int <IDENTIFIER> [= <expression>] ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int <ALPHA> [= <expression>] ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int <LETTER> [= <expression>] ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int <LOWER_LETTER> [= <expression>] ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i [= <expression>] ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <assignment> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <logic_or> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <logic_and>; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <equality> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <comparison> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <term> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <factor> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <unary> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <postfix>; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <call> ; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <primary>; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = <INTEGER>; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = 2; [<expression>] ; [<expression>] ) <statement>
+::= for (  int i = 2; <assignment> ; [<expression>] ) <statement>
+::= for (  int i = 2; <logic_or> ; <expression> ) <statement>
+::= for (  int i = 2; <logic_and> ; <expression> ) <statement>
+::= for (  int i = 2; <equality> ; <expression> ) <statement>
+::= for (  int i = 2; <comparison> ; <expression> ) <statement>
+::= for (  int i = 2; <term>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <factor>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <unary>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <postfix>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <call>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <primary>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <IDENTIFIER> ( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <ALPHA>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <LETTER>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; <LOWER_LETTER>( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; i ( ( > | >= | < | <= ) <term> )* ; <expression> ) <statement>
+::= for (  int i = 2; i < <term> ; <expression> ) <statement>
+::= for (  int i = 2; i < <factor> ; <expression> ) <statement>
+::= for (  int i = 2; i < <unary> ; <expression> ) <statement>
+::= for (  int i = 2; i < <postfix> ; <expression> ) <statement>
+::= for (  int i = 2; i < <call> ; <expression> ) <statement>
+::= for (  int i = 2; i < <primary> ; <expression> ) <statement>
+::= for (  int i = 2; i < <INTEGER> ; <expression> ) <statement>
+::= for (  int i = 2; i <  5; <expression> ) <statement>
+::= for (  int i = 2; i <  5; <assignment> ) <statement>
+::= for (  int i = 2; i <  5; <logic_or> ) <statement>
+::= for (  int i = 2; i <  5; <logic_and> ) <statement>
+::= for (  int i = 2; i <  5; <equality> ) <statement>
+::= for (  int i = 2; i <  5; <comparison> ) <statement>
+::= for (  int i = 2; i <  5; <term> ) <statement>
+::= for (  int i = 2; i <  5; <factor> ) <statement>
+::= for (  int i = 2; i <  5; <unary> ) <statement>
+::= for (  int i = 2; i <  5; <postfix> ) <statement>
+::= for (  int i = 2; i <  5; <call> [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; <primary> [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; <IDENTIFIER> [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; <ALPHA> [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; <LETTER> [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; <LOWER_LETTER> [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; i [++ | -- ] ) <statement>
+::= for (  int i = 2; i <  5; i++) <printStmt>
+::= for (  int i = 2; i <  5; i++) print ( [<arguments>] );
+::= for (  int i = 2; i <  5; i++) print ( <expression> );
+::= for (  int i = 2; i <  5; i++) print ( <assignment> );
+::= for (  int i = 2; i <  5; i++) print ( <logic_or> );
+::= for (  int i = 2; i <  5; i++) print ( <logic_and> );
+::= for (  int i = 2; i <  5; i++) print ( <equality> );
+::= for (  int i = 2; i <  5; i++) print ( <comparison> );
+::= for (  int i = 2; i <  5; i++) print ( <term> );
+::= for (  int i = 2; i <  5; i++) print ( <factor> );
+::= for (  int i = 2; i <  5; i++) print ( <unary> );
+::= for (  int i = 2; i <  5; i++) print ( <postfix> );
+::= for (  int i = 2; i <  5; i++) print ( <call> );
+::= for (  int i = 2; i <  5; i++) print ( <primary> );
+::= for (  int i = 2; i <  5; i++) print ( <IDENTIFIER> );
+::= for (  int i = 2; i <  5; i++) print ( <ALPHA> );
+::= for (  int i = 2; i <  5; i++) print ( <LETTER> );
+::= for (  int i = 2; i <  5; i++) print ( <LOWER_LETTER> );
+::= for (  int i = 2; i <  5; i++) print ( i );
+
+# Right Most Derivation
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) <statement>
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) <printStmt>
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( [<arguments>] );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <expression> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <assignment> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <logic_or> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <logic_and> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <equality> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <comparison> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <term> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <factor> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <unary> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <postfix> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <call> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <primary> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <IDENTIFIER> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <ALPHA> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <LETTER> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <LOWER_LETTER> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; [<expression>] ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <assignment> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <logic_or> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <logic_and> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <equality> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <comparison> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <term> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <factor> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <unary> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <postfix> ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <call>  [ ++ | -- ]) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <call> ++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <primary> ++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <IDENTIFIER> ++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <ALPHA> ++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <LETTER> ++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; <LOWER_LETTER> ++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) [<expression>] ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <assignment> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <logic_or> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <logic_and> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <equality> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <comparison> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term>( ( > | >= | < | <= ) <term> )* ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) <factor> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) <unary> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) <postfix> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) <call> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) <primary> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) <INTEGER> ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> ( > | >= | < | <= ) 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <term> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <factor> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <unary> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <postfix> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <call> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <primary> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <IDENTIFIER> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <ALPHA> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <LETTER> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) <LOWER_LETTER> < 5 ; i++ ) print ( <i> );
+::= for ( (<varDecl> | <exprStmt> | ;) i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <assignment> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <logic_or> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <logic_and> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <equality> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <comparison> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <term> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <factor> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <unary> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <postfix> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <call> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <primary> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = <INTEGER> ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <IDENTIFIER> = 2 ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <ALPHA> = 2 ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <LETTER> = 2 ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  <LOWER_LETTER> = 2 ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] <dataType>  i = 2 ; i < 5 ; i++ ) print ( <i> );
+::= for ( [<modifier>] int i = 2 ; i < 5 ; i++ ) print ( <i> );
+::= for ( int i = 2 ; i < 5 ; i++)  print ( <i> );

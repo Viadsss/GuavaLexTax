@@ -1,5 +1,15 @@
 package com.guava;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -37,23 +47,13 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.extras.FlatUIDefaultsInspector;
+import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
 
 
 public class GuavaEditor extends JFrame {
@@ -512,8 +512,35 @@ public class GuavaEditor extends JFrame {
                 "Comp.frame();", "Creates a frame"));
 
         provider.addCompletion(new ShorthandCompletion(provider, "cbframe",
-                "Comp.frame() {\n\n};", "Creates a frame with body"));                
+                "Comp.frame() {};", "Creates a frame with body"));     
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "style",
+                "Style({});", "Creates a style with body")); 
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "declStyle",
+                "Style x -> Style({});", "Creates a style declaration with body"));   
        
+        provider.addCompletion(new ShorthandCompletion(provider, "event",
+                "Event({});", "Creates an event with body"));         
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "declEvent",
+                "Event x -> Event({});", "Creates an event declaration with body"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "if",
+                "if(){\n\n}\nelse{\n\n}", "Creates an if-else statement"));        
+       
+        provider.addCompletion(new ShorthandCompletion(provider, "for",
+                "for(int i = 0; i < 5; i++){\n\n}", "Creates a for loop statement"));
+                
+        provider.addCompletion(new ShorthandCompletion(provider, "while",
+                "while(i = 0){\n\n}", "Creates a while loop statement"));
+                
+        provider.addCompletion(new ShorthandCompletion(provider, "do-while",
+                "do{\n\n}\nwhile(i = 0);", "Creates a do-while loop statement"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "print",
+                "print(\"\");", "Creates a print statement"));
+        
         return provider;
     }
 
