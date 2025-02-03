@@ -22,7 +22,7 @@ public enum TokenType {
 
     INCREMENT, DECREMENT,
 
-    INLINE_COMMENT, BLOCK_COMMENT,    
+    INLINE_COMMENT, BLOCK_COMMENT,
 
     // Literals
     IDENTIFIER, 
@@ -49,5 +49,6 @@ public enum TokenType {
     // Component Types Keywords
     FRAME, PANEL, LABEL, BUTTON, FIELD, DIALOG,  
 
+    INVALID,
     EOF
 }

@@ -1,0 +1,96 @@
+#Variable Declaration
+
+# Sample Code:
+# int i;
+
+# Leftmost Derivation
+<varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
+::=  int <IDENTIFIER> [= <expression>] ;
+::=  int <ALPHA> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::=  int <LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::=  int <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::=  int i [= <expression>] ;
+::=  int i;
+
+# Rightmost Derivation
+<varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
+::= [<modifier>] <dataType>  <ALPHA> ( <ALPHA> | <DIGIT> )* ;
+::= [<modifier>] <dataType>  <LETTER> ;
+::= [<modifier>] <dataType>  <LOWER_LETTER> ;
+::= [<modifier>] <dataType>  i;
+::= [<modifier>] int  i;
+::= int  i;
+
+
+# Sample Code:
+# int i = 3;
+
+# Leftmost Derivation
+<varDecl> ::= [<modifier>] <dataType> <IDENTIFIER> [= <expression>] ;
+::=  int <IDENTIFIER> [= <expression>] ;
+::=  int <ALPHA> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::=  int <LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::=  int <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::=  int i [= <expression>] ;
+::=  int i = <assignment> ;
+::=  int i = <logic_or> ;
+::=  int i = <logic_and> ;
+::=  int i = <equality> ;
+::=  int i = <comparison> ;
+::=  int i = <term> ;
+::=  int i = <factor> ;
+::=  int i = <unary> ;
+::=  int i = <postfix> ;
+::=  int i = <call> ;
+::=  int i = <primary> ;
+::=  int i = <INTEGER> ;
+::=  int i = <DIGIT>+ ;
+::=  int i = 3;
+
+# Rightmost Derivation
+<varDecl> ::= [<modifier>] <dataType> <IDENTIFIER> [= <expression>] ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <expression> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <assignment> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <logic_or> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <logic_and> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <equality> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <comparison> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <term> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <factor> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <unary> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <postfix> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <call> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <primary> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <INTEGER> ;
+::= [<modifier>] <dataType> <IDENTIFIER> = <DIGIT>+ ;
+::= [<modifier>] <dataType> <IDENTIFIER> = 3;
+::= [<modifier>] <dataType> <ALPHA> ( <ALPHA> | <DIGIT> )* = 3;
+::= [<modifier>] <dataType> <LETTER> ( <ALPHA> | <DIGIT> )* = 3;
+::= [<modifier>] <dataType> <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* = 3;
+::= [<modifier>] <dataType> i = 3;
+::= int i = 3;
+
+
+# Sample Code:
+# expose int i;
+
+# Leftmost Derivation
+<varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
+::= expose <dataType> <IDENTIFIER> [= <expression>] ;
+::= expose int <IDENTIFIER> [= <expression>] ;
+::= expose int <ALPHA> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::= expose int <LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::= expose int <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* [= <expression>] ;
+::= expose int i [= <expression>] ;
+::= expose int i;
+
+# Rightmost Derivation
+<varDecl> ::= [<modifier>] <dataType>  <IDENTIFIER> [= <expression>] ;
+::= [<modifier>] <dataType>  <ALPHA> ( <ALPHA> | <DIGIT> )* ;
+::= [<modifier>] <dataType>  <LETTER> ;
+::= [<modifier>] <dataType>  <LOWER_LETTER> ;
+::= [<modifier>] <dataType>  i;
+::= [<modifier>] int  i;
+::= expose int  i;
+
+

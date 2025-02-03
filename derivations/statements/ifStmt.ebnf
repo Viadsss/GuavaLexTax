@@ -1,0 +1,550 @@
+# Example 1: if (i > 90) print("1");
+
+# LEFTMOST DERIVATION
+<ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
+::= if ( <assignment> ) <statement> [else <statement>]
+::= if ( <logic_or> ) <statement> [else <statement>]
+::= if ( <logic_and> ) <statement> [else <statement>]
+::= if ( <equality> ) <statement> [else <statement>]
+::= if ( <comparison> ) <statement> [else <statement>]
+::= if ( <term> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <factor> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <unary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <postfix> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <call> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <primary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <IDENTIFIER> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > <term> ) <statement> [else <statement>]
+::= if ( i > <factor> ) <statement> [else <statement>]
+::= if ( i > <unary> ) <statement> [else <statement>]
+::= if ( i > <postfix> ) <statement> [else <statement>]
+::= if ( i > <call> ) <statement> [else <statement>]
+::= if ( i > <primary> ) <statement> [else <statement>]
+::= if ( i > <INTEGER> ) <statement> [else <statement>]
+::= if ( i > <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 9 <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 90 ) <statement> [else <statement>]
+::= if ( i > 90 ) <printStmt> [else <statement>]
+::= if ( i > 90 ) print ( [<arguments>] ) ; [else <statement>]
+::= if ( i > 90 ) print ( <expression> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <assignment> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <logic_or> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <logic_and> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <equality> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <comparison> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <term> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <factor> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <unary> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <postfix> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <call> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <primary> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( <STRING> ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( "<DIGIT> <CHAR_CONTENT>*" ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( "1 <CHAR_CONTENT>*" ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( "1" ( , <expression> )* ) ; [else <statement>]
+::= if ( i > 90 ) print ( "1" ) ; [else <statement>]
+::= if ( i > 90 ) print("1");
+
+# RIGHTMOST DERIVATION
+<ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
+::= if ( <expression> ) <statement>
+::= if ( <expression> ) <printStmt>
+::= if ( <expression> ) print ( [<arguments>] ) ;
+::= if ( <expression> ) print ( <expression> ( , <expression> )* ) ;
+::= if ( <expression> ) print ( <expression> ) ;
+::= if ( <expression> ) print ( <assignment> ) ;
+::= if ( <expression> ) print ( <logic_or> ) ;
+::= if ( <expression> ) print ( <logic_and> ) ;
+::= if ( <expression> ) print ( <equality> ) ;
+::= if ( <expression> ) print ( <comparison> ) ;
+::= if ( <expression> ) print ( <term> ) ;
+::= if ( <expression> ) print ( <factor> ) ;
+::= if ( <expression> ) print ( <unary> ) ;
+::= if ( <expression> ) print ( <postfix> ) ;
+::= if ( <expression> ) print ( <call> ) ;
+::= if ( <expression> ) print ( <primary> ) ;
+::= if ( <expression> ) print ( <STRING> ) ;
+::= if ( <expression> ) print ( "<CHAR_CONTENT>*" ) ;
+::= if ( <expression> ) print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ) ;
+::= if ( <expression> ) print ( "<REGULAR_CHAR>" ) ;
+::= if ( <expression> ) print ( "<DIGIT>" ) ;
+::= if ( <expression> ) print ( "1" ) ;
+::= if ( <assignment> ) print ( "1" ) ;
+::= if ( <logic_or> ) print ( "1" ) ;
+::= if ( <logic_and> ) print ( "1" ) ;
+::= if ( <equality> ) print ( "1" ) ;
+::= if ( <comparison> ) print ( "1" ) ;
+::= if ( <term> ( ( > | >= | < | <= ) <term> )* ) print ( "1" ) ;
+::= if ( <term> > <term> ( ( > | >= | < | <= ) <term> )* ) print ( "1" ) ;
+::= if ( <term> > <term> ) print ( "1" ) ;
+::= if ( <term> > <factor> ) print ( "1" ) ;
+::= if ( <term> > <unary> ) print ( "1" ) ;
+::= if ( <term> > <postfix> ) print ( "1" ) ;
+::= if ( <term> > <call> ) print ( "1" ) ;
+::= if ( <term> > <primary> ) print ( "1" ) ;
+::= if ( <term> > <INTEGER> ) print ( "1" ) ;
+::= if ( <term> > <DIGIT>+ ) print ( "1" ) ;
+::= if ( <term> > 9 <DIGIT>+ ) print ( "1" ) ;
+::= if ( <term> > 90 ) print ( "1" ) ;
+::= if ( <factor> > 90 ) print ( "1" ) ;
+::= if ( <unary> > 90 ) print ( "1" ) ;
+::= if ( <postfix> > 90 ) print ( "1" ) ;
+::= if ( <call> > 90 ) print ( "1" ) ;
+::= if ( <primary> > 90 ) print ( "1" ) ;
+::= if ( <IDENTIFIER> > 90 ) print ( "1" ) ;
+::= if ( <ALPHA> ( <ALPHA> | <DIGIT> )* > 90 ) print ( "1" ) ;
+::= if ( <ALPHA> > 90 ) print ( "1" ) ;
+::= if ( <LETTER> > 90 ) print ( "1" ) ;
+::= if ( <LOWER_LETTER> > 90 ) print ( "1" ) ;
+::= if ( i > 90 ) print ( "1" ) ;
+
+
+# Example 2:
+# if (i > 90) {
+#     print("1");
+# } else {
+#     print("2");
+# }
+
+# LEFTMOST DERIVATION
+<ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
+::= if ( <assignment> ) <statement> [else <statement>]
+::= if ( <logic_or> ) <statement> [else <statement>]
+::= if ( <logic_and> ) <statement> [else <statement>]
+::= if ( <equality> ) <statement> [else <statement>]
+::= if ( <comparison> ) <statement> [else <statement>]
+::= if ( <term> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <factor> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <unary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <postfix> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <call> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <primary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <IDENTIFIER> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > <term> ) <statement> [else <statement>]
+::= if ( i > <factor> ) <statement> [else <statement>]
+::= if ( i > <unary> ) <statement> [else <statement>]
+::= if ( i > <postfix> ) <statement> [else <statement>]
+::= if ( i > <call> ) <statement> [else <statement>]
+::= if ( i > <primary> ) <statement> [else <statement>]
+::= if ( i > <INTEGER> ) <statement> [else <statement>]
+::= if ( i > <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 9 <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 90 ) <statement> [else <statement>]
+::= if ( i > 90 ) <block> [else <statement>]
+::= if ( i > 90 ) { <declaration>* } [else <statement>]
+::= if ( i > 90 ) { <statement> <declaration>* } [else <statement>]
+::= if ( i > 90 ) { <printStmt> <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( [<arguments>] ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <expression> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <assignment> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <logic_or> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <logic_and> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <equality> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <comparison> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <term> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <factor> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <unary> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <postfix> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <call> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <primary> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <STRING> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "<DIGIT> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1 <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print("1"); } else <block>
+::= if ( i > 90 ) { print("1"); } else { <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { <statement> <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { <printStmt> <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( [<arguments>] ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <expression> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <assignment> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <logic_or> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <logic_and> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <equality> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <comparison> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <term> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <factor> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <unary> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <postfix> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <call> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <primary> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( <STRING> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "<DIGIT> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "2 <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "2" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "2" ) ; <declaration>* }
+::= if ( i > 90 ) { print("1"); } else { print ( "2" ); }
+
+# RIGHTMOST DERIVATION
+<ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
+::= if ( <expression> ) <statement> else <block>
+::= if ( <expression> ) <statement> else { <declaration>* }
+::= if ( <expression> ) <statement> else { <statement> <declaration>* }
+::= if ( <expression> ) <statement> else { <statement> }
+::= if ( <expression> ) <statement> else { <printStmt> }
+::= if ( <expression> ) <statement> else { print ( [<arguments>] ) ; }
+::= if ( <expression> ) <statement> else { print ( <expression> ( , <expression> )* ) ; }
+::= if ( <expression> ) <statement> else { print ( <expression> ) ; }
+::= if ( <expression> ) <statement> else { print ( <assignment> ) ; }
+::= if ( <expression> ) <statement> else { print ( <logic_or> ) ; }
+::= if ( <expression> ) <statement> else { print ( <logic_and> ) ; }
+::= if ( <expression> ) <statement> else { print ( <equality> ) ; }
+::= if ( <expression> ) <statement> else { print ( <comparison> ) ; }
+::= if ( <expression> ) <statement> else { print ( <term> ) ; }
+::= if ( <expression> ) <statement> else { print ( <factor> ) ; }
+::= if ( <expression> ) <statement> else { print ( <unary> ) ; }
+::= if ( <expression> ) <statement> else { print ( <postfix> ) ; }
+::= if ( <expression> ) <statement> else { print ( <call> ) ; }
+::= if ( <expression> ) <statement> else { print ( <primary> ) ; }
+::= if ( <expression> ) <statement> else { print ( <STRING> ) ; }
+::= if ( <expression> ) <statement> else { print ( "<CHAR_CONTENT>*" ) ; }
+::= if ( <expression> ) <statement> else { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ) ; }
+::= if ( <expression> ) <statement> else { print ( "<REGULAR_CHAR>" ) ; }
+::= if ( <expression> ) <statement> else { print ( "<DIGIT>" ) ; }
+::= if ( <expression> ) <statement> else { print ( "2" ) ; }
+::= if ( <expression> ) <block> else { print ( "2" ) ; }
+::= if ( <expression> ) { <declaration>* } else { print ( "2" ) ; }
+::= if ( <expression> ) { <statement> <declaration>* } else { print ( "2" ) ; }
+::= if ( <expression> ) { <statement> } else { print ( "2" ) ; }
+::= if ( <expression> ) { <printStmt> } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( [<arguments>] ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <expression> ( , <expression> )* ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <expression> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <assignment> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <logic_or> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <logic_and> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <equality> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <comparison> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <term> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <factor> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <unary> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <postfix> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <call> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <primary> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( <STRING> ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( "<CHAR_CONTENT>*" ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( "<REGULAR_CHAR>" ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( "<DIGIT>" ) ; } else { print ( "2" ) ; }
+::= if ( <expression> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <assignment> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <logic_or> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <logic_and> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <equality> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <comparison> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> ( ( > | >= | < | <= ) <term> )* ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <term> ( ( > | >= | < | <= ) <term> )* ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <term> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <factor> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <unary> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <postfix> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <call> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <primary> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <INTEGER> ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > <DIGIT>+ ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > 9 <DIGIT>+ ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <term> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <factor> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <unary> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <postfix> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <call> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <primary> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <IDENTIFIER> < 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <ALPHA> ( <ALPHA> | <DIGIT> )* > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <ALPHA> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <LETTER> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( <LOWER_LETTER> > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+::= if ( i > 90 ) { print ( "1" ) ; } else { print ( "2" ) ; }
+
+
+# Example 3:
+# if (i > 90) print("1");
+# else if (i > 9) {
+#     print("2");
+# } else {
+#     print("3");
+# }
+
+# LEFTMOST DERIVATION
+<ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
+::= if ( <assignment> ) <statement> [else <statement>]
+::= if ( <logic_or> ) <statement> [else <statement>]
+::= if ( <logic_and> ) <statement> [else <statement>]
+::= if ( <equality> ) <statement> [else <statement>]
+::= if ( <comparison> ) <statement> [else <statement>]
+::= if ( <term> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <factor> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <unary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <postfix> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <call> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <primary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <IDENTIFIER> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > <term> ) <statement> [else <statement>]
+::= if ( i > <factor> ) <statement> [else <statement>]
+::= if ( i > <unary> ) <statement> [else <statement>]
+::= if ( i > <postfix> ) <statement> [else <statement>]
+::= if ( i > <call> ) <statement> [else <statement>]
+::= if ( i > <primary> ) <statement> [else <statement>]
+::= if ( i > <INTEGER> ) <statement> [else <statement>]
+::= if ( i > <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 9 <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 90 ) <statement> [else <statement>]
+::= if ( i > 90 ) <block> [else <statement>]
+::= if ( i > 90 ) { <declaration>* } [else <statement>]
+::= if ( i > 90 ) { <statement> <declaration>* } [else <statement>]
+::= if ( i > 90 ) { <printStmt> <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( [<arguments>] ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <expression> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <assignment> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <logic_or> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <logic_and> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <equality> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <comparison> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <term> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <factor> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <unary> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <postfix> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <call> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <primary> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( <STRING> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "<DIGIT> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1 <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else <ifStmt>
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <expression> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <assignment> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <logic_or> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <logic_and> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <equality> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <comparison> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <term> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <factor> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <unary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <postfix> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <call> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <primary> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <IDENTIFIER> ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <ALPHA> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i ( <ALPHA> | <DIGIT> )* ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i ( ( > | >= | < | <= ) <term> )* ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <term> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <factor> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <unary> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <postfix> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <call> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <primary> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <INTEGER> ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > <DIGIT>+ ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) <statement> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) <block> [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { <statement> <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { <printStmt> <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( [<arguments>] ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <expression> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <assignment> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <logic_or> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <logic_and> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <equality> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <comparison> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <term> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <factor> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <unary> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <postfix> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <call> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <primary> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( <STRING> ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "<DIGIT> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2 <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ( , <expression> )* ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; <declaration>* } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } [else <statement>]
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else <block>
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { <statement> <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { <printStmt> <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( [<arguments>] ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <expression> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <assignment> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <logic_or> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <logic_and> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <equality> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <comparison> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <term> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <factor> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <unary> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <postfix> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <call> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <primary> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( <STRING> ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "<DIGIT> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3 <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ( , <expression> )* ) ; <declaration>* }
+::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; <declaration>* }
+::= if (i > 90) { print("1"); } else if (i > 9) {print("2"); } else {print("3"); }
+
+# RIGHTMOST DERIVATION
+<ifStmt> ::= if ( <expression> ) <statement> [else <statement>]
+<ifStmt> ::= if ( <expression> ) <statement> else <ifStmt>
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> [else <statement>]
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else <block>
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { <declaration>* }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { <statement> <declaration>* }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { <statement> }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { <printStmt> }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( [<arguments>] ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <expression> ( , <expression> )* ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <expression> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <assignment> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <logic_or> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <logic_and> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <equality> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <comparison> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <term> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <factor> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <unary> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <postfix> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <call> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <primary> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( <STRING> ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( "<CHAR_CONTENT>*" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( "<REGULAR_CHAR>" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( "<DIGIT>" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <statement> else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) <block> else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { <declaration>* } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { <statement> <declaration>* } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { <statement> } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { <printStmt> } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( [<arguments>] ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <expression> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <assignment> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <logic_or> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <logic_and> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <equality> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <comparison> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <term> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <factor> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <unary> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <postfix> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <call> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <primary> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( <STRING> ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( "<CHAR_CONTENT>*" ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( "<REGULAR_CHAR>" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( "<DIGIT>" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <expression> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <assignment> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <logic_or> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <logic_and> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <equality> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <comparison> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> ( ( > | >= | < | <= ) <term> )* ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <term> ( ( > | >= | < | <= ) <term> )* ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <term> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <factor> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <unary> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <postfix> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <call> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <primary> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <INTEGER> ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > <DIGIT>+ ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <term> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <factor> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <unary> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <postfix> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <call> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <primary> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <IDENTIFIER> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <ALPHA> ( <ALPHA> | <DIGIT> )* > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <LETTER> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( <LOWER_LETTER> > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( i ( <ALPHA> | <DIGIT> )* > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <statement> else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) <block> else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { <declaration>* } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { <statement> <declaration>* } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { <statement> } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { <printStmt> } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( [<arguments>] ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <expression> ( , <expression> )* ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <expression> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <assignment> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <logic_or> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <logic_and> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <equality> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <comparison> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <term> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <factor> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <unary> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <postfix> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <call> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <primary> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( <STRING> ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( "<CHAR_CONTENT>*" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( "<REGULAR_CHAR>" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( "<DIGIT>" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <expression> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <assignment> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <logic_or> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <logic_and> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <equality> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <comparison> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> ( ( > | >= | < | <= ) <term> )* ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <term> ( ( > | >= | < | <= ) <term> )* ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <term> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <factor> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <unary> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <postfix> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <call> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <primary> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <INTEGER> ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > <DIGIT>+ ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > 9 <DIGIT>+ ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <term> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <factor> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <unary> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <postfix> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <call> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <primary> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <IDENTIFIER> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <ALPHA> ( <ALPHA> | <DIGIT> )* > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <LETTER> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( <LOWER_LETTER> > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( i ( <ALPHA> | <DIGIT> )* > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }
+<ifStmt> ::= if ( i > 90 ) { print ( "1" ) ; } else if ( i > 9 ) { print ( "2" ) ; } else { print ( "3" ) ; }

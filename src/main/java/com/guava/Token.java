@@ -17,6 +17,7 @@ public class Token {
     
     @Override
     public String toString() {
+
         return String.format(
             "%s(type: %s, lexeme: %s, literal: %s, line: %s)",
             Color.colorize(Color.COLOR_BLUE, "Token"),

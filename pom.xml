@@ -43,6 +43,11 @@
             <artifactId>rsyntaxtextarea</artifactId>
             <version>3.5.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.fifesoft</groupId>
+            <artifactId>autocomplete</artifactId>
+            <version>3.3.1</version>
+        </dependency>        
     </dependencies>
 
     <build>

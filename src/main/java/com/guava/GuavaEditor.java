@@ -1,5 +1,17 @@
 package com.guava;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -14,6 +26,8 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -22,6 +36,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.CompletionProvider;
+import org.fife.ui.autocomplete.DefaultCompletionProvider;
+import org.fife.ui.autocomplete.ShorthandCompletion;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
@@ -29,37 +47,30 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.extras.FlatUIDefaultsInspector;
+import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import net.miginfocom.swing.MigLayout;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
 
 
 public class GuavaEditor extends JFrame {
     private JTabbedPane bottomPanel;    
     private JTextPane lexerPane, parserPane, problemPane;
     private JScrollPane lexerScrollPane, parserScrollPane, probScrollPane;
-    RSyntaxTextArea textArea;
+    private RSyntaxTextArea textArea;
+    
+    private boolean errorHighlightingEnabled = true;
     
     public GuavaEditor() {
         setTitle("Guava Code Editor");
         setSize(1366, 768); // 1280 x 720
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        setIconImage(new ImageIcon(getClass().getResource("/guava.png")).getImage());
+
         setJMenuBar(createMenuBar());
         init();
     }
@@ -83,6 +94,28 @@ public class GuavaEditor extends JFrame {
         textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
 
         RTextScrollPane sp = new RTextScrollPane(textArea);
+        CompletionProvider acProvider = createCompletionProvider();
+        AutoCompletion ac = new AutoCompletion(acProvider);
+        ac.install(textArea);
+
+        // Add Document Listener to remove errors when typing
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textArea.removeAllLineHighlights();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textArea.removeAllLineHighlights();
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // Not needed for plain text components
+            }
+        });        
                        
         topPanel.add(sp, "grow");
         return topPanel;
@@ -100,7 +133,7 @@ public class GuavaEditor extends JFrame {
         
         JMenuItem uploadItem = new JMenuItem("Upload");
         uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK));
-        uploadItem.addActionListener(e -> handleUpload());
+        uploadItem.addActionListener(e -> handleUpload());       
         
         fileMenu.add(runItem);
         fileMenu.add(uploadItem);
@@ -115,13 +148,32 @@ public class GuavaEditor extends JFrame {
         JMenuItem lightModeItem = new JMenuItem("Switch to Light Mode");
         lightModeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.ALT_DOWN_MASK));
         lightModeItem.addActionListener(e -> switchTheme(false));
+
+        JMenuItem increaseFontItem = new JMenuItem("Increase Font Size");
+        increaseFontItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, InputEvent.ALT_DOWN_MASK));
+        increaseFontItem.addActionListener(e -> incrementFontSize());
+
+        JMenuItem decreaseFontItem = new JMenuItem("Decrease Font Size");
+        decreaseFontItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.ALT_DOWN_MASK));
+        decreaseFontItem.addActionListener(e -> decrementFontSize());
         
         viewMenu.add(darkModeItem);
         viewMenu.add(lightModeItem);
         
+        viewMenu.add(increaseFontItem);
+        viewMenu.add(decreaseFontItem);        
+
+        JMenu optionsMenu = new JMenu("Options");
+        JCheckBoxMenuItem toggleErrorHighlight = new JCheckBoxMenuItem("Enable Error Highlighting", true);
+        toggleErrorHighlight.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
+        toggleErrorHighlight.addActionListener(e -> toggleErrorHighlighting(toggleErrorHighlight.isSelected()));
+
+        optionsMenu.add(toggleErrorHighlight);         
+        
         // Add menus to menu bar
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
+        menuBar.add(optionsMenu);
         
         return menuBar;
     }
@@ -147,7 +199,7 @@ public class GuavaEditor extends JFrame {
         
         bottomPanel.putClientProperty(FlatClientProperties.STYLE, "" + "tabType:card");
         bottomPanel.add("Lexer Output", lexerPane());
-        bottomPanel.add("Parser Output (WIP)", parserPane());
+        bottomPanel.add("Parser Output", parserPane());
         bottomPanel.add("Problems", problemPane());
         
         return bottomPanel;
@@ -255,11 +307,21 @@ public class GuavaEditor extends JFrame {
         List<Token> tokens = lexer.scanTokens();
         handleLexerOutput(tokens);
         
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();
         
-        List<String> errors = Guava.getErrorList();
+        List<com.guava.Guava.Error> errors = Guava.getErrorList();
         
         updateProblemsTab(errors);
         
+        // No errors, proceed with AST output
+        if (errors.isEmpty()) {
+            handleParserOutput(statements);
+        } else {
+            parserPane.setText(">> AST can't be shown. Fix errors first. <<");
+        }
+
+        Guava.cleanErrorList();
     }
     
     private List<Token> handleLexerOutput(List<Token> tokens) {
@@ -312,10 +374,26 @@ public class GuavaEditor extends JFrame {
         return tokens;
     }
     
+    private void handleParserOutput(List<Stmt> statements) {
+        AstPrinter printer = new AstPrinter();
+        TreeNode program = printer.program(statements);
+        // program.printTree(program, "", true);
+        StringBuilder builder = new StringBuilder();
+        program.buildTreeString(program, "", true, builder);
+        String treeString = builder.toString();
+        
+        parserPane.setText(treeString);
+    }
+    
     private void handleUpload() {
         // Create a JFileChooser
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select a Guava (.gv) File");
+
+        // Set default directory to Downloads folder
+        String userHome = System.getProperty("user.home");
+        File downloadsDir = new File(userHome, "Downloads");
+        fileChooser.setCurrentDirectory(downloadsDir);
         
         // Add a file filter for .gv files
         fileChooser.setFileFilter(new FileNameExtensionFilter("Guava Files (*.gv)", "gv"));
@@ -347,51 +425,47 @@ public class GuavaEditor extends JFrame {
         }
     }
     
-    public void updateProblemsTab(List<String> errors) {
+    public void updateProblemsTab(List<com.guava.Guava.Error> errors) {
         problemPane.setText("");
         
         StyledDocument doc = problemPane.getStyledDocument();
         
         if (errors == null || errors.isEmpty()) {
             bottomPanel.setTitleAt(2, "Problems");
+            textArea.removeAllLineHighlights();
             return;
-        }
+        }    
         
         bottomPanel.setTitleAt(2, "Problems - " + errors.size());
+        if (errorHighlightingEnabled) {
+            textArea.setHighlightCurrentLine(false);
+        }
         
-        for (String error : errors) {
+        for (com.guava.Guava.Error error : errors) {
             try {
+                if (errorHighlightingEnabled) {
+                    textArea.addLineHighlight(error.getLine() - 1, new java.awt.Color(235, 111, 146));
+                }
                 Style style = doc.addStyle("ErrorStyle", null);
                 StyleConstants.setForeground(style, Color.RED); // Set text color to red
-                doc.insertString(doc.getLength(), error + "\n", style);
+                doc.insertString(doc.getLength(), error.toString() + "\n", style);
+
+                
+
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }
         }
         
-        Guava.cleanErrorList();
     }
-    
-    public static void run() {
-        FlatInspector.install("ctrl shift alt T");
-        FlatUIDefaultsInspector.install("ctrl shift alt Y");
-        
-        FlatLaf.registerCustomDefaultsSource("themes");
-        FlatMacLightLaf.setup();
-        
-        FlatJetBrainsMonoFont.install();
-        UIManager.put("defaultFont", new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
-        
-        SwingUtilities.invokeLater(() -> new GuavaEditor().setVisible(true));
-    }
-    
+      
     private void updateThemeColors() throws Exception {
         String currentLookAndFeel = UIManager.getLookAndFeel().getClass().getName();
         Theme theme;
         
         if (currentLookAndFeel.contains("FlatMacDarkLaf")) {
             theme = Theme.load(getClass().getResourceAsStream(
-                    "/org/fife/ui/rsyntaxtextarea/themes/dark.xml"
+                    "/org/fife/ui/rsyntaxtextarea/themes/monokai.xml"
                 ));
             theme.apply(textArea);
 
@@ -427,6 +501,99 @@ public class GuavaEditor extends JFrame {
             probScrollPane.getViewport().setBackground(new Color(255, 255, 255));
         }
 
-        textArea.setFont(new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
+        Font currentFont = UIManager.getFont("defaultFont");
+        textArea.setFont(currentFont);
     }
+
+    private CompletionProvider createCompletionProvider() {
+        DefaultCompletionProvider provider = new DefaultCompletionProvider();
+
+        provider.addCompletion(new ShorthandCompletion(provider, "cframe",
+                "Comp.frame();", "Creates a frame"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "cbframe",
+                "Comp.frame() {};", "Creates a frame with body"));     
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "style",
+                "Style({});", "Creates a style with body")); 
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "declStyle",
+                "Style x -> Style({});", "Creates a style declaration with body"));   
+       
+        provider.addCompletion(new ShorthandCompletion(provider, "event",
+                "Event({});", "Creates an event with body"));         
+        
+        provider.addCompletion(new ShorthandCompletion(provider, "declEvent",
+                "Event x -> Event({});", "Creates an event declaration with body"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "if",
+                "if(){\n\n}\nelse{\n\n}", "Creates an if-else statement"));        
+       
+        provider.addCompletion(new ShorthandCompletion(provider, "for",
+                "for(int i = 0; i < 5; i++){\n\n}", "Creates a for loop statement"));
+                
+        provider.addCompletion(new ShorthandCompletion(provider, "while",
+                "while(i = 0){\n\n}", "Creates a while loop statement"));
+                
+        provider.addCompletion(new ShorthandCompletion(provider, "do-while",
+                "do{\n\n}\nwhile(i = 0);", "Creates a do-while loop statement"));
+
+        provider.addCompletion(new ShorthandCompletion(provider, "print",
+                "print(\"\");", "Creates a print statement"));
+        
+        return provider;
+    }
+
+    private void toggleErrorHighlighting(boolean enabled) {
+        this.errorHighlightingEnabled = enabled;
+        
+        if (!enabled) {
+            textArea.removeAllLineHighlights();
+        } else {
+            // Reapply highlights if errors exist
+            List<com.guava.Guava.Error> errors = Guava.getErrorList();
+            updateProblemsTab(errors);
+        }
+    }
+
+    private void incrementFontSize() {
+        Font currentFont = UIManager.getFont("defaultFont");
+        if (currentFont != null) {
+            // Increment the font size by 2 points, esnure it doesn't go above 48
+            int newFontSize = Math.min(currentFont.getSize() + 2, 48);
+            setFontSizeForUIManager(newFontSize);  // Apply the new font size globally
+        }
+    }
+
+    private void decrementFontSize() {
+        // Get the current font size
+        Font currentFont = UIManager.getFont("defaultFont");
+        if (currentFont != null) {
+            // Decrement the font size by 2 points, ensure it doesn't go below 8
+            int newFontSize = Math.max(currentFont.getSize() - 2, 8);
+            setFontSizeForUIManager(newFontSize);  
+        }
+    }
+    
+    
+    private void setFontSizeForUIManager(int fontSize) {
+        Font newFont = new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, fontSize);
+        UIManager.put("defaultFont", newFont); 
+        SwingUtilities.updateComponentTreeUI(this);  
+
+        textArea.setFont(newFont);
+    }    
+    
+    public static void run() {
+        FlatInspector.install("ctrl shift alt T");
+        FlatUIDefaultsInspector.install("ctrl shift alt Y");
+        
+        FlatLaf.registerCustomDefaultsSource("themes");
+        FlatMacLightLaf.setup();
+        
+        FlatJetBrainsMonoFont.install();
+        UIManager.put("defaultFont", new Font(FlatJetBrainsMonoFont.FAMILY, Font.BOLD, 14));
+        
+        SwingUtilities.invokeLater(() -> new GuavaEditor().setVisible(true));
+    }    
 }

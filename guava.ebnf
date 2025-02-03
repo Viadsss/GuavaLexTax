@@ -1,18 +1,24 @@
-<program> ::= <declaration>* "EOF"
+<program> ::= <declaration>*
 
 <declaration> ::= <mainDecl>
                 | <funcDecl>
                 | <varDecl>
-                | <statement>
+                | <nativeDecl>
+                | <statement>                
 
-<compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
-<compCall> ::= layoutMethod> | <addMethod>
-
-
-<mainDecl> ::= "void" "main" "(" <parameter> ")" <block>
-<funcDecl> ::= <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
-<varDecl> ::= <varType> ("expose")? <IDENTIFIER> ( "=" <expression> )? ";"
-<statement> ::= <exprStmt> | <forStmt> | <whileStmt> | <doWhileStmt> | <ifStmt> | <printStmt> | <returnStmt> | <breakStmt> | <block>    
+<mainDecl> ::= "expose" "void" "main" "(" <parameter> ")" <block>
+<funcDecl> ::= <modifier>? <returnType> <IDENTIFIER> "(" <parameters>? ")" <block>
+<varDecl> ::= <modifier>? <dataType>  <IDENTIFIER> ( "=" <expression> )? ";"
+<nativeDecl> ::= <modifier>? <nativeClassType> <IDENTIFIER> ( "->" <expression> )? ";"
+<statement> ::= <exprStmt>
+            | <forStmt>
+            | <whileStmt>
+            | <doWhileStmt>
+            | <ifStmt>
+            | <printStmt>
+            | <returnStmt>
+            | <breakStmt>
+            | <block>
 
 <exprStmt> ::= <expression> ";"
 <forStmt> ::= "for" "(" ( <varDecl> | <exprStmt> | ";" )
@@ -28,7 +34,7 @@
 
 <expression> ::= <assignment>
 <assignment> ::= ( <call> "." )? <IDENTIFIER> <assignment_op> <assignment> | <logic_or>
-<assignment_op> ::= "=" | "+=" | "-=" | "*=" | "/="
+<assignment_op> ::= "->" | "=" | "+=" | "-=" | "*=" | "/="
 <logic_or> ::= <logic_and> ( "||" <logic_and> )*
 <logic_and> ::= <equality> ( "&&" <equality> )*
 <equality> ::= <comparison> (( "!=" | "==" ) <comparison> )*
@@ -36,7 +42,7 @@
 <term> ::= <factor> ( ("-" | "+" ) <factor> )*
 <factor> ::= <unary> ( ( "/" | "*" | "%" ) <unary> )*
 
-<unary> ::= ( "!" | "-" | "++" | "--" ) <unary> | <postfix>
+<unary> ::= "!" <unary> | ( "-" | "++" | "--"  ) <postfix> | <postfix>
 <postfix> ::= <call> ( "++" | "--" )?
 <call> ::= <primary> ( "(" <arguments>? ")" | "." <IDENTIFIER> )*
 <primary> ::= "true" | "false" | "null" | <INTEGER> | <DOUBLE> | <CHAR> | <STRING>
@@ -47,24 +53,24 @@
 <Style> ::= "Style" "(" <styleArguments>? ")"
 <Event> ::= "Event" "(" <eventArguments>? ")"
 
+<compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
+<compCall> ::= <addMethod>
+
 <styleArguments> ::= "{" <STRING> ( "," <STRING> )* "}"
 <eventArguments> ::= "{" <eventAction> ( "," <eventAction> )* "}"
 <eventAction> ::= <STRING> ":" <block>
 <compBlock> ::= "{" ( <declaration> | <compCall> )* "}"
-<layoutMethod> ::= "layout" "(" <layoutType> ("(" <arguments>? ")")? ")"
 <addMethod> ::= "add" "(" <expression> ")"
-<layoutType> ::= "flex" | "grid" | "absolute"
-
-
 <parameters> ::= <parameter> ( "," <parameter> )*
 <parameter> ::= <varType> <IDENTIFIER>
 <arguments> ::= <expression> ( "," <expression> )*
+<modifier> ::= "expose"
 
 <returnType> ::= <varType> | "void"
 <varType> ::= <dataType> | <nativeClassType>
 <dataType> ::= "char" | "string" | "int" | "float" | "double" | "bool"
 <nativeClassType> ::= "Comp" | "Style" | "Event"
-
+<compType> ::= "frame" | "panel" | "label" | "button" | "field" | "dialog"
 
 <IDENTIFIER> ::= <ALPHA> ( <ALPHA> | <DIGIT> )*
 
@@ -84,3 +90,5 @@
 <ALPHA> ::= <LETTER> | "_"
 <DIGIT> ::= [0-9]
 <LETTER> ::= [a-z] | [A-Z]
+
+

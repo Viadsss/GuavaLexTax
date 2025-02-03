@@ -15,7 +15,7 @@ import com.utils.Color;
 
 
 public class Guava {
-    public static List<String> errorList = new ArrayList<>();
+    public static List<Error> errorList = new ArrayList<>();
     public static boolean hadError = false;
     public static boolean isEditorMode = false;
     
@@ -80,12 +80,56 @@ public class Guava {
             System.out.println(token);
         }
         System.out.println("=====================\n");
+        Parser parser = new Parser(tokens);
+        List<Stmt> statements = parser.parse();
+
+        // Stop if there was a syntax error.        
+        if (hadError) return;
+
+        System.out.println("======[ PARSER3 ]======");
+        AstPrinter printer = new AstPrinter();
+        TreeNode program = printer.program(statements);
+        program.printTree(program, "", true);
+        System.out.println("======================\n");        
+
+    }
+
+    public static class Error {
+        private int line;
+        private String message;
+        private String where;
+        private ErrorType type;
+        
+        public Error(int line, String where, String message, ErrorType type) {
+            this.line = line;
+            this.where = where;
+            this.message = message;
+            this.type = type;
+        }
+
+        public int getLine() {
+            return line;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public ErrorType getType() {
+            return type;
+        }
+
+        @Override
+        public String toString() {
+            return "[line " + line + "] Error" + where + ": " + message + " (" + type.toString() + ")"; 
+        }
     }
 
     public enum ErrorType {
         LEXICAL_ERROR,
         SYNTAX_ERROR,
-    }
+    }    
+
 
     // Lexical Errors (tokenization)
     public static void error(int line, String message) {
@@ -102,22 +146,20 @@ public class Guava {
     }
 
     private static void report(int line, String where, String message, ErrorType type) {
-        String errorMsg = "[line " + line + "] Error" + where + ": " + message + " (" + type.toString() + ")"; 
+        Error error = new Error(line, where, message, type);
 
         if (!isEditorMode) {
-            System.err.println("[line " + line + "] Error" + where + ": " + message + 
-                            Color.colorize(Color.COLOR_RED, " (" + type.toString() + ")"));
+            System.out.println(error);
         }
-        errorList.add(errorMsg);
+        errorList.add(error);
         hadError = true;
     }
     
-    public static List<String> getErrorList() {
-        // if (hadError) return null;
+    public static List<Error> getErrorList() {
         return errorList;
     }
 
     public static void cleanErrorList() {
         errorList.clear();
-    }    
+    }   
 }

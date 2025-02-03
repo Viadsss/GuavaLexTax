@@ -1,0 +1,424 @@
+### EXAMPLE 1 (RETURN STATEMENT):
+### return "Guava.";
+
+
+
+# LEFTMOST DERIVATION for EXAMPLE 1 (RETURN STATEMENT):
+returnStmt
+::= return [<expression>] ;
+::= return <expression> ;
+::= return <assignment> ;
+::= return <logic_or> ;
+::= return <logic_and> ( || <logic_and> )* ;
+
+
+::= return <equality> ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <comparison> (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <term> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <factor> ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <unary> ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <postfix> ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <call> [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <STRING> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "<REGULAR_CHAR><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "<LETTER><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "[CAPITAL_LETTER]<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "G<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "G<REGULAR_CHAR><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "G<LETTER><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "G[LOWER_LETTER]<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "Gu<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Gu<REGULAR_CHAR><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Gu<LETTER><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+
+::= return "Gu[LOWER_LETTER]<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "Gua<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Gua<REGULAR_CHAR><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Gua<LETTER><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Gua[LOWER_LETTER]<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "Guav<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guav<REGULAR_CHAR><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guav<LETTER><CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guav[LOWER_LETTER]<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "Guava<CHAR_CONTENT>*" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "Guava<REGULAR_CHAR>" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava<SYMBOL>" ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return "Guava." [++ | -- ] ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." ( ( / | * | % ) <unary> )* ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." ( ( - | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." ( && <equality> )* ( || <logic_and> )* ;
+
+::= return "Guava." ( || <logic_and> )* ;
+
+::= return "Guava.";
+
+
+
+# RIGHTMOST DERIVATION for EXAMPLE 1 (RETURN STATEMENT):
+returnStmt
+::= return [<expression>] ;
+::= return <expression> ;
+::= return <assignment> ;
+::= return <logic_or> ;
+::= return <logic_and> ( || <logic_and> )* ;
+::= return <logic_and> ;
+::= return <equality> ( && <equality> )* ;
+::= return <equality> ;
+::= return <comparison> (( != | == ) <comparison> )* ;
+::= return <comparison> ;
+::= return <term> ( ( > | >= | < | <= ) <term> )* ;
+::= return <term> ;
+::= return <factor> ( ( - | + ) <factor> )* ;
+::= return <factor> ;
+::= return <unary> ( ( / | * | % ) <unary> )* ;
+::= return <unary> ;
+::= return <postfix> ;
+::= return <call> [++ | -- ] ;
+::= return <call> ;
+::= return <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
+::= return <primary> ;
+::= return <STRING> ;
+
+::= return "<CHAR_CONTENT>*";
+::= return "<REGULAR_CHAR><CHAR_CONTENT>*";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><CHAR_CONTENT>*";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><CHAR_CONTENT>*";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><CHAR_CONTENT>*";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><CHAR_CONTENT>*";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR>";
+
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><SYMBOL>";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR>.";
+
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><LETTER>.";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><LOWER_LETTER>.";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR>a.";
+
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><LETTER>a.";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR><LOWER_LETTER>a.";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><REGULAR_CHAR>va.";
+
+::= return "<REGULAR_CHAR><REGULAR_CHAR><LETTER>va.";
+::= return "<REGULAR_CHAR><REGULAR_CHAR><LOWER_LETTER>va.";
+::= return "<REGULAR_CHAR><REGULAR_CHAR>ava.";
+
+::= return "<REGULAR_CHAR><LETTER>ava.";
+::= return "<REGULAR_CHAR><LOWER_LETTER>ava.";
+::= return "<REGULAR_CHAR>uava.";
+
+::= return "<LETTER>uava.";
+::= return "<CAPITAL_LETTER>uava.";
+::= return "Guava.";
+
+
+
+
+
+### EXAMPLE 2 (RETURN STATEMENT):
+### return 1.00;
+
+
+
+# LEFTMOST DERIVATION for EXAMPLE 2 (RETURN STATEMENT):
+returnStmt
+::= return [<expression>] ;
+::= return [<expression>] ;
+::= return <expression> ;
+::= return <assignment> ;
+::= return <logic_or> ;
+::= return <logic_and> ( || <logic_and> )* ;
+
+
+::= return <equality> ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <comparison> (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <term> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <factor> ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <unary> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <postfix> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <call> [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <DOUBLE> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return <DIGIT>+ . <DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1. <DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.0<DIGIT> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 1.00 [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 1.00 ( || <logic_and> )* ;
+
+::= return 1.00;
+
+
+
+# RIGHTMOST DERIVATION for EXAMPLE 2 (RETURN STATEMENT):
+returnStmt
+::= return [<expression>] ;
+::= return <expression> ;
+::= return <assignment> ;
+::= return <logic_or> ;
+::= return <logic_and> ( || <logic_and> )* ;
+::= return <logic_and> ;
+::= return <equality> ( && <equality> )* ;
+::= return <equality> ;
+::= return <comparison> (( != | == ) <comparison> )* ;
+::= return <comparison> ;
+::= return <term> ( ( > | >= | < | <= ) <term> )* ;
+::= return <term> ;
+::= return <factor> ( ( - | + ) <factor> )* ;
+::= return <factor> ;
+::= return <unary> ( ( / | * | % ) <unary> )* ;
+::= return <unary> ;
+::= return <postfix> ;
+::= return <call> [++ | -- ] ;
+::= return <call> ;
+::= return <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* ;
+::= return <primary> ;
+::= return <DOUBLE> ;
+::= return <DIGIT>+ . <DIGIT>+ ;
+::= return <DIGIT>+ . <DIGIT>0 ;
+::= return <DIGIT>+ .00;
+::= return 1.00;
+
+
+
+
+
+### EXAMPLE 3 (RETURN STATEMENT):
+### return 2025 + 100 * 75;
+
+
+
+# LEFTMOST DERIVATION for EXAMPLE 3 (RETURN STATEMENT):
+returnStmt
+::= return [<expression>] ;
+::= return [<expression>] ;
+::= return <expression> ;
+::= return <assignment> ;
+::= return <logic_or> ;
+::= return <logic_and> ( || <logic_and> )* ;
+
+
+::= return <equality> ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <comparison> (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <term> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <factor> ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <unary> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <postfix> ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <call> [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return <INTEGER> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return <DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2<DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 20<DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 202<DIGIT> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025  [++ | -- ] ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 ( ( / | * | % ) <unary> )* ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 ( (- | + ) <factor> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + <factor> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025 + <unary> ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + <postfix> ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + <call> [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + <INTEGER> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025 + <DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 1<DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 10<DIGIT> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025 + 100 [++ | -- ] ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 ( ( / | * | % ) <unary> )* ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * <unary> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025 + 100 * <postfix> ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * <call> [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * <INTEGER> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025 + 100 * <DIGIT>+ ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 7<DIGIT> ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 75 ( ( [<arguments>] ) | . <IDENTIFIER> )* [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+
+::= return 2025 + 100 * 75 [++ | -- ] ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 75 ( ( > | >= | < | <= ) <term> )* (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 75 (( != | == ) <comparison> )* ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 75 ( && <equality> )* ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 75 ( || <logic_and> )* ;
+
+::= return 2025 + 100 * 75;
+
+
+
+# RIGHTMOST DERIVATION for EXAMPLE 3 (RETURN STATEMENT):
+returnStmt
+::= return [<expression>] ;
+::= return <expression> ;
+::= return <assignment> ;
+::= return <logic_or> ;
+::= return <logic_and> ( || <logic_and> )* ;
+::= return <logic_and> ;
+::= return <equality> ( && <equality> )* ;
+::= return <equality> ;
+::= return <comparison> (( != | == ) <comparison> )* ;
+::= return <comparison> ;
+::= return <term> ( ( > | >= | < | <= ) <term> )* ;
+::= return <term> ;
+::= return <factor> ( ( - | + ) <factor> )* ;
+::= return <factor> + <factor>;
+::= return <factor> + <unary> ( ( / | * | % ) <unary> )*;
+::= return <factor> + <unary> * <unary>;
+::= return <factor> + <unary> * <postfix>;
+::= return <factor> + <unary> * <call> [++ | -- ];
+::= return <factor> + <unary> * <call>;
+::= return <factor> + <unary> * <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )*;
+::= return <factor> + <unary> * <primary>;
+::= return <factor> + <unary> * <INTEGER>;
+::= return <factor> + <unary> * <DIGIT>+;
+::= return <factor> + <unary> * <DIGIT>5;
+::= return <factor> + <unary> * 75;
+::= return <factor> + <postfix> * 75;
+::= return <factor> + <call> [++ | -- ] * 75;
+::= return <factor> + <call> * 75;
+::= return <factor> + <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* * 75;
+::= return <factor> + <primary> * 75;
+::= return <factor> + <INTEGER> * 75;
+::= return <factor> + <DIGIT>+ * 75;
+::= return <factor> + <DIGIT>+0 * 75;
+::= return <factor> + <DIGIT>00 * 75;
+::= return <factor> + 100 * 75;
+::= return <unary> ( ( / | * | % ) <unary> )* + 100 * 75;
+::= return <unary> + 100 * 75;
+::= return <postfix> + 100 * 75;
+::= return <call> [++ | -- ] + 100 * 75;
+::= return <call> + 100 * 75;
+::= return <primary> ( ( [<arguments>] ) | . <IDENTIFIER> )* + 100 * 75;
+::= return <primary> + 100 * 75;
+::= return <INTEGER> + 100 * 75;
+::= return <DIGIT>+ + 100 * 75;
+::= return <DIGIT>+5 + 100 * 75;
+::= return <DIGIT>+25 + 100 * 75;
+::= return <DIGIT>025 + 100 * 75;
+::= return 2025 + 100 * 75;
+

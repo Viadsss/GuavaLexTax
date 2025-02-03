@@ -1,0 +1,47 @@
+# Example: print("a");
+
+# LEFTMOST DERIVATION
+<printStmt> ::= print( [<arguments>] ) ;
+::= print(<expression> ( , <expression> )* ) ;
+::= print(<assignment> ( , <expression> )* ) ;
+::= print(<logic_or> ( , <expression> )* ) ;
+::= print(<logic_and> ( , <expression> )* ) ;
+::= print(<equality> ( , <expression> )* ) ;
+::= print(<comparison> ( , <expression> )* ) ;
+::= print(<term> ( , <expression> )* ) ;
+::= print(<factor> ( , <expression> )* ) ;
+::= print(<unary> ( , <expression> )* ) ;
+::= print(<postfix> ( , <expression> )* ) ;
+::= print(<call> ( , <expression> )* ) ;
+::= print(<primary> ( , <expression> )* ) ;
+::= print(<STRING> ( , <expression> )* ) ;
+::= print("<CHAR_CONTENT>*" ( , <expression> )* ) ;
+::= print("<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ;
+::= print("<LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ;
+::= print("<LOWER_LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ;
+::= print("a <CHAR_CONTENT>*" ( , <expression> )* ) ;
+::= print("a" ( , <expression> )* ) ;
+::= print("a");
+
+# RIGHTMOST DERIVATION
+<printStmt> ::= print( [<arguments>] ) ;
+::= print(<expression> ( , <expression> )* ) ;
+::= print(<expression>) ;
+::= print(<assignment>) ;
+::= print(<logic_or>) ;
+::= print(<logic_and>) ;
+::= print(<equality>) ;
+::= print(<comparison>) ;
+::= print(<term>) ;
+::= print(<factor>) ;
+::= print(<unary>) ;
+::= print(<postfix>) ;
+::= print(<call>) ;
+::= print(<primary>) ;
+::= print(<STRING>) ;
+::= print("<CHAR_CONTENT>* ") ;
+::= print("<REGULAR_CHAR> <CHAR_CONTENT>* ") ;
+::= print("<REGULAR_CHAR>") ;
+::= print("<LETTER>") ;
+::= print("<LOWER_LETTER>") ;
+::= print("a");

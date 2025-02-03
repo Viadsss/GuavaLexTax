@@ -1,0 +1,206 @@
+# Example 1: x += 1;
+
+# LEFTMOST DERIVATION
+<exprStmt> ::= <expression> ;
+::= <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <assignment> ;
+::= <IDENTIFIER> <assignment_op> <assignment> ;
+::= <ALPHA> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= <LETTER> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= x ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= x <assignment_op> <assignment> ;
+::= x += <assignment> ;
+::= x += <logic_or> ;
+::= x += <logic_and> ;
+::= x += <equality> ;
+::= x += <comparison> ;
+::= x += <term> ;
+::= x += <factor> ;
+::= x += <unary> ;
+::= x += <postfix> ;
+::= x += <call> ;
+::= x += <primary> ;
+::= x += <INTEGER> ;
+::= x += <DIGIT>+ ;
+::= x += 1;
+
+# RIGHTMOST DERIVATION
+<exprStmt> ::= <expression> ;
+::= <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <logic_or> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <logic_and> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <equality> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <comparison> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <term> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <unary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <postfix> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <call> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <INTEGER> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <DIGIT>+ ;
+::= [<call> .] <IDENTIFIER> <assignment_op> 1;
+::= [<call> .] <IDENTIFIER> += 1;
+::= [<call> .] <ALPHA> ( <ALPHA> | <DIGIT> )* += 1;
+::= [<call> .] <ALPHA> += 1;
+::= [<call> .] <LETTER> += 1;
+::= [<call> .] <LOWER_LETTER> += 1;
+::= [<call> .] x += 1;
+::= x += 1;
+
+
+# Example 2: x = 2 + 3;
+
+# LEFTMOST DERIVATION
+<exprStmt> ::= <expression> ;
+::= <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <assignment> ;
+::= <IDENTIFIER> <assignment_op> <assignment> ;
+::= <ALPHA> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= <LETTER> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= x ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= x <assignment_op> <assignment> ;
+::= x = <assignment> ;
+::= x = <logic_or> ;
+::= x = <logic_and> ;
+::= x = <equality> ;
+::= x = <comparison> ;
+::= x = <term> ;
+::= x = <factor> ( (- | + ) <factor> )* ;
+::= x = <unary> ( (- | + ) <factor> )* ;
+::= x = <postfix> ( (- | + ) <factor> )* ;
+::= x = <call> ( (- | + ) <factor> )* ;
+::= x = <primary> ( (- | + ) <factor> )* ;
+::= x = <INTEGER> ( (- | + ) <factor> )* ;
+::= x = <DIGIT>+ ( (- | + ) <factor> )* ;
+::= x = 2 ( (- | + ) <factor> )* ;
+::= x = 2 + <factor> ;
+::= x = 2 + <unary> ;
+::= x = 2 + <postfix> ;
+::= x = 2 + <call> ;
+::= x = 2 + <primary> ;
+::= x = 2 + <INTEGER> ;
+::= x = 2 + <DIGIT>+ ;
+::= x = 2 + 3;
+
+# RIGHTMOST DERIVATION
+<exprStmt> ::= <expression> ;
+::= <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <logic_or> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <logic_and> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <equality> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <comparison> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <term> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> ( (- | + ) <factor> )* ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <factor> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <unary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <postfix> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <call> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <primary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <INTEGER> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + <DIGIT>+ ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> + 3;
+::= [<call> .] <IDENTIFIER> <assignment_op> <unary> + 3;
+::= [<call> .] <IDENTIFIER> <assignment_op> <postfix> + 3;
+::= [<call> .] <IDENTIFIER> <assignment_op> <call> + 3;
+::= [<call> .] <IDENTIFIER> <assignment_op> <primary> + 3;
+::= [<call> .] <IDENTIFIER> <assignment_op> <INTEGER> + 3;
+::= [<call> .] <IDENTIFIER> <assignment_op> <DIGIT>+ + 3;
+::= [<call> .] <IDENTIFIER> = <DIGIT>+ + 3;
+::= [<call> .] <IDENTIFIER> = 2 + 3;
+::= [<call> .] <ALPHA> ( <ALPHA> | <DIGIT> )* = 2 + 3;
+::= [<call> .] <ALPHA> = 2 + 3;
+::= [<call> .] <LETTER> = 2 + 3;
+::= [<call> .] <LOWER_LETTER> = 2 + 3;
+::= [<call> .] x = 2 + 3;
+::= x = 2 + 3;
+
+# Example 3: x = read();
+
+# LEFTMOST DERIVATION
+<exprStmt> ::= <expression> ;
+::= <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <assignment> ;
+::= <IDENTIFIER> <assignment_op> <assignment> ;
+::= <ALPHA> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= <LETTER> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= x ( <ALPHA> | <DIGIT> )* <assignment_op> <assignment> ;
+::= x <assignment_op> <assignment> ;
+::= x = <assignment> ;
+::= x = <logic_or> ;
+::= x = <logic_and> ;
+::= x = <equality> ;
+::= x = <comparison> ;
+::= x = <term> ;
+::= x = <factor> ;
+::= x = <unary> ;
+::= x = <postfix> ;
+::= x = <call> ;
+::= x = <primary> ;
+::= x = read();
+
+
+# RIGHTMOST DERIVATION
+<exprStmt> ::= <expression> ;
+::= <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <assignment> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <logic_or> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <logic_and> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <equality> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <comparison> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <term> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <factor> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <unary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <postfix> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <call> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> <primary> ;
+::= [<call> .] <IDENTIFIER> <assignment_op> read() ;
+::= [<call> .] <IDENTIFIER> = read();
+::= [<call> .] <ALPHA> ( <ALPHA> | <DIGIT> )* = read();
+::= [<call> .] <ALPHA> = read();
+::= [<call> .] <LETTER> = read();
+::= [<call> .] <LOWER_LETTER> = read();
+::= [<call> .] x = read();
+::= x = read();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

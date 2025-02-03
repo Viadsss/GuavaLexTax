@@ -137,7 +137,10 @@ public class Lexer {
             default:
             if (isDigit(c)) number();
             else if (isAlpha(c)) identifier();
-            else Guava.error(line, "Unexpected character.");
+            else {
+                addToken(INVALID);
+                Guava.error(line, "Unexpected character.");
+            }
             break;
         }
     }

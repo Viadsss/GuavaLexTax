@@ -1,0 +1,122 @@
+# Example: expose void main() { print("Hi"); }
+
+# LEFTMOST DERIVATION
+<mainDecl> ::= expose void main ( [<parameter>] ) <block>
+::= expose void main () <block>
+::= expose void main () { <declaration>* }
+::= expose void main () { <statement> <declaration>* }
+::= expose void main () { <printStmt> <declaration>* }
+::= expose void main () { print ([<arguments>] ) ; <declaration>* }
+::= expose void main () { print (<expression> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<assignment> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<logic_or> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<logic_and> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<equality> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<comparison> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<term> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<factor> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<unary> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<postfix> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<call> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<primary> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print (<STRING> ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("<CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("<REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("<LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("<CAPITAL_LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("H <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("H <REGULAR_CHAR> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("H <LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("H <LOWER_LETTER> <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("Hi <CHAR_CONTENT>*" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("Hi" ( , <expression> )* ) ; <declaration>* }
+::= expose void main () { print ("Hi"); <declaration>* }
+::= expose void main () { print ("Hi"); }
+
+# RIGHTMOST DERIVATION
+<mainDecl> ::= expose void main ( [<parameter>] ) <block>
+::= expose void main () <block>
+::= expose void main () { <declaration>* }
+::= expose void main () { <statement> <declaration>* }
+::= expose void main () { <statement> }
+::= expose void main () { <printStmt> }
+::= expose void main () { print ( [<arguments>] ) ; }
+::= expose void main () { print ( <expression> ( , <expression> )* ) ; }
+::= expose void main () { print ( <expression> ) ; }
+::= expose void main () { print ( <assignment> ) ; }
+::= expose void main () { print ( <logic_or> ) ; }
+::= expose void main () { print ( <logic_and> ) ; }
+::= expose void main () { print ( <equality> ) ; }
+::= expose void main () { print ( <comparison> ) ; }
+::= expose void main () { print ( <term> ) ; }
+::= expose void main () { print ( <factor> ) ; }
+::= expose void main () { print ( <unary> ) ; }
+::= expose void main () { print ( <postfix> ) ; }
+::= expose void main () { print ( <call> ) ; }
+::= expose void main () { print ( <primary> ) ; }
+::= expose void main () { print ( <STRING> ) ; }
+::= expose void main () { print ( "<CHAR_CONTENT>*" ) ; }
+::= expose void main () { print ( "<REGULAR_CHAR> <CHAR_CONTENT>*" ) ; }
+::= expose void main () { print ( "<REGULAR_CHAR> <REGULAR_CHAR> <CHAR_CONTENT>*" ) ; }
+::= expose void main () { print ( "<REGULAR_CHAR> <REGULAR_CHAR>" ) ; }
+::= expose void main () { print ( "<REGULAR_CHAR> <LETTER>" ) ; }
+::= expose void main () { print ( "<REGULAR_CHAR> <LOWER_LETTER>" ) ; }
+::= expose void main () { print ( "<REGULAR_CHAR> i" ) ; }
+::= expose void main () { print ( "<LETTER> i" ) ; }
+::= expose void main () { print ( "<CAPITAL_LETTER> i" ) ; }
+::= expose void main () { print ( "Hi" ) ; }
+
+# Example: expose void main(string args) { }
+
+# LEFTMOST DERIVATION
+<mainDecl> ::= expose void main ( [<parameter>] ) <block>
+::= expose void main (<varType> <IDENTIFIER> ) <block>
+::= expose void main (<dataType> <IDENTIFIER> ) <block>
+::= expose void main (string <IDENTIFIER> ) <block>
+::= expose void main (string <ALPHA> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string <LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string a ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string a <ALPHA> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string a <LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string a <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string ar ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string ar <ALPHA> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string ar <LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string ar <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string arg ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string arg ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string arg <ALPHA> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string arg <LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string arg <LOWER_LETTER> ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string args ( <ALPHA> | <DIGIT> )* ) <block>
+::= expose void main (string args) <block>
+::= expose void main (string args) { <declaration>* } 
+::= expose void main (string args) { } 
+
+# RIGHTMOST DERIVATION
+<mainDecl> ::= expose void main ( [<parameter>] ) <block>
+::= expose void main ([<parameter>] ) { <declaration>* }
+::= expose void main ([<parameter>] ) { }
+::= expose void main (<varType> <IDENTIFIER> ) { }
+::= expose void main (<varType> <ALPHA> ( <ALPHA> | <DIGIT> )* ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> ( <ALPHA> | <DIGIT> )* ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <ALPHA> ( <ALPHA> | <DIGIT> )* ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <ALPHA> <ALPHA> ( <ALPHA> | <DIGIT> )* ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <ALPHA> <ALPHA> ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <ALPHA> <LETTER> ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <ALPHA> <LOWER_LETTER> ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <ALPHA> s ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <LETTER> s ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> <LOWER_LETTER> s ) { }
+::= expose void main (<varType> <ALPHA> <ALPHA> gs ) { }
+::= expose void main (<varType> <ALPHA> <LETTER> gs ) { }
+::= expose void main (<varType> <ALPHA> <LOWER_LETTER> gs ) { }
+::= expose void main (<varType> <ALPHA> rgs ) { }
+::= expose void main (<varType> <LETTER> rgs ) { }
+::= expose void main (<varType> <LOWER_LETTER> rgs ) { }
+::= expose void main (<varType> args) { }
+::= expose void main (<dataType> args) { }
+::= expose void main (string args) { }
+
+
