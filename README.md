@@ -111,7 +111,7 @@ If you're a collaborator on this repository, follow these steps to contribute:
 ## Project Structure
 
 ```markdown
-.
+GuavaLexTax/
 ├── .gitignore
 ├── .vscode/
 │ ├── settings.json
@@ -159,3 +159,21 @@ If you're a collaborator on this repository, follow these steps to contribute:
 │ ├── classes/
 │ ├── test-classes/
 ```
+
+### Project Structure Details
+
+- src/main/java/com/guava: Contains the main source code for the Guava language.
+
+  - AstGenerator.java: Generates the Stmt and Expr classes, along with their corresponding visitor interfaces.
+  - AstPrinter.java: Implements the visitor pattern to traverse and print the AST.
+  - Expr.java: Defines the various expression nodes in the AST.
+  - Guava.java: The main entry point for the Guava language.
+  - GuavaEditor.java: Provides a graphical user interface for editing Guava code.
+  - Lexer.java: Scans the source code and converts it into a list of tokens.
+  - Parser.java: Parses the list of tokens into an Abstract Syntax Tree (AST).
+  - Stmt.java: Defines the various statement nodes in the AST.
+  - derivations: Contains EBNF grammar files for the Guava language.
+
+- declarations: Contains grammar files for various declarations.
+- Sample Code: Contains example Guava programs.
+- target: Contains the compiled classes and test classes.
